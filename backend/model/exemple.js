@@ -1,18 +1,18 @@
-const queries = require('./database/exQueries');
-const {sendError, sendMessage} = require ("../helper/message");
+const queries = require('../gateway/exQueries.js');
+const { sendError, sendMessage } = require("../helper/message.js");
 
 // permettra de réaliser l'authentification
-const auth = require ('../helper/auth');
+const auth = require('../helper/auth.js');
 
-async function getCours1 (req,res) {
+async function getCours1(req, res) {
     // On récupère la variable de session et, dans celle-ci, on
     // va récupérer l'ID du user. C'est équivalent en PHP à :
     // session_start();
     // $userId = $_SESSION['userId'];
-    const session = auth.getSession (req);
+    const session = auth.getSession(req);
     const userId = auth.getUserId(session);
     if (userId === -1)
-        return sendError (res, 'not authenticated');
+        return sendError(res, 'not authenticated');
     // en PHP, l'instruction "die" utilisée dans sendError permettait
     // d'éviter que le script n'exécute du code après avoir transmis la
     // réponse au frontend. Ici, sendError ne peut pas faire la même
@@ -27,7 +27,7 @@ async function getCours1 (req,res) {
     // beaucoup d'utilisateurs). Il faut donc renvoyer le cookie de
     // session après chaque requête. Et c'est le frontend qui sauvegardera
     // cette information.
-    auth.setSessionCookie (req, res, session);
+    auth.setSessionCookie(req, res, session);
 
     // ici, on récupère les data passées à la route : on suppose
     // que l'utilisateur a envoyé une donnée appelée maxId
@@ -53,4 +53,3 @@ async function getCours1 (req,res) {
 
 
 module.exports = getCours1;
-

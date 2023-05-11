@@ -1,6 +1,6 @@
 // Ici, on se connecte à la base de données. Ainsi, on pourra utiliser
 const config = require('../config');
-const db = require ('../mysqlConnect');
+const db = require('../helper/mysqlConnect');
 
 // Chaque requête correspond à une fonction qui renverra ce que l'on appelle
 // une Promise (promesse). Une promesse est un objet qui contient une
@@ -15,7 +15,7 @@ const db = require ('../mysqlConnect');
 // idsPetitsCours de la ligne 64 du fichier getCours1.js récupérera le
 // résultat de la requête mysql quand celui-ci aura été renvoyé par le
 // serveur MySQL.
-function getIdsPetitsCours (maxId) {
+function getIdsPetitsCours(maxId) {
     const query = `
         SELECT id FROM ${config.mysqlCourses}
         WHERE nbEtuds <= 45 AND id <= ?`;
@@ -45,4 +45,3 @@ function getNomsPetitsCours(idsPetitsCours) {
     });
 }
 module.exports.getNomsPetitsCours = getNomsPetitsCours;
-

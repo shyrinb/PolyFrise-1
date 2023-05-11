@@ -6,7 +6,8 @@ const db = mysql.createConnection({
     host: config.mysqlHost, // notez comment on utilise le config que l'on a requiré
     user: config.mysqlLogin,
     password: config.mysqlPassword,
-    database: config.mysqlDatabase
+    database: config.mysqlDatabase,
+    port: config.port,
 });
 db.connect();
 
