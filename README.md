@@ -2,4 +2,4 @@
 
 ## 1) Backend
 
-First, read the instruction [here](./code/backend/README.md).
+First, read the instruction [here](./backend/README.md).
