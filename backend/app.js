@@ -1,21 +1,33 @@
-// on crée le serveur web sur le port 3000
 const express = require('express');
-const app = express();
-const port = process.env.PORT || 3000;
-
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
-
+const sequelize = require('./database');
+const chalk = require('chalk');
+const categoryRoutes = require('./routes/category');
+const userRoutes = require('./routes/user');
 const cors = require('cors');
-app.use(cors({ origin: 'http://127.0.0.1:4200', credentials: true }));
 
-// fichiers à charger pour les routes
-const getCategories = require('./model/getCategories');
+require('./utils/log')
 
-// routes
-app.get('/category', (req, res) => { getCategories(req, res); });
+const app = express();
 
-// démarage du serveur
-app.listen(port, () => {
-    console.log(`listening on port ${port}`)
-});
+app.use(cors());
+
+sequelize.authenticate()
+    .then(() => {
+        console.log(`Connexion à la base `, chalk.bold(`${process.env.mysqlDatabase}:${process.env.port}`), ` réussie !`)
+        sequelize.sync()
+            .then(() => console.log(`Tables synchronisées avec succès !`))
+            .catch((e) => {
+                console.error(`Echec de la synchronisation des tables !`, e)
+            });
+    })
+    .catch((e) => {
+        console.error(e)
+        console.error(chalk.bold(`Connexion à la base `, chalk.bold(`${process.env.mysqlDatabase}:${process.env.port}`), ` échouée !`))
+    });
+
+app.use(express.json());
+
+app.use('/api/category', categoryRoutes);
+app.use('/api/auth', userRoutes);
+
+module.exports = app;
