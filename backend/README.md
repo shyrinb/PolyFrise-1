@@ -1,7 +1,5 @@
 # Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
 ## Installation
 First, in the [backend directory](./), use the script :
 
