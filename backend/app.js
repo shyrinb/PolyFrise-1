@@ -2,7 +2,7 @@ const express = require('express');
 const sequelize = require('./database');
 const chalk = require('chalk');
 const categoryRoutes = require('./routes/category');
-const userRoutes = require('./routes/user');
+const adminRoutes = require('./routes/admin');
 const cors = require('cors');
 
 require('./utils/log')
@@ -28,6 +28,6 @@ sequelize.authenticate()
 app.use(express.json());
 
 app.use('/api/category', categoryRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/api/connexion', adminRoutes);
 
 module.exports = app;
