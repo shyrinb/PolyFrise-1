@@ -18,7 +18,7 @@ app.use(cors());
 
 sequelize.authenticate()
     .then(() => {
-        console.log(`Connexion à la base `, chalk.bold(`${process.env.mysqlDatabase}:${process.env.port}`), ` réussie !`)
+        console.log(`Connexion à la base `, chalk.bold(`${process.env.mysqlDatabase}:${process.env.bdd_port}`), ` réussie !`)
         sequelize.sync()
             .then(() => console.log(`Tables synchronisées avec succès !`))
             .catch((e) => {
@@ -27,7 +27,7 @@ sequelize.authenticate()
     })
     .catch((e) => {
         console.error(e)
-        console.error(chalk.bold(`Connexion à la base `, chalk.bold(`${process.env.mysqlDatabase}:${process.env.port}`), ` échouée !`))
+        console.error(chalk.bold(`Connexion à la base `, chalk.bold(`${process.env.mysqlDatabase}:${process.env.bdd_port}`), ` échouée !`))
     });
 
 app.use(express.json());
