@@ -7,14 +7,13 @@ import { Observable } from 'rxjs';
 })
 
 export class MessageService {
-  prefixe: string;    
-    
-      constructor(private http: HttpClient) {this.prefixe='http://127.0.0.1:3000/api'}
-    
+  prefixe: string;
+
+      constructor(private http: HttpClient) {this.prefixe='http://localhost:3000/api'}
+
       sendData(fin: string, data: any, ): Observable<any>{
-        const url = this.prefixe + fin; 
+        const url = this.prefixe + fin;
         return this.http.post<any>(url,data);
       }
     }
-  
-  
+
