@@ -1,9 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const categoryCtrl = require('../controllers/category');
+const timelineCtrl = require('../controllers/timeline');
 
-
-router.get('/', categoryCtrl.getAll);
+router.get('/', timelineCtrl.get);
 
 module.exports = router;

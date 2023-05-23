@@ -62,10 +62,11 @@ console.request = function(req, desc) {
     var desc = chalk.hex('#a1e1ff')(`${desc}\n`)
     var user = chalk.hex('#a1e1ff').bold(`(${req.auth ? req.auth.userId : 'unknown'}) `)
     var other_parameters = Array.prototype.slice.call(arguments, 2)
+    other_parameters_string = ""
     for (const i of other_parameters) {
-        other_parameters = '\n\t\t' + other_parameters
+        other_parameters_string += '\n\t\t' + i
     }
 
-    other_parameters = chalk.hex('#a1e1ff')(other_parameters)
-    request.apply(console, [user + desc + first_parameter].concat(other_parameters));
+    other_parameters_string = chalk.hex('#a1e1ff')(other_parameters_string)
+    request.apply(console, [user + desc + first_parameter].concat(other_parameters_string));
 };
