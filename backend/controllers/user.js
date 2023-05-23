@@ -6,35 +6,6 @@ const bcrypt = require('bcrypt');
 
 //TODO à faire ancien projet à adapter à notre besoin
 
-exports.signup = (req, res, next) => {
-    console.request(req, `Signup user`, `email : ${req.body.email}`)
-
-    if (!validator.validate(req.body.email)) {
-        console.error(`[${req.body.email}] is not an email`)
-        return res.status(400).json({ "error": "ErrNotEmail", "message": "need valid email" })
-    }
-    bcrypt.hash(req.body.password, 10)
-        .then(hash => {
-            const user = new User({
-                email: req.body.email,
-                password: hash
-            });
-            user.save()
-                .then(() => {
-                    console.log(`user [${req.body.email}] added`)
-                    res.status(201).end()
-                })
-                .catch(error => {
-                    console.error(`user [${req.body.email}] already exist`)
-                    res.status(400).json({ "error": "ErrExistUser", "message": `user [${req.body.email}] already exist` })
-                });
-        })
-        .catch(error => {
-            console.error(`fail to ecrypt password`)
-            res.status(500).json({ error: "ErrDefault", message: `Erreur serveur` })
-        });
-};
-
 exports.login = (req, res, next) => {
     console.request(req, `login user`, `email : ${req.body.email}`)
 
