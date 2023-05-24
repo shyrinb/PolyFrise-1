@@ -1,0 +1,17 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffdddd;
+    /* Rouge très clair */
+}
+
+.error-title {
+    background-color: #cc0000;
+    /* Rouge plus foncé */
+    color: #ffffff;
+    /* Texte en blanc */
+    padding: 10px;
+    border-radius: 5px;
+}

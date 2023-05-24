@@ -5,17 +5,27 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
+import { ErreurComponent } from './erreur/erreur.component';
+import { PageAdminComponent } from './page-admin/page-admin.component';
+import { AccueilComponent } from './accueil/accueil.component';
+import { Ng5SliderModule } from 'ng5-slider';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    ErreurComponent,
+    PageAdminComponent,
+    AccueilComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    Ng5SliderModule, 
+
   ],
   providers: [],
   bootstrap: [AppComponent]

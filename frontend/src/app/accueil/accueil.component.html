@@ -1,0 +1,23 @@
+<div class="container">
+    <h1 class="title">Générateur de frises historiques</h1>
+    <div class="categories">
+        <h2 class="subtitle">Sélectionner des catégories :</h2>
+        <div *ngFor="let category of categories" class="category">
+            <label>
+          <input type="checkbox" [(ngModel)]="category.selected">
+          {{ category.name }}
+        </label>
+        </div>
+    </div>
+    <div class="period">
+        <h2 class="subtitle">Sélectionner la période :</h2>
+
+        <ng5-slider [(ngModel)]="selectedStartYear" [options]="sliderOptions"></ng5-slider>
+        <p class="year">Date de début : {{ selectedStartYear }}</p>
+
+        <ng5-slider [(ngModel)]="selectedEndYear" [options]="sliderOptions"></ng5-slider>
+        <p class="year">Date de fin : {{ selectedEndYear }}</p>
+
+        <button class="button" (click)="submit()">Suivant</button>
+    </div>
+</div>

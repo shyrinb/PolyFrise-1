@@ -28,16 +28,24 @@ export class LoginComponent  {
 
     else {
         const data = { login: this.email, password: this.password }
-        const endpoint = "/connexion"; // Remplacez par l'endpoint approprié
+        const endpoint = "connexion"; // Remplacez par l'endpoint approprié
         
         this.messageService.sendData(endpoint, data).subscribe(
             response => {
               // Traitez la réponse de la requête si nécessaire
+              this.router.navigateByUrl('/admin');
               console.log(response);
             },
             error => {
-              // Gérez les erreurs de la requête si nécessaire
-              console.error(error);
+              console.log(error);
+             // if ((error.error.error =="ErrDefault")|| (error="ProgressEvent")){
+              //  this.router.navigateByUrl('/error');
+           //   }
+            //  else {
+                this.errorMessage =error.error.message;
+                this.alert=true
+            //  }
+              
             }
           );
       }
