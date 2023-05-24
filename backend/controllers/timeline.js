@@ -3,32 +3,21 @@ const Event = require("../models/Event");
 const Category = require('../models/Category');
 
 exports.get = (req, res, next) => {
-    console.request(
-        req,
-        `Get Category`,
-        `categories : ${req.body.categories}`,
-        `startDate : ${req.body.startDate}`,
-        `endDate : ${req.body.endDate}`
-    )
+    console.request(req, `Get Category`)
 
     Event.findAll({
-        where: {
-          date: {
-            [Sequelize.Op.between]: [new Date(req.body.startDate), new Date(req.body.endDate)]
-          }
-        },
-        include: [
-          {
-            model: Category,
-            as: 'categories',
             where: {
-                    id: req.body.categories
-                },
+                date: {
+                    [Sequelize.Op.between]: [new Date(req.body.startDate), new Date(req.body.endDate)]
+                }
+            },
+            include: [{
+                model: Category,
+                as: 'categories',
                 through: { attributes: [] }, // Exclure les attributs de la table d'association
                 attributes: ['id']
-          }
-        ]
-      })
+            }]
+        })
         .then((events) => {
             res.status(201).json(events);
         })

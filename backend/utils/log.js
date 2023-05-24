@@ -57,16 +57,19 @@ var request = console.log;
  * @param {*} req - L'objet requête contenant les informations sur la requête HTTP.
  * @param {*} desc - La description de la requête.
  */
-console.request = function(req, desc) {
-    var first_parameter = chalk.hex('#a1e1ff')(`\t   ${req.method} ${req.originalUrl}`)
-    var desc = chalk.hex('#a1e1ff')(`${desc}\n`)
-    var user = chalk.hex('#a1e1ff').bold(`(${req.auth ? req.auth.userId : 'unknown'}) `)
-    var other_parameters = Array.prototype.slice.call(arguments, 2)
-    other_parameters_string = ""
-    for (const i of other_parameters) {
-        other_parameters_string += '\n\t\t' + i
+console.request = function(req, desc, ...other_parameters) {
+    var first_parameter = chalk.hex('#a1e1ff')(`\t   ${req.method} ${req.originalUrl}`);
+    var desc = chalk.hex('#a1e1ff')(`${desc}\n`);
+    var user = chalk.hex('#a1e1ff').bold(`(${req.auth ? req.auth.login : 'unknown'}) `);
+
+    var bodyFieldsString = "";
+    if (req.body) {
+        var bodyFields = Object.entries(req.body);
+        bodyFieldsString = bodyFields.map(([key, value]) => `\n\t\t${key} : ${value}`).join('');
     }
 
-    other_parameters_string = chalk.hex('#a1e1ff')(other_parameters_string)
+    var other_parameters_string = other_parameters.map(parameter => `\n\t   (${parameter})`).join('');
+    other_parameters_string = chalk.hex('#a1e1ff')(bodyFieldsString.concat(other_parameters_string));
+
     request.apply(console, [user + desc + first_parameter].concat(other_parameters_string));
 };

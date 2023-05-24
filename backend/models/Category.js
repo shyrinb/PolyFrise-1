@@ -4,32 +4,29 @@ const Event = require('./Event');
 
 class Category extends Sequelize.Model {}
 
-Category.init(
-  {
+Category.init({
     id: {
-      type: DataTypes.UUID,
-      allowNull: false,
-      primaryKey: true,
-      unique: true
+        type: DataTypes.UUID,
+        allowNull: false,
+        primaryKey: true,
+        unique: true
     },
     name: {
-      type: DataTypes.STRING
+        type: DataTypes.STRING
     }
-  },
-  {
+}, {
     sequelize,
     modelName: 'Category',
     tableName: 'categories',
     timestamps: false // désactiver les colonnes createdAt et updatedAt
-  }
-);
+});
 
 Category.belongsToMany(Event, {
-  through: 'category_event',
-  as: 'events',
-  foreignKey: 'category_id',
-  otherKey: 'event_id',
-  timestamps: false 
+    through: 'category_event',
+    as: 'events',
+    foreignKey: 'category_id',
+    otherKey: 'event_id',
+    timestamps: false
 });
 
 Event.belongsToMany(Category, {
@@ -37,8 +34,8 @@ Event.belongsToMany(Category, {
     as: 'categories',
     foreignKey: 'event_id',
     otherKey: 'category_id',
-    timestamps: false 
-  });
-  
+    timestamps: false
+});
+
 
 module.exports = Category;
