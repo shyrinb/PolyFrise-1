@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt');
 
 //TODO à faire ancien projet à adapter à notre besoin
 exports.signup = (req, res, next) => {
-    console.request(req, `Signup user`, `email : ${req.body.login}`)
+    console.request(req, `Signup user`)
 
     bcrypt.hash(req.body.password, 10)
         .then(hash => {
@@ -35,15 +35,14 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-    console.request(req, `login user`, `login : ${req.body.login}`)
+    console.request(req, `login user`)
 
     User.findOne({ where: { login: req.body.login } })
         .then((user) => {
             if (!user) {
                 console.error(`user [${req.body.login}] not exist`)
                 return res.status(403).json({ error: "ErrBadUser", message: `Utilisatuer incorrect` });
-            }
-            else{
+            } else {
                 bcrypt.compare(req.body.password, user.password)
                     .then(valid => {
                         if (!valid) {
@@ -52,15 +51,15 @@ exports.login = (req, res, next) => {
                         }
                         console.log(`User [${req.body.login}] is logged`)
                         res.status(200).json({
-                            userId: user._id,
-                            token: jwt.sign({ userId: user._id }, `${process.env.AUTH_KEY}`, { expiresIn: '24h' })
+                            login: req.body.login,
+                            token: jwt.sign({ login: req.body.login }, `${process.env.AUTH_KEY}`, { expiresIn: '24h' })
                         });
                     })
                     .catch(error => res.status(500).json({ error: "ErrDefault", message: `Erreur serveur` }));
             }
-         })
+        })
         .catch((error) => {
             console.error(error)
             res.status(500).json({ error: "ErrDefault", message: `Erreur BDD` });
-    });
+        });
 };
