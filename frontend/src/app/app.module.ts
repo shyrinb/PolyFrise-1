@@ -9,6 +9,8 @@ import { ErreurComponent } from './erreur/erreur.component';
 import { PageAdminComponent } from './page-admin/page-admin.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { Ng5SliderModule } from 'ng5-slider';
+import { Accueil2Component } from './accueil2/accueil2.component';
+
 
 
 @NgModule({
@@ -17,7 +19,8 @@ import { Ng5SliderModule } from 'ng5-slider';
     LoginComponent,
     ErreurComponent,
     PageAdminComponent,
-    AccueilComponent
+    AccueilComponent,
+    Accueil2Component
   ],
   imports: [
     BrowserModule,
