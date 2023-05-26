@@ -1,0 +1,35 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    justify-content: center;
+    margin: 10px auto;
+}
+
+h2 {
+    margin: 10px;
+}
+
+button {
+    margin-top: 10px;
+}
+
+.couleur-personnalise-container {
+    align-items: center;
+}
+
+.couleur-personnalise-input {
+    margin-right: 5px;
+}
+
+.couleur-personnalise-button {
+    padding: 5px 10px;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 100px auto;
+}

@@ -34,7 +34,11 @@ export class LoginComponent  {
             response => {
               // Traitez la réponse de la requête si nécessaire
               this.router.navigateByUrl('/admin');
-              console.log(response);
+              // Après avoir obtenu le token JWT lors de la connexion réussie
+              const token = response.token;
+              console.log(token);
+              // Stockez le token dans le localStorage
+              localStorage.setItem('jwtToken', token);
             },
             error => {
               console.log(error);

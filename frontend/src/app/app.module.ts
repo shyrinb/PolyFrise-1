@@ -10,6 +10,7 @@ import { PageAdminComponent } from './page-admin/page-admin.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { Accueil2Component } from './accueil2/accueil2.component';
+import { PageFriseComponent } from './page-frise/page-frise.component';
 
 
 
@@ -20,7 +21,8 @@ import { Accueil2Component } from './accueil2/accueil2.component';
     ErreurComponent,
     PageAdminComponent,
     AccueilComponent,
-    Accueil2Component
+    Accueil2Component,
+    PageFriseComponent
   ],
   imports: [
     BrowserModule,
