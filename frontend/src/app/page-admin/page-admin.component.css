@@ -1,0 +1,31 @@
+.header {
+    position: absolute;
+    top: 10px;
+    left: auto;
+    right: 0;
+    margin-bottom: 50px;
+}
+
+.sidebar {
+    position: absolute;
+    top: 50px;
+    left: 0;
+}
+
+.content {
+    margin-left: 200px;
+    margin-top: 60px;
+    /* Ajout de la marge supérieure pour éviter le chevauchement */
+}
+
+.buttons {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}

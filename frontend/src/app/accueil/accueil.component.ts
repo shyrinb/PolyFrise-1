@@ -2,8 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { MessageService } from '../message.service';
 import { Options } from 'ng5-slider';
+import { Router } from '@angular/router'; 
+import { v4 as UUID } from 'uuid';
+
+
+
 
 interface Category {
+  id: typeof UUID,
   name: string;
   selected: boolean;
 }
@@ -11,7 +17,8 @@ interface Category {
 @Component({
   selector: 'app-accueil',
   templateUrl: './accueil.component.html',
-  styleUrls: ['./accueil.component.css']
+  styleUrls: ['./accueil.component.css'],
+
 })
 export class AccueilComponent implements OnInit {
   categories: Category[]=[];
@@ -21,10 +28,17 @@ export class AccueilComponent implements OnInit {
     step: 1,
     minRange: 1
   };
-  selectedStartYear: number = 0;
+  selectedStartYear: number=0;
   selectedEndYear: number = 2023;
+  startYear!:Date;
+  endYear!: Date;
+  categoriesSelected: typeof UUID[] = [];
+  data: any;
+  alert = false;
+  errorMessage: string="";
 
-  constructor(private http: HttpClient, private messageService: MessageService) { }
+  
+  constructor(private http: HttpClient,private router : Router, private messageService: MessageService) { }
 
   ngOnInit() {
     this.messageService.getData("category", "").subscribe(response => {
@@ -37,6 +51,7 @@ export class AccueilComponent implements OnInit {
     for (const item of response) {
       console.log(item);
       const category: Category = {
+        id: item.id,
         name: item.name,
         selected: false
       };
@@ -47,15 +62,47 @@ export class AccueilComponent implements OnInit {
     console.log('Catégories :', this.categories);
   })
   }
+ 
 
   submit() {
-    console.log('Catégories sélectionnées :');
+    this.alert = false; // Réinitialiser l'alerte à false avant de vérifier la condition
+  
     for (const category of this.categories) {
       if (category.selected) {
-        console.log(category.name);
+        this.categoriesSelected.push(category.id);
       }
+    }
+    if (this.selectedStartYear > this.selectedEndYear) {
+      this.errorMessage = "Sélectionnez une date de début inférieure à la date de fin";
+      this.alert = true;
     }
     console.log('Année début sélectionnée :', this.selectedStartYear);
     console.log('Année fin sélectionnée :', this.selectedEndYear);
+    
+    if (!this.alert) { // Vérifier la condition en utilisant "!this.alert" au lieu de "this.alert == false"
+      this.startYear = new Date(this.selectedStartYear, 0, 1);
+      this.endYear = new Date(this.selectedEndYear, 11, 31);
+      console.log(this.startYear);
+  
+      this.data = { categories: this.categoriesSelected, startDate: this.startYear.toISOString(), endDate: this.endYear.toISOString() };
+  
+      console.log(this.data);
+  
+      this.messageService.sendData("timeline", this.data).subscribe(
+        response => {
+          // Traitez la réponse de la requête si nécessaire
+          if (!this.alert) {
+            this.router.navigateByUrl('/index2');
+          }
+          console.log(response);
+        },
+        error => {
+          console.log(error);
+  
+          this.errorMessage = error.error.message;
+          this.alert = true;
+        }
+      );
+    }
   }
 }

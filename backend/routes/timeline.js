@@ -3,6 +3,6 @@ const router = express.Router();
 
 const timelineCtrl = require('../controllers/timeline');
 
-router.get('/', timelineCtrl.get);
+router.post('/', timelineCtrl.get);
 
 module.exports = router;

@@ -1,1 +1,22 @@
-<p>page-admin works!</p>
+<div class="header">
+    <button (click)="logout()">Déconnexion</button>
+</div>
+
+<div class="sidebar">
+    <h3>Liste de suggestions</h3>
+    <div *ngFor="let suggestion of suggestions" class="suggestion">
+        <input type="checkbox">
+        <span>{{ suggestion.title }}</span>
+    </div>
+</div>
+
+<div class="content">
+    <div class="buttons">
+        <button (click)="validate()">Valider</button>
+        <button (click)="ignore()">Ignorer</button>
+    </div>
+</div>
+
+<div class="footer">
+    <button (click)="manageHistoricalEvents()">Gérer les événements historiques</button>
+</div>
