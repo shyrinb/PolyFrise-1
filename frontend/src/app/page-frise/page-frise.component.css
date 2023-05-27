@@ -1,0 +1,67 @@
+/* Styles pour le bouton Home */
+
+.home-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 5px 10px;
+}
+
+
+/* Styles pour la liste de choix de format de téléchargement */
+
+.download-format {
+    margin-top: 20px;
+    text-align: right;
+}
+
+
+/* Styles pour le bouton Exporter la frise */
+
+.export-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.export-button:hover {
+    background-color: #286090;
+}
+
+
+/* Styles pour la frise générée */
+
+.timeline {
+    margin-top: 20px;
+    /* Ajoutez ici les styles spécifiques à la frise générée */
+}
+
+
+/* Styles pour le conteneur des boutons */
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+
+/* Styles pour les boutons Changer les catégories, Changer le style de la frise et Envoyer une suggestion pour une modification */
+
+.button-container button {
+    padding: 10px 20px;
+    background-color: #337ab7;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.button-container button:hover {
+    background-color: #286090;
+}

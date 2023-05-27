@@ -11,6 +11,7 @@ import { AccueilComponent } from './accueil/accueil.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { Accueil2Component } from './accueil2/accueil2.component';
 import { PageFriseComponent } from './page-frise/page-frise.component';
+import { EventComponent } from './event/event.component';
 
 
 
@@ -22,7 +23,8 @@ import { PageFriseComponent } from './page-frise/page-frise.component';
     PageAdminComponent,
     AccueilComponent,
     Accueil2Component,
-    PageFriseComponent
+    PageFriseComponent,
+    EventComponent
   ],
   imports: [
     BrowserModule,

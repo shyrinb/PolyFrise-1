@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; 
+import { MessageService } from '../message.service';
+
 @Component({
   selector: 'app-accueil2',
   templateUrl: './accueil2.component.html',
   styleUrls: ['./accueil2.component.css']
 })
-export class Accueil2Component {
+
+export class Accueil2Component implements OnInit{
   couleur: string = '';
   couleurPersonnalise: string = '';
   forme: string = '';
@@ -14,9 +17,13 @@ export class Accueil2Component {
   data:any;
   alert: boolean= false;
   errorMessage: string="";
+  infoChoix: any;
+  constructor (private router : Router, private messageService: MessageService){}
+  ngOnInit(): void {
+    this.data = JSON.parse(localStorage.getItem('data') || '{}');
 
-  constructor (private router : Router){}
-
+    console.log(this.data);
+  }
   toggleSelection() {
     this.selectionPersonnalisee = !this.selectionPersonnalisee;
   }
@@ -33,19 +40,22 @@ export class Accueil2Component {
     }
     if(this.alert==false){
     if (this.selectionPersonnalisee) {
-      this.data = {
+      this.infoChoix = {
         couleur: this.couleurPersonnalise,
         forme: this.forme
       };
     } else {
-      this.data = {
+      this.infoChoix = {
         couleur: this.couleur,
         forme: this.forme
       };
     }
 
-    console.log(this.data);
-    this.router.navigateByUrl('/frise');
+    this.messageService.sendData("timeline", this.data).subscribe(
+      response => {
+        console.log(this.data);
+        this.router.navigateByUrl('/frise');
+    })
   }
 }
 }

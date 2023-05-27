@@ -88,21 +88,13 @@ export class AccueilComponent implements OnInit {
   
       console.log(this.data);
   
-      this.messageService.sendData("timeline", this.data).subscribe(
-        response => {
-          // Traitez la réponse de la requête si nécessaire
-          if (!this.alert) {
-            this.router.navigateByUrl('/index2');
-          }
-          console.log(response);
-        },
-        error => {
-          console.log(error);
-  
-          this.errorMessage = error.error.message;
-          this.alert = true;
-        }
-      );
+     
+    if (!this.alert) {
+          this.router.navigateByUrl('index');
+          localStorage.setItem('data', JSON.stringify(this.data));
+
+    }
+    
     }
   }
 }

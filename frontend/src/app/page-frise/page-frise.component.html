@@ -1,1 +1,40 @@
-<p>page-frise works!</p>
+<!-- Bouton Home -->
+<button routerLink="/" class="home-button">Home</button>
+
+<!-- Liste de choix de format de téléchargement -->
+<div class="download-format">
+    <h3>Choix du format de téléchargement</h3>
+    <label>
+    <input type="checkbox" [(ngModel)]="downloadFormats.csv"> CSV
+  </label>
+    <label>
+    <input type="checkbox" [(ngModel)]="downloadFormats.jpeg"> JPEG
+  </label>
+    <label>
+    <input type="checkbox" [(ngModel)]="downloadFormats.pdf"> PDF
+  </label>
+
+    <!-- Bouton Exporter la frise -->
+    <button (click)="exportTimeline()" class="export-button">Exporter la frise</button>
+</div>
+
+
+<!-- Frise générée -->
+<div class="timeline">
+    <svg>
+        <!-- Utilisez les données des labels pour afficher les éléments de la frise générée -->
+        <ng-container *ngFor="let label of labels">
+          <text [attr.x]="label.x" [attr.y]="label.y">{{ label.label }}</text>
+        </ng-container>
+      </svg>
+</div>
+<div class="button-container">
+    <!-- Bouton Changer les catégories -->
+    <button (click)="changeCategories()" class="change-categories-button">Changer les catégories</button>
+
+    <!-- Bouton Changer le style de la frise -->
+    <button (click)="changeTimelineStyle()" class="change-style-button">Changer le style de la frise</button>
+
+    <!-- Bouton Envoyer une suggestion pour une modification -->
+    <button (click)="sendSuggestion()" class="send-suggestion-button">Envoyer une suggestion pour une modification</button>
+</div>

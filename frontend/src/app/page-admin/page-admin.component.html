@@ -5,8 +5,8 @@
 <div class="sidebar">
     <h3>Liste de suggestions</h3>
     <div *ngFor="let suggestion of suggestions" class="suggestion">
-        <input type="checkbox">
-        <span>{{ suggestion.title }}</span>
+        <input type="checkbox" [(ngModel)]="suggestion.selected">
+        <span>{{suggestion.dateSub}} {{suggestion.type}} {{suggestion.title}} {{suggestion.date}} {{suggestion.description}} </span>
     </div>
 </div>
 
@@ -14,9 +14,12 @@
     <div class="buttons">
         <button (click)="validate()">Valider</button>
         <button (click)="ignore()">Ignorer</button>
+        <button (click)="manageHistoricalEvents()">Gérer les événements historiques</button>
     </div>
-</div>
 
-<div class="footer">
-    <button (click)="manageHistoricalEvents()">Gérer les événements historiques</button>
 </div>
+<footer class="col-md-6 text-center">
+    <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
+        <p id="erreur" name="errorMessage"> {{ errorMessage }}</p>
+    </div>
+</footer>

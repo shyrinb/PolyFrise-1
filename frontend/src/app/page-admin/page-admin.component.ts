@@ -7,9 +7,12 @@ import { Router } from '@angular/router';
 interface Submission {
   id: typeof UUID,
   type: string;
-  date: Date;
+  dateSub: string;
   title: string;
   description: string;
+  date: string;
+  selected: boolean;
+  
 }
 
 @Component({
@@ -17,46 +20,83 @@ interface Submission {
   templateUrl: './page-admin.component.html',
   styleUrls: ['./page-admin.component.css']
 })
-
-
 export class PageAdminComponent implements OnInit {
-
   suggestions: Submission[] = [];
-  
-  constructor(private http: HttpClient,private router : Router, private messageService: MessageService) { }
+  suggestionsSelected: any= [];
+  token!: string;
+  errorMessage: string="";
+  alert = false;
+
+  constructor(private http: HttpClient, private router: Router, private messageService: MessageService) {}
 
   ngOnInit() {
     const token = localStorage.getItem('jwtToken');
-  //todo s'occuper du probleme de non autorisation( mais le token est bien récupérer)
-  // Vérifiez si le token existe
-  if (token) {
-    // Créez les en-têtes de la requête avec le token d'authentification
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${token}`
-    });
-    this.messageService.getData("submission", { headers }).subscribe(response => {
-      console.log(response);
-      console.log(response[0]); // recup element
-  })  }
- else {
-  // Gérez le cas où le token n'est pas disponible
-  console.log('Le token JWT n\'est pas disponible.');
- }
+    if (token !== null) {
+      this.token = token;
+    }
 
-}
-
+    this.messageService.getDataAuto("submission", this.token).subscribe(response => {
+      for (const item of response) {
+        const suggestion: Submission = {
+          id: item.id,
+          type: item.type,
+          dateSub: new Date(item.created_at).toLocaleDateString(),
+          title: item.new_title,
+          description: item.new_description,
+          date: new Date(item.new_date).toLocaleDateString(),
+          selected: false
+        }
+        this.suggestions.push(suggestion);
+      }
+    } ) 
+  }
 
   logout() {
     // Logique de déconnexion
   }
 
   validate() {
-    // Logique de validation
+  
+    for (const item of this.suggestions) {
+      if(item.selected==true){
+        this.suggestionsSelected.push(item.id);
+      }
+    }
+    if (this.suggestionsSelected.length > 0) {
+      const data = { ids: this.suggestionsSelected };
+      this.messageService.sendDataAuto("submission/accept", data, this.token).subscribe(() => {
+        // Rafraîchir la page après l'envoi du message
+        window.location.reload();
+      })
+    }
+   
+    else{
+      this.errorMessage="Merci de saisir des modifications avant de valider";
+      this.alert=true;
+    }
   }
 
+
   ignore() {
-    // Logique d'ignorance
+    for (const item of this.suggestions) {
+      if(item.selected==true){
+        this.suggestionsSelected.push(item.id);
+      }
+    }
+    if (this.suggestionsSelected.length > 0) {
+      const data = { ids: this.suggestionsSelected };
+      this.messageService.sendDataAuto("submission/reject", this.suggestionsSelected, this.token).subscribe(() => {
+        // Rafraîchir la page après l'envoi du message
+        window.location.reload();
+      })
+    }
+   
+    else{
+      this.errorMessage="Merci de saisir des modifications avant de cliquer sur Ignorer";
+      this.alert=true;
+    }
   }
+  
 
   manageHistoricalEvents() {
     // Logique de gestion des événements historiques

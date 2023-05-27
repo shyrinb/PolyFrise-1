@@ -6,16 +6,16 @@ import { PageAdminComponent} from './page-admin/page-admin.component'
 import { AccueilComponent } from './accueil/accueil.component';
 import { Accueil2Component } from './accueil2/accueil2.component';
 import { PageFriseComponent } from './page-frise/page-frise.component';
-
+import { EventComponent } from './event/event.component';
 
 const routes: Routes = [
   {path: 'login', component: LoginComponent},
   {path: 'error', component: ErreurComponent},
   {path: 'admin', component: PageAdminComponent},
-  {path: 'index', component: AccueilComponent },
-  {path: 'index2', component:Accueil2Component},
-  {path: 'frise', component: PageFriseComponent}
-
+  {path: '', component: AccueilComponent },
+  {path: 'index', component: Accueil2Component},
+  {path: 'frise', component: PageFriseComponent},
+  {path: 'event', component: EventComponent}
 
 ];
 
