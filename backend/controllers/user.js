@@ -63,3 +63,7 @@ exports.login = (req, res, next) => {
             res.status(500).json({ error: "ErrDefault", message: `Erreur BDD` });
         });
 };
+
+exports.deconnexion = (req, res, next) => {
+    console.request(req, `Deconnexion user`)
+};

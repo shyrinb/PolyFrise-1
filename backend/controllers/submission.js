@@ -147,11 +147,11 @@ exports.getAll = (req, res, next) => {
 
 exports.accept = async(req, res, next) => {
     console.request(req, `Accept submission`)
+    var fail = []
 
     for (var submissionId in req.body.ids) {
 
         var submissionId = req.body.ids[submissionId];
-        var fail = []
 
         await Submission.findByPk(submissionId, {
                 include: [{
@@ -249,4 +249,48 @@ async function processDeleteSubmission(submission) {
     await Submission.destroy({ where: { event_id: submission.event_id } })
     await submission.event.destroy();
     console.log(`Event ${submission.event.id} deleted`);
+}
+
+exports.reject = async (req, res, next) => {
+    console.request(req, `Reject submission`)
+    var fail = []
+
+    for (var submissionId in req.body.ids) {
+
+        var submissionId = req.body.ids[submissionId];
+
+        await Submission.findByPk(submissionId, {
+            include: [{
+                    model: Category,
+                    as: 'categories',
+                    through: { attributes: [] }, // Exclure les attributs de la table d'association
+                    attributes: ['id']
+                },
+                {
+                    model: Event,
+                    as: 'event'
+                }
+            ]
+        }).then((submission) => {
+            if (!submission) {
+                console.error(`submission ${submissionId} doesn't exist`);
+                return fail.push(submissionId)
+            }
+            submission.destroy().then(() => {
+                console.log(`submission ${submission.id} deleted`);
+            }).catch((error) => {
+                console.error(error);
+                fail.push(submissionId)
+            })
+        }).catch((error) => {
+            console.error(error);
+            fail.push(submissionId)
+        });
+
+    }
+    if (fail.length !== 0) {
+        res.status(500).json({ error: "ServerError", message: `Erreur BDD on submission ${fail}` });
+    } else {
+        res.status(200).json();
+    }
 }

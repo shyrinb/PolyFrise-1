@@ -33,7 +33,7 @@ sequelize.authenticate()
 app.use(express.json());
 
 app.use('/api/category', categoryRoutes);
-app.use('/api/connexion', adminRoutes);
+app.use('/api', adminRoutes);
 app.use('/api/timeline', timelineRoutes);
 app.use('/api/submission', submissionRoutes);
 

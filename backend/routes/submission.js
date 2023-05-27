@@ -10,5 +10,6 @@ router.post('/modify', submissionCtrl.modify);
 router.post('/create', submissionCtrl.create);
 router.post('/delete', submissionCtrl.delete);
 router.post('/accept', auth, submissionCtrl.accept);
+router.post('/reject', auth, submissionCtrl.reject);
 
 module.exports = router;
