@@ -57,7 +57,7 @@ export class Accueil2Component implements OnInit{
       shape : this.forme
     }
 
-    this.router.navigate(['/frise'], { queryParams: { data: JSON.stringify(data) } });
+    this.router.navigate(['/timeline'], { queryParams: { data: JSON.stringify(data) } });
 
   }
 }

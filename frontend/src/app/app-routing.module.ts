@@ -9,12 +9,12 @@ import { PageFriseComponent } from './page-frise/page-frise.component';
 import { EventComponent } from './event/event.component';
 
 const routes: Routes = [
-  {path: 'login', component: LoginComponent},
+  {path: 'admin', component: LoginComponent},
   {path: 'error', component: ErreurComponent},
-  {path: 'admin', component: PageAdminComponent},
+  {path: 'admin/submission', component: PageAdminComponent},
   {path: '', component: AccueilComponent },
   {path: 'index', component: Accueil2Component},
-  {path: 'frise', component: PageFriseComponent},
+  {path: 'timeline', component: PageFriseComponent},
   {path: 'event', component: EventComponent}
 
 ];
