@@ -20,13 +20,7 @@
 
 
 <!-- Frise générée -->
-<div class="timeline">
-    <svg>
-        <!-- Utilisez les données des labels pour afficher les éléments de la frise générée -->
-        <ng-container *ngFor="let label of labels">
-          <text [attr.x]="label.x" [attr.y]="label.y">{{ label.label }}</text>
-        </ng-container>
-      </svg>
+<div id="timeline">
 </div>
 <div class="button-container">
     <!-- Bouton Changer les catégories -->

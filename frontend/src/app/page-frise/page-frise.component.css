@@ -65,3 +65,22 @@
 .button-container button:hover {
     background-color: #286090;
 }
+
+.infographic {
+    margin-top: 20%;
+    margin-bottom: 20%;
+    margin-left: 20%;
+    position: absolute;
+    z-index: 3;
+    text-align: center;
+    height: auto;
+}
+
+line.timeline {
+    stroke-width: 20px;
+    stroke: black;
+}
+
+circle.dot {
+    fill: #D4F6F0;
+}

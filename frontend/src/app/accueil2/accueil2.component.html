@@ -2,15 +2,14 @@
     <h1> Sélectionner le style de votre frise </h1>
     <form>
         <h2>Sélectionner une couleur :</h2>
-        <input type="radio" name="couleur" value="blue" [(ngModel)]="couleur"> Bleu<br>
-        <input type="radio" name="couleur" value="red" [(ngModel)]="couleur"> Rouge<br>
-        <input type="radio" name="couleur" value="green" [(ngModel)]="couleur"> Vert<br>
-        <input type="radio" name="couleur" value="black" [(ngModel)]="couleur"> Noir<br>
+        <input type="radio" name="couleur" value="#0000FF" [(ngModel)]="couleur"> Bleu<br>
+        <input type="radio" name="couleur" value="#FF0000" [(ngModel)]="couleur"> Rouge<br>
+        <input type="radio" name="couleur" value="#008000" [(ngModel)]="couleur"> Vert<br>
+        <input type="radio" name="couleur" value="#000000" [(ngModel)]="couleur"> Noir<br>
         <input type="radio" name="couleur" value="personnalise" (change)="toggleSelection()"> Personnalisé<br>
 
         <div id="couleur-personnalise" *ngIf="selectionPersonnalisee" class="couleur-personnalise-container">
             <input type="color" name="couleur-personnalise" [(ngModel)]="couleurPersonnalise" class="couleur-personnalise-input">
-            <button (click)="validerCouleur()" class="couleur-personnalise-button">OK</button>
         </div>
 
         <h2>Sélectionner la forme :</h2>

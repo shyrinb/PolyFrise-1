@@ -14,7 +14,6 @@ import { PageFriseComponent } from './page-frise/page-frise.component';
 import { EventComponent } from './event/event.component';
 
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,8 +30,7 @@ import { EventComponent } from './event/event.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    Ng5SliderModule, 
-
+    Ng5SliderModule
   ],
   providers: [],
   bootstrap: [AppComponent]

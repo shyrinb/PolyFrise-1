@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 import { MessageService } from '../message.service';
 
 @Component({
@@ -22,14 +22,10 @@ export class Accueil2Component implements OnInit{
   ngOnInit(): void {
     this.data = JSON.parse(localStorage.getItem('data') || '{}');
 
-    console.log(this.data);
+    //console.log(this.data);
   }
   toggleSelection() {
     this.selectionPersonnalisee = !this.selectionPersonnalisee;
-  }
-  validerCouleur() {
-    // Utilisez la couleur personnalisée sélectionnée
-    console.log(this.couleurPersonnalise);//renvoi le code HEX
   }
 
   submit(){
@@ -51,11 +47,18 @@ export class Accueil2Component implements OnInit{
       };
     }
 
-    this.messageService.sendData("timeline", this.data).subscribe(
-      response => {
-        console.log(this.data);
-        this.router.navigateByUrl('/frise');
-    })
+    console.log("test",this.data);
+
+    const data = {
+      categories : this.data.categories,
+      startDate : this.data.startDate,
+      endDate : this.data.endDate,
+      color : this.couleurPersonnalise ? this.couleurPersonnalise : this.couleur,
+      shape : this.forme
+    }
+
+    this.router.navigate(['/frise'], { queryParams: { data: JSON.stringify(data) } });
+
   }
 }
 }
