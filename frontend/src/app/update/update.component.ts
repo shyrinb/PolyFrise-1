@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MessageService } from '../message.service';
+import { PopupAddEventAdminComponent } from '../popup-add-event-admin/popup-add-event-admin.component';
 
 @Component({
   selector: 'app-update',
@@ -14,25 +16,23 @@ export class UpdateComponent implements OnInit {
   displayedColumns: string[] = ['category', 'date', 'title', 'description','action'];
 
 
-  constructor( private router: Router, private messageService: MessageService) {}
+  constructor( private router: Router, private messageService: MessageService, public dialog: MatDialog) {}
 
   ngOnInit() {
     const token = localStorage.getItem('jwtToken');
     if (token !== null) {
       this.token = token;
     }
-
-    console.log("test")
     this.messageService.sendData("timeline/getAll", "").subscribe(res => {
-      console.log(res);
       this.events = res;
       this.events.forEach((event:any) => {
-        console.log(event)
         if (event.categories[0]) event.categories = event.categories[0].name
         else event.categories = "CATEGORIE INCONNUE"
 
         event.date = new Date (event.date).toLocaleDateString()
       })
+
+      console.log(this.events)
     })
   }
   editEvent(event: any) {
@@ -41,10 +41,16 @@ export class UpdateComponent implements OnInit {
 
   deleteEvent(event: any) {
     // Logique pour supprimer l'événement
+    this.messageService.sendDataAuto("timeline/delete", {event_ID: event.id}, this.token).subscribe(res => {
+      console.log("ta mere")
+    })
   }
 
   addEvent() {
-    // Logique pour ajouter un nouvel événement
+    const dialogRef = this.dialog.open(PopupAddEventAdminComponent, {
+      width: '50%',
+      height: 'auto',
+    });
   }
   logout() {
     this.messageService.sendDataAuto("deconnexion","", this.token).subscribe();

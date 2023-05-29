@@ -34,6 +34,8 @@ import {MatCardModule} from '@angular/material/card';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTableModule} from '@angular/material/table';
+import { PopupAddEventAdminComponent } from './popup-add-event-admin/popup-add-event-admin.component';
+import { PopupModifyEventAdminComponent } from './popup-modify-event-admin/popup-modify-event-admin.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -49,6 +51,8 @@ import {MatTableModule} from '@angular/material/table';
     PopupStyleComponent,
     PopupDescComponent,
     PopupAddEventComponent,
+    PopupAddEventAdminComponent,
+    PopupModifyEventAdminComponent,
   ],
   imports: [
     BrowserModule,
