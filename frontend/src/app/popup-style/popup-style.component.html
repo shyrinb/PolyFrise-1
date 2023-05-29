@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Change Date</h1>
+<div mat-dialog-content>
+    <mat-radio-group [(ngModel)]="color">
+        <mat-radio-button name="blue" type="radio" name="couleur" value="#0000FF" (change)="toggleSelectionOff()"> Bleu</mat-radio-button>
+        <mat-radio-button name=" red " type="radio " name="couleur " value="#FF0000 " (change)="toggleSelectionOff()"> Rouge</mat-radio-button>
+        <mat-radio-button name="green" type="radio" name="couleur" value="#008000" (change)="toggleSelectionOff()"> Vert</mat-radio-button>
+        <mat-radio-button name=" black " type="radio " name="couleur " value="#000000 " (change)="toggleSelectionOff()"> Noir</mat-radio-button>
+        <mat-radio-button name="perso" type="radio" name="couleur" value="personnalise" (change)="toggleSelection()"> Personnalisé</mat-radio-button>
+    </mat-radio-group>
+
+    <div id="couleur-personnalise" *ngIf="selectionPersonnalisee" class="couleur-personnalise-container">
+        <input type="color" name="couleur-personnalise" [(ngModel)]="colorPerso" class="couleur-personnalise-input">
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close color="primary" (click)="emitData()">Enregistrer</button>
+    <button mat-button mat-dialog-close>Annuler</button>
+</div>

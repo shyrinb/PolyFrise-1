@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import * as labella from 'labella';
 import * as d3 from "d3";
-import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { MessageService } from '../message.service';
+import { MatDialog } from '@angular/material/dialog';
+import { PopupCatComponent } from '../popup-cat/popup-cat.component';
+import { PopupDateComponent } from '../popup-date/popup-date.component';
+import { PopupStyleComponent } from '../popup-style/popup-style.component';
 interface TimelineItem {
   event : any;
   h?: number; // Ajoutez la propriété h de type number (optionnelle)
@@ -16,16 +19,21 @@ interface TimelineItem {
 })
 export class PageFriseComponent implements OnInit {
   downloadFormats = {
+    svg: false,
     csv: false,
     jpeg: false,
     pdf: false
   };
 
+  selectedFormat : string ="";
+  categories : any;
+  startDate : any;
+  endDate : any;
   labels: any;
   timelineItems: TimelineItem[] = []
   color : any ;
   shape : any;
-    constructor(private route: ActivatedRoute, private messageService : MessageService) {}
+    constructor(private route: ActivatedRoute, private messageService : MessageService,public dialog: MatDialog) {}
 
     ngOnInit() {
 
@@ -34,6 +42,10 @@ export class PageFriseComponent implements OnInit {
         this.color = donnees.color
         this.shape = donnees.shape
 
+        this.categories = donnees.categories;
+        this.startDate = donnees.startDate;
+        this.endDate = donnees.endDate;
+
         const data = {
           categories : donnees.categories,
           startDate : donnees.startDate,
@@ -41,12 +53,12 @@ export class PageFriseComponent implements OnInit {
         }
         this.messageService.sendData("timeline", data).subscribe(
           response => {
-            this.timelineItems = this.timelineItems.concat(response.map((e: any) => {
+            this.timelineItems = response.map((e: any) => {
               e.date = new Date(e.date); // Conversion de la chaîne de date en objet Date
               return {
                 event: e
               };
-            }));
+            });
             this.generateTimeline();
 
         })
@@ -70,6 +82,7 @@ export class PageFriseComponent implements OnInit {
       var innerWidth = options.initialWidth - options.margin.left - options.margin.right;
       var innerHeight = options.initialHeight - options.margin.top - options.margin.bottom;
 
+      d3.select("#timeline").html("");
       // Select the SVG element with ID "timeline"
       var svg = d3.select('#timeline').append('svg')
         .attr('width', options.initialWidth)
@@ -139,7 +152,7 @@ export class PageFriseComponent implements OnInit {
         // Ici, on instancie un objet Renderer de la bibliothèque "labella.js"
         var renderer = new labella.Renderer({
           layerGap: 60, // Définition de l'espace entre les couches du graphique
-          nodeHeight: nodes[0].width, // Hauteur des nœuds du graphique
+          nodeHeight: nodes[0] ? nodes[0].width : 10, // Hauteur des nœuds du graphique
           direction: 'right' // Direction du graphique (ici, de gauche à droite)
       });
 
@@ -199,21 +212,111 @@ export class PageFriseComponent implements OnInit {
     }
 
 
-    generateTimeline() {
-      // Appel de la fonction de dessin du graphique avec les nœuds calculés par l'objet Force
-      this.draw();
-    }
+  generateTimeline() {
+    // Appel de la fonction de dessin du graphique avec les nœuds calculés par l'objet Force
+    this.draw();
+  }
 
   exportTimeline() {
     // Logique pour exporter la frise selon les formats sélectionnés
   }
 
   changeCategories() {
-    // Logique pour changer les catégories de la frise
+    const dialogRef = this.dialog.open(PopupCatComponent, {
+      width: '50%',
+      height: 'auto',
+      data: { cats : this.categories }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+
+        const dataTimeline = {
+          categories : result,
+          startDate : this.startDate,
+          endDate : this.endDate
+        }
+
+        this.categories = result
+
+        this.messageService.sendData("timeline", dataTimeline).subscribe(
+          response => {
+            this.timelineItems = response.map((e: any) => {
+              e.date = new Date(e.date); // Conversion de la chaîne de date en objet Date
+              return {
+                event: e
+              };
+            });
+            this.generateTimeline();
+
+        })
+      }
+    });
+  }
+
+  changeDates() {
+    const dialogRef = this.dialog.open(PopupDateComponent, {
+      width: '50%',
+      height: 'auto',
+      data: { startDate : this.startDate, endDate : this.endDate }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.startDate = new Date(result.startDate)
+        this.endDate = new Date(result.endDate)
+
+        const dataTimeline = {
+          categories : this.categories,
+          startDate : this.startDate,
+          endDate : this.endDate
+        }
+
+        this.messageService.sendData("timeline", dataTimeline).subscribe(
+          response => {
+            this.timelineItems = response.map((e: any) => {
+              e.date = new Date(e.date); // Conversion de la chaîne de date en objet Date
+              return {
+                event: e
+              };
+            });
+            this.generateTimeline();
+
+        })
+      }
+    });
   }
 
   changeTimelineStyle() {
-    // Logique pour changer le style de la frise
+    const dialogRef = this.dialog.open(PopupStyleComponent, {
+      width: '50%',
+      height: 'auto',
+      data: { color : this.color }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.color = result.color
+
+        const dataTimeline = {
+          categories : this.categories,
+          startDate : this.startDate,
+          endDate : this.endDate
+        }
+
+        this.messageService.sendData("timeline", dataTimeline).subscribe(
+          response => {
+            this.timelineItems = response.map((e: any) => {
+              e.date = new Date(e.date); // Conversion de la chaîne de date en objet Date
+              return {
+                event: e
+              };
+            });
+            this.generateTimeline();
+
+        })
+      }
+    });
   }
 
   sendSuggestion() {

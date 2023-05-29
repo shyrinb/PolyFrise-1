@@ -1,34 +1,37 @@
 <!-- Bouton Home -->
-<button routerLink="/" class="home-button">Home</button>
 
 <!-- Liste de choix de format de téléchargement -->
-<div class="download-format">
-    <h3>Choix du format de téléchargement</h3>
-    <label>
-    <input type="checkbox" [(ngModel)]="downloadFormats.csv"> CSV
-  </label>
-    <label>
-    <input type="checkbox" [(ngModel)]="downloadFormats.jpeg"> JPEG
-  </label>
-    <label>
-    <input type="checkbox" [(ngModel)]="downloadFormats.pdf"> PDF
-  </label>
+<div id="top">
+    <button mat-raised-button color="primary" routerLink="/" class="home-button">Home</button>
 
-    <!-- Bouton Exporter la frise -->
-    <button (click)="exportTimeline()" class="export-button">Exporter la frise</button>
+    <div class="download-format">
+
+        <mat-form-field>
+            <mat-select [(ngModel)]="selectedFormat">
+                <mat-option value="svg">SVG</mat-option>
+                <mat-option value="jpeg">JPEG</mat-option>
+                <mat-option value="pdf">PDF</mat-option>
+                <mat-option value="csv">CSV</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <!-- Bouton Exporter la frise -->
+        <button mat-raised-button color="primary" (click)="exportTimeline()" class="export-button">Exporter la frise</button>
+
+        <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Modifier</button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="changeCategories()"><mat-icon>edit</mat-icon>Catégories</button>
+            <button mat-menu-item (click)="changeDates()"><mat-icon>edit</mat-icon>Dates</button>
+            <button mat-menu-item (click)="changeTimelineStyle()"><mat-icon>edit</mat-icon>Style</button>
+        </mat-menu>
+    </div>
 </div>
-
 
 <!-- Frise générée -->
 <div id="timeline">
 </div>
 <div class="button-container">
-    <!-- Bouton Changer les catégories -->
-    <button (click)="changeCategories()" class="change-categories-button">Changer les catégories</button>
-
-    <!-- Bouton Changer le style de la frise -->
-    <button (click)="changeTimelineStyle()" class="change-style-button">Changer le style de la frise</button>
 
     <!-- Bouton Envoyer une suggestion pour une modification -->
-    <button (click)="sendSuggestion()" class="send-suggestion-button">Envoyer une suggestion pour une modification</button>
+    <button mat-raised-button color="primary" (click)="sendSuggestion()" class="send-suggestion-button">Envoyer une suggestion pour une modification</button>
 </div>

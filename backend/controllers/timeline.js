@@ -14,6 +14,7 @@ exports.get = (req, res, next) => {
             include: [{
                 model: Category,
                 as: 'categories',
+                where: { id: req.body.categories },
                 through: { attributes: [] }, // Exclure les attributs de la table d'association
                 attributes: ['id']
             }]
