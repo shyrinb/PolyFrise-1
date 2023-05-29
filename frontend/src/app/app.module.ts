@@ -12,7 +12,6 @@ import { Ng5SliderModule } from 'ng5-slider';
 import { Accueil2Component } from './accueil2/accueil2.component';
 import { PageFriseComponent } from './page-frise/page-frise.component';
 import { UpdateComponent } from './update/update.component';
-import { EventComponent } from './event/event.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
@@ -39,7 +38,6 @@ import {MatSelectModule} from '@angular/material/select';
     PopupCatComponent,
     PopupDateComponent,
     PopupStyleComponent,
-    EventComponent
   ],
   imports: [
     BrowserModule,
