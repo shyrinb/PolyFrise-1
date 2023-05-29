@@ -9,7 +9,7 @@
         <mat-form-field>
             <mat-select [(ngModel)]="selectedFormat">
                 <mat-option value="svg">SVG</mat-option>
-                <mat-option value="jpeg">JPEG</mat-option>
+                <mat-option value="png">PNG</mat-option>
                 <mat-option value="pdf">PDF</mat-option>
                 <mat-option value="csv">CSV</mat-option>
             </mat-select>
@@ -24,14 +24,11 @@
             <button mat-menu-item (click)="changeDates()"><mat-icon>edit</mat-icon>Dates</button>
             <button mat-menu-item (click)="changeTimelineStyle()"><mat-icon>edit</mat-icon>Style</button>
         </mat-menu>
+        <button mat-raised-button color="primary" (click)="addEvent()">Ajouter</button>
+
     </div>
 </div>
 
 <!-- Frise générée -->
 <div id="timeline">
-</div>
-<div class="button-container">
-
-    <!-- Bouton Envoyer une suggestion pour une modification -->
-    <button mat-raised-button color="primary" (click)="sendSuggestion()" class="send-suggestion-button">Envoyer une suggestion pour une modification</button>
 </div>

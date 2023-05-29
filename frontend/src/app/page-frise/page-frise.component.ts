@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as labella from 'labella';
 import * as d3 from "d3";
 import { ActivatedRoute } from '@angular/router';
@@ -7,7 +7,14 @@ import { MatDialog } from '@angular/material/dialog';
 import { PopupCatComponent } from '../popup-cat/popup-cat.component';
 import { PopupDateComponent } from '../popup-date/popup-date.component';
 import { PopupStyleComponent } from '../popup-style/popup-style.component';
+import { saveAs } from 'file-saver';
+import domtoimage from 'dom-to-image';
+import { jsPDF } from 'jspdf';
+import { PopupDescComponent } from '../popup-desc/popup-desc.component';
+import { PopupAddEventComponent } from '../popup-add-event/popup-add-event.component';
+
 interface TimelineItem {
+
   event : any;
   h?: number; // Ajoutez la propriété h de type number (optionnelle)
   w?: number; // Ajoutez la propriété w de type number (optionnelle)
@@ -17,6 +24,7 @@ interface TimelineItem {
   templateUrl: './page-frise.component.html',
   styleUrls: ['./page-frise.component.css']
 })
+
 export class PageFriseComponent implements OnInit {
   downloadFormats = {
     svg: false,
@@ -25,48 +33,57 @@ export class PageFriseComponent implements OnInit {
     pdf: false
   };
 
-  selectedFormat : string ="";
+  selectedFormat : string ="svg";
   categories : any;
   startDate : any;
   endDate : any;
   labels: any;
   timelineItems: TimelineItem[] = []
+  deletedItemTmp : any[] = []
+  updatedItemTmp : TimelineItem[] = []
+  timelineItemsTmp: TimelineItem[] = []
+
   color : any ;
   shape : any;
-    constructor(private route: ActivatedRoute, private messageService : MessageService,public dialog: MatDialog) {}
+  constructor(private route: ActivatedRoute, private messageService : MessageService,public dialog: MatDialog) {}
 
-    ngOnInit() {
+  ngOnInit() {
 
-      this.route.queryParams.subscribe(params => {
-        const donnees = JSON.parse(params['data']);
-        this.color = donnees.color
-        this.shape = donnees.shape
+    this.route.queryParams.subscribe(params => {
+      const donnees = JSON.parse(params['data']);
+      this.color = donnees.color
+      this.shape = donnees.shape
 
-        this.categories = donnees.categories;
-        this.startDate = donnees.startDate;
-        this.endDate = donnees.endDate;
+      this.categories = donnees.categories;
+      this.startDate = donnees.startDate;
+      this.endDate = donnees.endDate;
 
-        const data = {
-          categories : donnees.categories,
-          startDate : donnees.startDate,
-          endDate : donnees.endDate
-        }
-        this.messageService.sendData("timeline", data).subscribe(
-          response => {
-            this.timelineItems = response.map((e: any) => {
-              e.date = new Date(e.date); // Conversion de la chaîne de date en objet Date
-              return {
-                event: e
-              };
-            });
-            this.generateTimeline();
+      const data = {
+        categories : donnees.categories,
+        startDate : donnees.startDate,
+        endDate : donnees.endDate
+      }
+      this.messageService.sendData("timeline", data).subscribe(
+        response => {
+          this.timelineItems = response.map((e: any) => {
+            e.date = new Date(e.date); // Conversion de la chaîne de date en objet Date
+            return {
+              event: e
+            };
+          });
+          this.generateTimeline();
 
-        })
-      });
+      })
+    });
 
-    }
+  }
 
-    draw() {
+  draw() {
+    const timelineItems = this.timelineItems.concat(this.timelineItemsTmp).map(element1 => {
+      const element2 = this.updatedItemTmp.find(element => element.event.id === element1.event.id);
+      return element2 ?  element2 : element1;
+    }).filter((event : TimelineItem) =>!this.deletedItemTmp.includes(event.event.id))
+
       var options = {
         margin: {
             left: 20,
@@ -100,12 +117,12 @@ export class PageFriseComponent implements OnInit {
 
       // Définition de l'échelle de temps
       const timeScale = d3.scaleTime()
-        .domain(d3.extent(this.timelineItems, (d: TimelineItem) => d.event.date)as [Date, Date])
+        .domain(d3.extent(timelineItems, (d: TimelineItem) => d.event.date)as [Date, Date])
         .range([0, innerHeight])
         .nice();
 
       // Création des noeuds de la frise
-      var nodes: any = this.timelineItems.map(function(element) {
+      var nodes: any = timelineItems.map(function(element) {
         // Mesure de la taille du texte pour chaque label
         var textElement = dummyText.text(labelText(element)).node();
         if (textElement) {
@@ -195,7 +212,8 @@ export class PageFriseComponent implements OnInit {
         .style('fill', '#D4F6F0')
         .text(function(d: any) {
           return labelText(d.data);
-        });
+        })
+        .on('click', this.eventClicked);
 
       // Sélection de l'élément SVG qui contiendra les liens
       linkLayer.selectAll('path.link')
@@ -209,8 +227,7 @@ export class PageFriseComponent implements OnInit {
         .style('stroke-width', 2)
         .style('opacity', 0.6)
         .style('fill', 'none');
-    }
-
+  }
 
   generateTimeline() {
     // Appel de la fonction de dessin du graphique avec les nœuds calculés par l'objet Force
@@ -218,7 +235,108 @@ export class PageFriseComponent implements OnInit {
   }
 
   exportTimeline() {
-    // Logique pour exporter la frise selon les formats sélectionnés
+    const containerElement = document.querySelector('#timeline');
+    const svgElement = containerElement?.querySelector('svg');
+
+    switch (this.selectedFormat) {
+      case 'svg':
+        this.exportSVG(svgElement)
+        break;
+      case 'png':
+        this.exportPNG(svgElement)
+        break;
+      case 'pdf':
+        this.exportPDF(svgElement)
+        break;
+      case 'csv':
+        this.exportCSV()
+        break;
+      default:
+        this.exportSVG(svgElement)
+        break;
+    }
+  }
+
+  exportSVG(svgElement : any){
+
+
+    if (svgElement) {
+      const serializer = new XMLSerializer();
+      const svgData = serializer.serializeToString(svgElement);
+
+      const blob = new Blob([svgData], { type: 'image/svg+xml' });
+      const url = window.URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'timeline.svg';
+      link.click();
+
+      window.URL.revokeObjectURL(url);
+    }
+  }
+
+  exportPNG(svgElement : any){
+    if (svgElement) {
+      domtoimage.toBlob(svgElement)
+        .then((blob: Blob) => {
+          saveAs(blob, 'timeline.png');
+        });
+    }
+
+  }
+
+  exportPDF(svgElement : any){
+    if (svgElement) {
+      domtoimage.toPng(svgElement)
+        .then((dataUrl: string) => {
+          const pdf = new jsPDF();
+          const imgWidth = pdf.internal.pageSize.getWidth();
+          const imgHeight = (svgElement.clientHeight * imgWidth) / svgElement.clientWidth;
+
+          pdf.addImage(dataUrl, 'PNG', 0, 0, imgWidth, imgHeight);
+          pdf.save('timeline.pdf');
+        });
+    }
+  }
+
+  exportCSV(){
+    const separator = ','; // Caractère de séparation des valeurs
+
+    // Générer les en-têtes du CSV
+    const timelineItems = this.timelineItems.concat(this.timelineItemsTmp).map(element1 => {
+      const element2 = this.updatedItemTmp.find(element => element.event.id === element1.event.id);
+      return element2 ?  element2 : element1;
+    }).filter((event : TimelineItem) =>!this.deletedItemTmp.includes(event.event.id))
+
+
+    if(timelineItems.length == 0 ){
+      console.log("pas d'évènements")
+      return
+    }
+    const headers = Object.keys(timelineItems[0]);
+    const headerRow = headers.join(separator);
+
+    // Générer les lignes de données
+    const rows = timelineItems.map((item : any ) => {
+      return headers.map(header => {
+        if(item[header] instanceof Date){
+          return `"${item[header].toLocaleDateString('fr-FR') }"`;
+        }
+        if(Array.isArray(item[header])){
+          return `"${item[header].map((e : any) => {return e.id}) }"`;
+        }
+        return `"${item[header]}"`
+      }).join(separator);
+    });
+
+    // Concaténer les en-têtes et les lignes de données
+    const csvContent : string = `${headerRow}\n${rows.join('\n')}`;
+     // Créer un objet Blob avec le contenu CSV
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+    // Télécharger le fichier CSV
+    saveAs(blob, 'timeline.csv');
   }
 
   changeCategories() {
@@ -319,8 +437,46 @@ export class PageFriseComponent implements OnInit {
     });
   }
 
-  sendSuggestion() {
-    // Logique pour envoyer une suggestion de modification
+  addEvent() {
+    const dialogRef = this.dialog.open(PopupAddEventComponent, {
+      width: '50%',
+      height: 'auto',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        console.log(result)
+        this.timelineItemsTmp.push({event : result})
+        this.generateTimeline();
+      }
+    });
+  }
+
+  eventClicked = (event: any) => {
+    event.preventDefault();
+      const dialogRef = this.dialog.open(PopupDescComponent, {
+        width: '50%',
+        height: 'auto',
+        data: { event : event.target.__data__.data.event }
+    })
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(result.action == "delete"){
+          this.deletedItemTmp.push(result.data)
+          this.generateTimeline();
+        }
+        if(result.action == "modify"){
+          const index = this.updatedItemTmp.findIndex(element => element.event.id === result.data.id);
+          if (index !== -1) {
+            this.updatedItemTmp.splice(index, 1);
+          }
+          this.updatedItemTmp.push({event : result.data})
+          this.generateTimeline();
+        }
+      }
+    });
   }
 }
 

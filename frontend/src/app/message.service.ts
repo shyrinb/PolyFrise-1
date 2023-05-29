@@ -10,19 +10,19 @@ import { Observable } from 'rxjs';
 export class MessageService {
   prefixe: string;
 
-      constructor(private http: HttpClient) {this.prefixe='http://localhost:3000/api/'}
+    constructor(private http: HttpClient) {this.prefixe='http://localhost:3000/api/'}
 
-      sendData(fin: string, data: any ): Observable<any>{
-        const url = this.prefixe + fin;
-        return this.http.post<any>(url,data);
-      }
-      getData(fin: string, data: any ): Observable<any>{
+    sendData(fin: string, data: any ): Observable<any>{
+      const url = this.prefixe + fin;
+      return this.http.post<any>(url,data);
+    }
+    getData(fin: string, data: any ): Observable<any>{
       const params = new HttpParams({fromObject: data});
       const url = this.prefixe + fin;
-          return this.http.get<any>(url, { params });
+      return this.http.get<any>(url, { params });
     }
     getDataAuto(fin: string, token: any ): Observable<any>{
-        
+
         // Créez les en-têtes de la requête avec le token d'authentification
       const headers = new HttpHeaders().set('Authorization',`Bearer ${token}`);
       const options = {headers:headers};
@@ -37,4 +37,4 @@ export class MessageService {
       return this.http.post<any>(url,data,options);
     }
   }
-  
+

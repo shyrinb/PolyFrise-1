@@ -25,6 +25,12 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSelectModule} from '@angular/material/select';
+import { PopupDescComponent } from './popup-desc/popup-desc.component';
+import {MatChipsModule} from '@angular/material/chips';
+import { PopupAddEventComponent } from './popup-add-event/popup-add-event.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,6 +44,8 @@ import {MatSelectModule} from '@angular/material/select';
     PopupCatComponent,
     PopupDateComponent,
     PopupStyleComponent,
+    PopupDescComponent,
+    PopupAddEventComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,8 +62,10 @@ import {MatSelectModule} from '@angular/material/select';
     MatRadioModule,
     MatMenuModule,
     MatIconModule,
-    MatSelectModule
-
+    MatSelectModule,
+    MatChipsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [],
   bootstrap: [AppComponent]
