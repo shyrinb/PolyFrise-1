@@ -52,7 +52,10 @@ export class PageAdminComponent implements OnInit {
   }
 
   logout() {
-    // Logique de déconnexion
+    this.messageService.sendDataAuto("deconnexion","", this.token).subscribe();
+      localStorage.removeItem("jwtToken");
+      this.router.navigateByUrl('/admin');
+    
   }
 
   validate() {

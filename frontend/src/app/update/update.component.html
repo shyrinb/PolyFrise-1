@@ -1,1 +1,40 @@
-<p>update works!</p>
+<!-- app.component.html -->
+<header>
+    <button (click)="home()" class="button button-home">Home</button>
+    <button (click)="logout()" class="btn btn-primary">Déconnexion</button>
+</header>
+
+<main>
+    <div class="search-bar">
+        <input type="text" placeholder="Rechercher..." />
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Catégorie</th>
+                <th>Date</th>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let event of events">
+                <td>{{ event.categorie}}</td>
+                <td>{{ event.date }}</td>
+                <td>{{ event.titre }}</td>
+                <td>{{ event.description}}</td>
+                <td>
+                    <button class="button button-edit" (click)="editEvent(event)">Modifier</button>
+                    <button class="button button-delete" (click)="deleteEvent(event)">Supprimer</button>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <button class="button button-add" (click)="addEvent()">+</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</main>
