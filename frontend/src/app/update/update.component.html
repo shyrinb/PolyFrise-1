@@ -8,7 +8,7 @@
     <div>
         <mat-form-field>
             <mat-label>search</mat-label>
-            <input matInput placeholder="search" #input>
+            <input matInput placeholder="search" #input [(ngModel)]="searchValue">
             <button class="buttonSearch" mat-raised-button matSuffix (click)="search()">
               search
             </button>
@@ -23,13 +23,13 @@
         <!-- Position Column -->
         <ng-container matColumnDef="category">
             <th mat-header-cell *matHeaderCellDef> Catégorie </th>
-            <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.categories}} </td>
         </ng-container>
 
         <!-- Name Column -->
         <ng-container matColumnDef="date">
             <th mat-header-cell *matHeaderCellDef> Date </th>
-            <td mat-cell *matCellDef="let element"> {{element.date.toLocaleDateString()}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.date.toString()}} </td>
         </ng-container>
 
         <!-- Weight Column -->

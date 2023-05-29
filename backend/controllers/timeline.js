@@ -27,3 +27,53 @@ exports.get = (req, res, next) => {
             res.status(500).json({ error: "ErrDefault", message: `Erreur serveur` })
         });
 };
+
+exports.getAll = (req, res, next) => {
+    console.request(req, `Get Category`)
+
+    Event.findAll({
+        order: [
+            ['date', 'DESC']
+        ],
+        include: [{
+            model: Category,
+            as: 'categories',
+            through: { attributes: [] }, // Exclure les attributs de la table d'association
+            attributes: ['id', 'name']
+        }]
+    })
+        .then((events) => {
+            res.status(201).json(events);
+        })
+        .catch((error) => {
+            console.error(`fail to find events`, error)
+            res.status(500).json({ error: error, message: `Erreur serveur` })
+        });
+};
+
+exports.getSearch = (req, res, next) => {
+    console.request(req, `Get Category`)
+
+    Event.findAll({
+        where: {
+            [Sequelize.Op.or]: [
+                { date: { [Sequelize.Op.like]: `%${req.body.searchValue}%` } },
+                { title: { [Sequelize.Op.like]: `%${req.body.searchValue}%` } },
+                { description: { [Sequelize.Op.like]: `%${req.body.searchValue}%` } }
+            ]
+        },
+        include: [{
+            model: Category,
+            as: 'categories',
+            through: { attributes: [] }, // Exclure les attributs de la table d'association
+            attributes: ['id', 'name']
+        }]
+    })
+        .then((events) => {
+            res.status(201).json(events);
+        })
+        .catch((error) => {
+            console.error(`fail to find events`, error)
+            res.status(500).json({ error: error, message: `Erreur serveur` })
+        });
+}

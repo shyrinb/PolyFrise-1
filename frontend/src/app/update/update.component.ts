@@ -9,11 +9,8 @@ import { MessageService } from '../message.service';
 })
 export class UpdateComponent implements OnInit {
   token!: string;
-  events: any[] = [
-    { category: 'Événement 1', date: new Date(), title: 'Lieu 1', description: 'Lieu 1'  },
-    { category: 'Événement 2', date: new Date(), title: 'Lieu 2', description: 'Lieu 1'  },
-    { category: 'Événement 3', date: new Date(), title: 'Lieu 3', description: 'Lieu 1'  }
-  ];
+  events: any[] = [];
+  searchValue: string = "";
   displayedColumns: string[] = ['category', 'date', 'title', 'description','action'];
 
 
@@ -24,6 +21,19 @@ export class UpdateComponent implements OnInit {
     if (token !== null) {
       this.token = token;
     }
+
+    console.log("test")
+    this.messageService.sendData("timeline/getAll", "").subscribe(res => {
+      console.log(res);
+      this.events = res;
+      this.events.forEach((event:any) => {
+        console.log(event)
+        if (event.categories[0]) event.categories = event.categories[0].name
+        else event.categories = "CATEGORIE INCONNUE"
+
+        event.date = new Date (event.date).toLocaleDateString()
+      })
+    })
   }
   editEvent(event: any) {
     // Logique pour modifier l'événement
@@ -47,9 +57,20 @@ export class UpdateComponent implements OnInit {
     this.router.navigateByUrl('/admin/submission');
   }
 
-  search(){
+  search() {
+    this.messageService.sendDataAuto("timeline/getSearch", {searchValue: this.searchValue}, this.token).subscribe(res => {
+      console.log(res);
+      this.events = res;
+      this.events.forEach((event: any) => {
+        console.log(event)
+        if (event.categories[0]) event.categories = event.categories[0].name
+        else event.categories = "CATEGORIE INCONNUE"
 
+        event.date = new Date(event.date).toLocaleDateString()
+      })
+    })
   }
+
 }
 
 
