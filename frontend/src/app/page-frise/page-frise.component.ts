@@ -307,7 +307,7 @@ export class PageFriseComponent implements OnInit {
     const timelineItems = this.timelineItems.concat(this.timelineItemsTmp).map(element1 => {
       const element2 = this.updatedItemTmp.find(element => element.event.id === element1.event.id);
       return element2 ?  element2 : element1;
-    }).filter((event : TimelineItem) =>!this.deletedItemTmp.includes(event.event.id))
+    }).filter((event : TimelineItem) =>!this.deletedItemTmp.includes(event.event.id)).map((event : any) => {return(event.event) })
 
 
     if(timelineItems.length == 0 ){
