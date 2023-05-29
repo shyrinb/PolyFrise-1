@@ -1,29 +1,27 @@
-<div class="container">
-    <h1 class="title">Générateur de frises historiques</h1>
-    <div class="categories">
-        <h2 class="subtitle">Sélectionner des catégories :</h2>
-        <div *ngFor="let category of categories" class="category">
-            <label>
-          <input type="checkbox" [(ngModel)]="category.selected">
-          {{ category.name }}
-        </label>
-        </div>
-    </div>
-    <div class="period">
-        <h2 class="subtitle">Sélectionner la période :</h2>
-
-        <ng5-slider [(ngModel)]="selectedStartYear" [options]="sliderOptions"></ng5-slider>
-        <p class="year">Date de début : {{ selectedStartYear }}</p>
-
-        <ng5-slider [(ngModel)]="selectedEndYear" [options]="sliderOptions"></ng5-slider>
-        <p class="year">Date de fin : {{ selectedEndYear }}</p>
-
-        <button class="button" (click)="submit()">Suivant</button>
-    </div>
-</div>
-
-<footer class="col-md-6 text-center">
-    <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
-        <p id="erreur" name="errorMessage"> {{ errorMessage }}</p>
-    </div>
-</footer>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Générateur de frises historiques</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form #form="ngForm">
+            <h2 class="subtitle">Sélectionner des catégories :</h2>
+            <div class="checkbox-wrapper">
+                <div *ngFor="let category of categories" class="category">
+                    <mat-checkbox [(ngModel)]="category.selected" [ngModelOptions]="{standalone: true}">{{ category.name }}</mat-checkbox>
+                </div>
+            </div>
+            <h2 class="subtitle">Sélectionner la période :</h2>
+            <mat-slider min="0" max="2030" discrete [displayWith]="formatLabel">
+                <input name="startDate" matSliderStartThumb [(ngModel)]="selectedStartYear">
+                <input name="endDate" matSliderEndThumb [(ngModel)]="selectedEndYear">
+            </mat-slider>
+            <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
+                <p id="erreur" name="errorMessage"> {{ errorMessage }}</p>
+            </div>
+        </form>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" class="button" (click)="submit()">Suivant</button>
+    </mat-card-actions>
+</mat-card>

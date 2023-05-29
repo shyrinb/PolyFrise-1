@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { v4 as UUID } from 'uuid';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MessageService } from '../message.service';
-import { Router } from '@angular/router'; 
+import { Router } from '@angular/router';
 
 interface Submission {
   id: typeof UUID,
@@ -12,7 +12,7 @@ interface Submission {
   description: string;
   date: string;
   selected: boolean;
-  
+
 }
 
 @Component({
@@ -41,25 +41,25 @@ export class PageAdminComponent implements OnInit {
           id: item.id,
           type: item.type,
           dateSub: new Date(item.created_at).toLocaleDateString(),
-          title: item.new_title,
-          description: item.new_description,
-          date: new Date(item.new_date).toLocaleDateString(),
+          title: item.new_title ?? item.event.title,
+          description: item.new_description ?? item.event.description ,
+          date: item.new_date ? new Date(item.new_date).toLocaleDateString() : new Date(item.event.date).toLocaleDateString(),
           selected: false
         }
         this.suggestions.push(suggestion);
       }
-    } ) 
+    } )
   }
 
   logout() {
     this.messageService.sendDataAuto("deconnexion","", this.token).subscribe();
       localStorage.removeItem("jwtToken");
       this.router.navigateByUrl('/admin');
-    
+
   }
 
   validate() {
-  
+
     for (const item of this.suggestions) {
       if(item.selected==true){
         this.suggestionsSelected.push(item.id);
@@ -72,7 +72,7 @@ export class PageAdminComponent implements OnInit {
         window.location.reload();
       })
     }
-   
+
     else{
       this.errorMessage="Merci de saisir des modifications avant de valider";
       this.alert=true;
@@ -93,15 +93,28 @@ export class PageAdminComponent implements OnInit {
         window.location.reload();
       })
     }
-   
+
     else{
       this.errorMessage="Merci de saisir des modifications avant de cliquer sur Ignorer";
       this.alert=true;
     }
   }
-  
+
 
   manageHistoricalEvents() {
     this.router.navigateByUrl('/admin/update');
+  }
+
+  getBackgroundColor(type: string): string {
+    switch (type) {
+      case 'UPDATE':
+        return 'suggestion-update';
+      case 'CREATE':
+        return 'suggestion-create';
+      case 'DELETE':
+        return 'suggestion-delete';
+      default:
+        return '';
+    }
   }
 }

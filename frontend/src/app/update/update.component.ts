@@ -10,11 +10,11 @@ import { MessageService } from '../message.service';
 export class UpdateComponent implements OnInit {
   token!: string;
   events: any[] = [
-    { nom: 'Événement 1', date: '2023-05-30', lieu: 'Lieu 1' },
-    { nom: 'Événement 2', date: '2023-06-01', lieu: 'Lieu 2' },
-    { nom: 'Événement 3', date: '2023-06-05', lieu: 'Lieu 3' }
+    { category: 'Événement 1', date: new Date(), title: 'Lieu 1', description: 'Lieu 1'  },
+    { category: 'Événement 2', date: new Date(), title: 'Lieu 2', description: 'Lieu 1'  },
+    { category: 'Événement 3', date: new Date(), title: 'Lieu 3', description: 'Lieu 1'  }
   ];
-
+  displayedColumns: string[] = ['category', 'date', 'title', 'description','action'];
 
 
   constructor( private router: Router, private messageService: MessageService) {}
@@ -40,11 +40,15 @@ export class UpdateComponent implements OnInit {
     this.messageService.sendDataAuto("deconnexion","", this.token).subscribe();
       localStorage.removeItem("jwtToken");
       this.router.navigateByUrl('/admin');
-    
+
   }
 
   home(){
     this.router.navigateByUrl('/admin/submission');
+  }
+
+  search(){
+
   }
 }
 

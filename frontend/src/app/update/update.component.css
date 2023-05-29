@@ -1,38 +1,20 @@
-/* styles.css */
+h2 {
+    margin-top: 50px
+}
 
-header {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
+mat-card-actions {
+    align-items: center;
 }
 
 .button {
-    padding: 5px 10px;
-    margin-right: 5px;
+    margin: 20px;
+    margin-left: 0px;
 }
 
-.search-bar {
-    margin-bottom: 10px;
+.button2 {
+    margin: 20px;
 }
 
-table {
-    width: 100%;
-}
-
-th,
-td {
-    padding: 5px;
-    text-align: left;
-}
-
-.button-add {
-    font-weight: bold;
-    display: block;
-    margin-top: 10px;
-    margin: 0 auto;
-}
-
-.button-edit,
-.button-delete {
-    margin-right: 5px;
+.buttonSearch {
+    margin-right: 10px;
 }

@@ -1,27 +1,32 @@
-<div class="container">
-    <h1> Sélectionner le style de votre frise </h1>
-    <form>
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Sélectionner le style de votre frise</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
         <h2>Sélectionner une couleur :</h2>
-        <input type="radio" name="couleur" value="#0000FF" [(ngModel)]="couleur"> Bleu<br>
-        <input type="radio" name="couleur" value="#FF0000" [(ngModel)]="couleur"> Rouge<br>
-        <input type="radio" name="couleur" value="#008000" [(ngModel)]="couleur"> Vert<br>
-        <input type="radio" name="couleur" value="#000000" [(ngModel)]="couleur"> Noir<br>
-        <input type="radio" name="couleur" value="personnalise" (change)="toggleSelection()"> Personnalisé<br>
+
+        <mat-radio-group [(ngModel)]="couleur">
+            <mat-radio-button name="blue" type="radio" value="#0000FF" (change)="toggleSelectionOff()"> Bleu</mat-radio-button>
+            <mat-radio-button name="red " type="radio" value="#FF0000" (change)="toggleSelectionOff()"> Rouge</mat-radio-button>
+            <mat-radio-button name="green" type="radio" value="#008000" (change)="toggleSelectionOff()"> Vert</mat-radio-button>
+            <mat-radio-button name="black " type="radio" value="#000000" (change)="toggleSelectionOff()"> Noir</mat-radio-button>
+            <mat-radio-button name="perso" type="radio" value="personnalise" (change)="toggleSelection()"> Personnalisé</mat-radio-button>
+        </mat-radio-group>
 
         <div id="couleur-personnalise" *ngIf="selectionPersonnalisee" class="couleur-personnalise-container">
-            <input type="color" name="couleur-personnalise" [(ngModel)]="couleurPersonnalise" class="couleur-personnalise-input">
+            <input type="color" name="couleur-personnalise" [(ngModel)]="couleurPersonnalise">
         </div>
-
         <h2>Sélectionner la forme :</h2>
-        <input type="radio" name="forme" value="horizontale" [(ngModel)]="forme"> Horizontale<br>
-        <input type="radio" name="forme" value="verticale" [(ngModel)]="forme"> Verticale<br>
-
-        <button type="submit" (click)="submit()">Générer la Frise Historique</button>
-    </form>
-
-</div>
-<footer class="col-md-6 text-center">
-    <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
-        <p id="erreur" name="errorMessage"> {{ errorMessage }}</p>
-    </div>
-</footer>
+        <mat-radio-group [(ngModel)]="forme">
+            <mat-radio-button name="Horizontale" type="radio" value="horizontale"> Horizontale</mat-radio-button>
+            <mat-radio-button name="Verticale " type="radio" value="verticale"> Verticale</mat-radio-button>
+        </mat-radio-group>
+        <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
+            <p id="erreur" name="errorMessage"> {{ errorMessage }}</p>
+        </div>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" class="button" (click)="submit() ">Générer la Frise Historique</button>
+    </mat-card-actions>
+</mat-card>

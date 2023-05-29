@@ -134,6 +134,9 @@ exports.getAll = (req, res, next) => {
                 as: 'categories',
                 through: { attributes: [] }, // Exclure les attributs de la table d'association
                 attributes: ['id']
+            }, {
+                model: Event,
+                as: 'event'
             }]
         })
         .then((submissions) => {
@@ -251,7 +254,7 @@ async function processDeleteSubmission(submission) {
     console.log(`Event ${submission.event.id} deleted`);
 }
 
-exports.reject = async (req, res, next) => {
+exports.reject = async(req, res, next) => {
     console.request(req, `Reject submission`)
     var fail = []
 

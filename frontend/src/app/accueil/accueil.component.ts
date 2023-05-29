@@ -90,4 +90,8 @@ export class AccueilComponent implements OnInit {
 
     }
   }
+
+  formatLabel(value: number): string {
+    return `${value}`;
+  }
 }

@@ -34,17 +34,14 @@ export class PopupStyleComponent {
   }
 
   toggleSelection() {
-    console.log("test")
     this.selectionPersonnalisee = true;
   }
 
   toggleSelectionOff() {
-    console.log(this.color)
     this.selectionPersonnalisee = false;
   }
 
   emitData() {
-    console.log(this.color)
 
     if(this.color == "personnalise") this.color = this.colorPerso
     this.dialogRef.close({color: this.color});

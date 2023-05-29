@@ -1,53 +1,24 @@
-.buttons {
-    display: flex;
-    gap: 30px;
-    justify-content: flex-end;
-    margin-top: 10px;
-    margin-right: 30px;
+h2 {
+    margin-top: 50px
 }
 
-#valider {
-    background-color: #CEF6D8;
-}
-
-#ignorer {
-    background-color: #F6CECE;
+mat-card-actions {
+    align-items: center;
 }
 
 button {
-    margin-top: 10px;
-    margin-left: 10px;
-    border-radius: 5px;
+    margin: 20px;
+    margin-left: 0px;
 }
 
-.buttonEvent {
-    display: block;
-    margin: 10px auto;
-    /* Centrer le bouton horizontalement */
-    margin-bottom: 20px;
-    /* Ajouter une marge inférieure pour éviter le chevauchement */
+.suggestion-create {
+    background-color: rgb(216, 255, 228);
 }
 
-.sidebar {
-    position: absolute;
-    top: 70px;
-    left: 10px;
-    bottom: 80px;
-    /* Ajuster la marge inférieure pour éviter le chevauchement */
-    margin-right: 20px;
-    /* Ajouter une marge à droite pour éviter le chevauchement avec le bouton "Gérer les événements historiques" */
+.suggestion-delete {
+    background-color: rgb(255, 225, 225);
 }
 
-.content {
-    margin-left: 200px;
-    margin-top: 60px;
-    margin-bottom: 80px;
-    /* Ajuster la marge inférieure pour éviter le chevauchement avec le footer */
-}
-
-footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 100px auto;
+.suggestion-update {
+    background-color: rgb(255, 237, 198);
 }

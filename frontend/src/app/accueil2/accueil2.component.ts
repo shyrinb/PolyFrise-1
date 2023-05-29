@@ -30,10 +30,7 @@ export class Accueil2Component implements OnInit{
 
   submit(){
     this.alert==false;
-    if (!((this.selectionPersonnalisee &&this.forme)||(this.couleur &&this.forme))){
-      this.errorMessage = "Sélectionnez une couleur et l'orientation de la frise";
-      this.alert = true;
-    }
+
     if(this.alert==false){
     if (this.selectionPersonnalisee) {
       this.infoChoix = {
@@ -47,18 +44,21 @@ export class Accueil2Component implements OnInit{
       };
     }
 
-    console.log("test",this.data);
-
     const data = {
       categories : this.data.categories,
       startDate : this.data.startDate,
       endDate : this.data.endDate,
-      color : this.couleurPersonnalise ? this.couleurPersonnalise : this.couleur,
+      color : this.couleur == "personnalise" ? this.couleurPersonnalise : this.couleur,
       shape : this.forme
     }
 
     this.router.navigate(['/timeline'], { queryParams: { data: JSON.stringify(data) } });
 
   }
-}
+
+  }
+  toggleSelectionOff() {
+    this.selectionPersonnalisee = false;
+  }
+
 }
