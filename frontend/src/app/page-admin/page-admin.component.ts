@@ -88,7 +88,7 @@ export class PageAdminComponent implements OnInit {
     }
     if (this.suggestionsSelected.length > 0) {
       const data = { ids: this.suggestionsSelected };
-      this.messageService.sendDataAuto("submission/reject", this.suggestionsSelected, this.token).subscribe(() => {
+      this.messageService.sendDataAuto("submission/reject", data, this.token).subscribe(() => {
         // Rafraîchir la page après l'envoi du message
         window.location.reload();
       })
