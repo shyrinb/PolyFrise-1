@@ -1,25 +1,53 @@
-.header {
-    position: absolute;
-    top: 10px;
-    left: auto;
-    right: 0;
-    margin-bottom: 50px;
+.buttons {
+    display: flex;
+    gap: 30px;
+    justify-content: flex-end;
+    margin-top: 10px;
+    margin-right: 30px;
+}
+
+#valider {
+    background-color: #CEF6D8;
+}
+
+#ignorer {
+    background-color: #F6CECE;
+}
+
+button {
+    margin-top: 10px;
+    margin-left: 10px;
+    border-radius: 5px;
+}
+
+.buttonEvent {
+    display: block;
+    margin: 0 auto;
+    /* Centrer le bouton horizontalement */
+    margin-bottom: 20px;
+    /* Ajouter une marge inférieure pour éviter le chevauchement */
 }
 
 .sidebar {
     position: absolute;
-    top: 50px;
-    left: 0;
+    top: 70px;
+    left: 10px;
+    bottom: 80px;
+    /* Ajuster la marge inférieure pour éviter le chevauchement */
+    margin-right: 20px;
+    /* Ajouter une marge à droite pour éviter le chevauchement avec le bouton "Gérer les événements historiques" */
 }
 
 .content {
     margin-left: 200px;
     margin-top: 60px;
-    /* Ajout de la marge supérieure pour éviter le chevauchement */
+    margin-bottom: 80px;
+    /* Ajuster la marge inférieure pour éviter le chevauchement avec le footer */
 }
 
-.buttons {
+footer {
     display: flex;
-    justify-content: flex-end;
-    margin-top: 10px;
+    justify-content: center;
+    align-items: center;
+    margin: 100px auto;
 }

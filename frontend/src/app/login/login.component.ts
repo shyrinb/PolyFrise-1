@@ -21,7 +21,7 @@ export class LoginComponent  {
   onSubmit() {
 
     if (this.email == "" || this.password == ""){ // On affiche un message d'erreur
-        if (this.email == "") this.errorMessage = "Veuillez saisir votre mail";
+        if (this.email == "") this.errorMessage = "Veuillez saisir votre nom d'utilisateur";
         else this.errorMessage = "Veuillez saisir un mot de passe";
         this.alert = true;
     }

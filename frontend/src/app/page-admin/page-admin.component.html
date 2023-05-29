@@ -1,5 +1,5 @@
 <div class="header">
-    <button (click)="logout()">Déconnexion</button>
+    <button (click)="logout()" class="btn btn-primary">Déconnexion</button>
 </div>
 
 <div class="sidebar">
@@ -12,12 +12,13 @@
 
 <div class="content">
     <div class="buttons">
-        <button (click)="validate()">Valider</button>
-        <button (click)="ignore()">Ignorer</button>
-        <button (click)="manageHistoricalEvents()">Gérer les événements historiques</button>
+        <button (click)="validate()" id="valider">Valider</button>
+        <button (click)="ignore()" id="ignorer">Ignorer</button>
+
     </div>
 
 </div>
+<button (click)="manageHistoricalEvents()" class="buttonEvent">Gérer les événements historiques</button>
 <footer class="col-md-6 text-center">
     <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
         <p id="erreur" name="errorMessage"> {{ errorMessage }}</p>

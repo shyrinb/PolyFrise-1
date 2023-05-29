@@ -6,7 +6,7 @@ import { PageAdminComponent} from './page-admin/page-admin.component'
 import { AccueilComponent } from './accueil/accueil.component';
 import { Accueil2Component } from './accueil2/accueil2.component';
 import { PageFriseComponent } from './page-frise/page-frise.component';
-import { EventComponent } from './event/event.component';
+import { UpdateComponent } from './update/update.component';
 
 const routes: Routes = [
   {path: 'admin', component: LoginComponent},
@@ -15,7 +15,7 @@ const routes: Routes = [
   {path: '', component: AccueilComponent },
   {path: 'index', component: Accueil2Component},
   {path: 'timeline', component: PageFriseComponent},
-  {path: 'event', component: EventComponent}
+  {path: 'admin/update', component: UpdateComponent}
 
 ];
 

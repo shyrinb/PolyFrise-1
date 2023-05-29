@@ -99,6 +99,6 @@ export class PageAdminComponent implements OnInit {
   
 
   manageHistoricalEvents() {
-    // Logique de gestion des événements historiques
+    this.router.navigateByUrl('/admin/update');
   }
 }
