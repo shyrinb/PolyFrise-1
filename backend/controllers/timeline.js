@@ -131,3 +131,34 @@ exports.create = (req, res, next) => {
             res.status(500).json({ "error": "ServerError", "message": "Erreur BDD" });
         });
 }
+
+exports.modify = (req, res, next) => {
+    console.request(req, `modify specific event`)
+
+    const eventId = req.body.id;
+    const updatedEvent = {
+        date: new Date(req.body.date),
+        title: req.body.title,
+        description: req.body.description
+    }
+
+    const updatedCat = req.body.categories;
+
+    Event.update(updatedEvent, {
+        where: {id: eventId },
+    })
+    .then(() => {
+        return Event.findByPk(eventId);
+    })
+    .then((event) => {
+        return event.setCategories(updatedCat);
+    })
+    .then(() => {
+        console.log(`event [${eventId}] modified`)
+        res.status(201).end();
+    })
+    .catch((error) => {
+        console.log(error)
+        res.status(500).json({ "error": "ServerError", "message": "Erreur BDD" });
+    });
+}

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MessageService } from '../message.service';
 import { PopupAddEventAdminComponent } from '../popup-add-event-admin/popup-add-event-admin.component';
+import { PopupModifyEventAdminComponent } from '../popup-modify-event-admin/popup-modify-event-admin.component';
 
 @Component({
   selector: 'app-update',
@@ -26,8 +27,9 @@ export class UpdateComponent implements OnInit {
     this.messageService.sendData("timeline/getAll", "").subscribe(res => {
       this.events = res;
       this.events.forEach((event:any) => {
-        if (event.categories[0]) event.categories = event.categories[0].name
-        else event.categories = "CATEGORIE INCONNUE"
+        if (event.categories[0]) event.categorieName = event.categories[0].name
+        else event.categorieName = "CATEGORIE INCONNUE"
+
 
         event.date = new Date (event.date).toLocaleDateString()
       })
@@ -35,8 +37,14 @@ export class UpdateComponent implements OnInit {
       console.log(this.events)
     })
   }
+
   editEvent(event: any) {
     // Logique pour modifier l'événement
+    const dialogRef = this.dialog.open(PopupModifyEventAdminComponent, {
+      width: '50%',
+      height: 'auto',
+      data: { event : event }
+    });
   }
 
   deleteEvent(event: any) {
@@ -65,12 +73,11 @@ export class UpdateComponent implements OnInit {
 
   search() {
     this.messageService.sendDataAuto("timeline/getSearch", {searchValue: this.searchValue}, this.token).subscribe(res => {
-      console.log(res);
       this.events = res;
       this.events.forEach((event: any) => {
         console.log(event)
-        if (event.categories[0]) event.categories = event.categories[0].name
-        else event.categories = "CATEGORIE INCONNUE"
+        if (event.categories[0]) event.categorieName = event.categories[0].name
+        else event.categorieName = "CATEGORIE INCONNUE"
 
         event.date = new Date(event.date).toLocaleDateString()
       })

@@ -9,5 +9,6 @@ router.post('/getAll', timelineCtrl.getAll);
 router.post('/getSearch', auth, timelineCtrl.getSearch);
 router.post('/delete', auth, timelineCtrl.delete);
 router.post('/create', auth, timelineCtrl.create);
+router.post('/modify', auth, timelineCtrl.modify);
 
 module.exports = router;
