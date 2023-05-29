@@ -22,7 +22,7 @@ button {
 
 .buttonEvent {
     display: block;
-    margin: 0 auto;
+    margin: 10px auto;
     /* Centrer le bouton horizontalement */
     margin-bottom: 20px;
     /* Ajouter une marge inférieure pour éviter le chevauchement */

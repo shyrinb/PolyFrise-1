@@ -52,7 +52,10 @@ export class PageAdminComponent implements OnInit {
   }
 
   logout() {
-    // Logique de déconnexion
+    this.messageService.sendDataAuto("deconnexion","", this.token).subscribe();
+      localStorage.removeItem("jwtToken");
+      this.router.navigateByUrl('/admin');
+    
   }
 
   validate() {
@@ -85,7 +88,7 @@ export class PageAdminComponent implements OnInit {
     }
     if (this.suggestionsSelected.length > 0) {
       const data = { ids: this.suggestionsSelected };
-      this.messageService.sendDataAuto("submission/reject", this.suggestionsSelected, this.token).subscribe(() => {
+      this.messageService.sendDataAuto("submission/reject", data, this.token).subscribe(() => {
         // Rafraîchir la page après l'envoi du message
         window.location.reload();
       })
