@@ -22,10 +22,10 @@ interface TimelineItem {
 @Component({
   selector: 'app-page-frise',
   templateUrl: './page-frise.component.html',
-  styleUrls: ['./page-frise.component.css']
-})
+  styleUrls: ['./page-frise.component.css'],
 
-export class PageFriseComponent implements OnInit {
+})
+export class PageFriseComponent implements OnInit {  
   downloadFormats = {
     svg: false,
     csv: false,
@@ -332,7 +332,7 @@ export class PageFriseComponent implements OnInit {
 
     // Concaténer les en-têtes et les lignes de données
     const csvContent : string = `${headerRow}\n${rows.join('\n')}`;
-     // Créer un objet Blob avec le contenu CSV
+    // Créer un objet Blob avec le contenu CSV
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
 
     // Télécharger le fichier CSV
@@ -479,4 +479,3 @@ export class PageFriseComponent implements OnInit {
     });
   }
 }
-

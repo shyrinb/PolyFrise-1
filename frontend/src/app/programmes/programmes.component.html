@@ -1,0 +1,23 @@
+<button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Retour</button>
+<h1> LANGAGES DE PROGRAMMATIONS : </h1>
+
+<div *ngIf="programmesData" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Date création</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let programme of programmesData" class="table-row">
+        <td>{{ programme.id }}</td>
+        <td>{{ programme.nom }}</td>
+        <td>{{ programme.date_creation }}</td>
+        <td>{{ programme.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

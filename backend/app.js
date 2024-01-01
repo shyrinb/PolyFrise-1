@@ -1,41 +1,47 @@
 const express = require('express');
 const sequelize = require('./database');
-const chalk = require('chalk');
-
-const categoryRoutes = require('./routes/category');
-const adminRoutes = require('./routes/admin');
-const timelineRoutes = require('./routes/timeline');
-const submissionRoutes = require('./routes/submission.js');
-
-
-const cors = require('cors');
-
-require('./utils/log')
-
 const app = express();
 
+// Importez les routes API
+const router = require('./routes/apiRoutes');
+
+const cors = require('cors');
+require('./utils/log');
+// Utilisez CORS middleware
 app.use(cors());
 
 sequelize.authenticate()
     .then(() => {
-        console.log(`Connexion à la base `, chalk.bold(`${process.env.mysqlDatabase}:${process.env.bdd_port}`), ` réussie !`)
-        sequelize.sync()
-            .then(() => console.log(`Tables synchronisées avec succès !`))
-            .catch((e) => {
-                console.error(`Echec de la synchronisation des tables !`, e)
-            });
+        console.log('Connection to the database successful');
+        sequelize.sync({ force: false }).then(() => {
+            console.log('Sync with the database successful');
+           
+            // Check for each model and log its creation
+            for (const model of Object.keys(sequelize.models)) {
+               console.log(`${model} table created.`);
+            }
+           }).catch(err => {
+            console.error('Unable to sync with the database:', err);
+           });
     })
     .catch((e) => {
-        console.error(e)
-        console.error(chalk.bold(`Connexion à la base `, chalk.bold(`${process.env.mysqlDatabase}:${process.env.bdd_port}`), ` échouée !`))
+        // Erreur de connexion
+        console.error(e);
+        console.error(chalk.bold(`Connexion à la base `, chalk.bold(`${process.env.mysqlDatabase}:${process.env.bdd_port}`), ` échouée !`));
     });
+
 
 app.use(express.json());
 
-app.use('/api/category', categoryRoutes);
-app.use('/api', adminRoutes);
-app.use('/api/timeline', timelineRoutes);
-app.use('/api/submission', submissionRoutes);
+// Middleware qui s'applique à toutes les routes commençant par "/api"
+app.use('/api', (req, res, next) => {
+    // Votre logique middleware ici
+    console.log('Middleware for /api routes');
+    // Passez la main au middleware suivant dans la pile
+    next();
+});
 
+// Utilisez les routes API
+app.use('/api', router);
 
 module.exports = app;

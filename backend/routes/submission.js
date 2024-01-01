@@ -4,12 +4,12 @@ const auth = require('../middlewares/auth');
 
 const submissionCtrl = require('../controllers/submission');
 
-router.get('/', auth, submissionCtrl.getAll);
+router.get('/submission', auth, submissionCtrl.getAll);
 
-router.post('/modify', submissionCtrl.modify);
-router.post('/create', submissionCtrl.create);
-router.post('/delete', submissionCtrl.delete);
-router.post('/accept', auth, submissionCtrl.accept);
-router.post('/reject', auth, submissionCtrl.reject);
+router.post('/modifySubmission', submissionCtrl.modify);
+router.post('/createSubmission', submissionCtrl.create);
+router.post('/deleteSubmission', submissionCtrl.delete);
+router.post('/acceptSubmission', auth, submissionCtrl.accept);
+router.post('/rejectSubmission', auth, submissionCtrl.reject);
 
 module.exports = router;

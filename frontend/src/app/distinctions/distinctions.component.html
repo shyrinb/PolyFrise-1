@@ -1,0 +1,23 @@
+<button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Retour</button>
+<h1> DISTINCTIONS : </h1>
+
+<div *ngIf="distinctionsData" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>NOM</th>
+        <th>Date Création</th>
+        <th>Recompense</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let distinction of distinctionsData" class="table-row">
+        <td>{{ distinction.id }}</td>
+        <td>{{ distinction.nom }}</td>
+        <td>{{ distinction.creation }}</td>
+        <td>{{ distinction.recompense }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

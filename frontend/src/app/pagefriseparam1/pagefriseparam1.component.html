@@ -1,0 +1,31 @@
+<button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Annuler</button>
+<mat-card>
+    <mat-card-header>
+      <mat-card-title>Générateur de frises historiques</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form #form="ngForm">
+        <h2 class="subtitle">Sélectionner une catégorie :</h2>
+        <div class="category-dropdown">
+          <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="selectedCategories" name="selectedCategories" multiple>
+              <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <h2 class="subtitle">Sélectionner la période :</h2>
+        <mat-slider min="1900" max="2030" discrete [displayWith]="formatLabel">
+          <input name="startDate" matSliderStartThumb [(ngModel)]="selectedStartYear">
+          <input name="endDate" matSliderEndThumb [(ngModel)]="selectedEndYear">
+        </mat-slider>
+        <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
+          <p id="erreur" name="errorMessage">{{ errorMessage }}</p>
+        </div>
+      </form>
+    </mat-card-content>
+    <mat-divider></mat-divider>
+    <mat-card-actions>
+      <button mat-raised-button color="primary" class="button" (click)="submit()">Suivant</button>
+    </mat-card-actions>
+  </mat-card>
+  

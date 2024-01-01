@@ -1,0 +1,26 @@
+<body>
+<div class="container rounded-container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Inscription</h2>
+            <form (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="login">Nom d'utilisateur</label>
+                    <input name="login" type="text" class="form-control" [(ngModel)]="email" placeholder="Entrez un nom d'utilisateur">
+                </div>
+                <div class="form-group">
+                    <label for="password">Mot de passe</label>
+                    <input name="password" type="password" class="form-control" [(ngModel)]="password" placeholder="Entrez un mot de passe">
+                </div>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+                <button type="button" class="connexion" (click)="goToLogin()">Se connecter</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<footer class="col-md-6 text-center">
+    <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
+        <p id="erreur" name="errorMessage"> {{ errorMessage }}</p>
+    </div>
+</footer>

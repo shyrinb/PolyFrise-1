@@ -4,7 +4,7 @@ const sequelize = new Sequelize(process.env.mysqlDatabase, process.env.mysqlLogi
     host: process.env.mysqlHost,
     port: process.env.bdd_port,
     dialect: 'mysql',
-    logging: false // Désactiver les journaux
+    logging: true // Désactiver les journaux
 });
 
 module.exports = sequelize;

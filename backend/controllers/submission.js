@@ -1,15 +1,23 @@
+const { v4: uuidv4 } = require('uuid');
+const sequelize = require('../database');
 const Category = require('../models/Category');
 const Submission = require('../models/Submission');
 const Event = require('../models/Event');
-
-const sequelize = require('../database');
-
-const { v4: uuidv4 } = require('uuid');
+const Avancee = require('../models/Avancees');
+const Distinction = require('../models/Distinctions');
+const Domaine = require('../models/Domaines');
+const Entreprise = require('../models/Entreprises');
+const EvenementDomaine = require('../models/Evenements_domaine');
+const EvenementHistorique = require('../models/Evenements_historiques');
+const EvenementInformatique = require('../models/Evenements_informatique');
+const Evenement = require('../models/Programmes');
+const GenerationInformatique = require('../models/Generation_informatique');
+const Personnalite = require('../models/Personnalite');
 
 exports.modify = (req, res, next) => {
-    console.request(req, `Add modify submission`)
+    console.request(req, `Add modify submission`);
 
-    const requiredFields = ['date', 'title', 'description', 'event_id', 'categories'];
+    const requiredFields = ['date', 'title', 'description', 'event_id', 'categories', 'type', 'table', 'submission_id'];
     for (const field of requiredFields) {
         if (!req.body[field]) {
             res.status(400).json({ "error": "ValidationError", "message": `Missing required field: ${field}` });
@@ -17,88 +25,100 @@ exports.modify = (req, res, next) => {
         }
     }
 
-
     const id = uuidv4();
-    Submission.create({
-            id: id,
-            type: 'UPDATE',
-            new_date: req.body.date,
-            new_title: req.body.title,
-            new_description: req.body.description,
-            event_id: req.body.event_id
-        }).then((submission) => {
-            submission.setCategories(req.body.categories)
-                .then(() => {
-                    console.log(`submission [${id}] added`)
-                    res.status(201).end();
-                })
-                .catch((error) => {
-                    console.log(error)
-                    Submission.destroy({ where: { id: id } })
-                        .then((error) => {
-                            console.error(`Adding categories on submission failed`, error);
-                            res.status(400).json({ "error": "BadCategoriesError", "message": "one categories does not exist" });
+
+    // Define the model dynamically based on the 'table' field
+    const Model = getModelByTableName(req.body.table);
+
+    if (!Model) {
+        res.status(400).json({ "error": "TableNotFoundError", "message": `Table not found: ${req.body.table}` });
+        return;
+    }
+
+    Model.update({
+        new_date: req.body.date,
+        new_title: req.body.title,
+        new_description: req.body.description,
+        event_id: req.body.event_id
+    }, {
+        where: { id: req.body.submission_id }
+    }).then((rowsUpdated) => {
+        if (rowsUpdated > 0) {
+            // Fetch the updated submission and set categories
+            Model.findByPk(req.body.submission_id).then((submission) => {
+                if (submission) {
+                    submission.setCategories(req.body.categories)
+                        .then(() => {
+                            console.log(`submission [${id}] updated`);
+                            res.status(200).end();
                         })
                         .catch((error) => {
-                            console.error(`Error deleting submission [${id}] because adding categories failed`, error);
+                            console.log(error);
                             res.status(500).json({ "error": "ServerError", "message": "Erreur BDD" });
                         });
-                });
-        })
-        .catch((error) => {
-            console.error(`Create submission failed`, error);
-            res.status(400).json({ "error": "BadEventError", "message": "eventId does not exist" });
-        });
+                } else {
+                    res.status(404).json({ "error": "SubmissionNotFoundError", "message": "Submission not found" });
+                }
+            });
+        } else {
+            res.status(404).json({ "error": "SubmissionNotFoundError", "message": "Submission not found" });
+        }
+    }).catch((error) => {
+        console.error(`Update submission failed`, error);
+        res.status(500).json({ "error": "ServerError", "message": "Erreur BDD" });
+    });
 }
 
 exports.create = (req, res, next) => {
-    console.request(req, `Add create submission`)
+    console.request(req, `Create submission`);
 
-    const requiredFields = ['date', 'title', 'description', 'categories'];
+    // Validate request body
+    const requiredFields = ['date', 'title', 'description', 'event_id', 'categories', 'type', 'table'];
     for (const field of requiredFields) {
         if (!req.body[field]) {
-            res.status(400).json({ "error": "ValidationError", "message": `Missing required field: ${field}` });
-            return;
+            return res.status(400).json({ error: 'ValidationError', message: `Missing required field: ${field}` });
         }
     }
 
-
+    // Generate UUID for the new submission
     const id = uuidv4();
-    Submission.create({
-            id: id,
-            type: 'CREATE',
-            new_date: req.body.date,
-            new_title: req.body.title,
-            new_description: req.body.description,
-        }).then((submission) => {
-            submission.setCategories(req.body.categories)
-                .then(() => {
-                    console.log(`submission [${id}] added`)
-                    res.status(201).end();
-                })
-                .catch((error) => {
-                    console.log(error)
-                    Submission.destroy({ where: { id: id } })
-                        .then((error) => {
-                            console.error(`Adding categories on submission failed`, error);
-                            res.status(400).json({ "error": "BadCategoriesError", "message": "one categories does not exist" });
-                        })
-                        .catch((error) => {
-                            console.error(`Error deleting submission [${id}] because adding categories failed`, error);
-                            res.status(500).json({ "error": "ServerError", "message": "Erreur BDD" });
-                        });
-                });
-        })
-        .catch((error) => {
-            console.error(`Create submission failed`, error);
-            res.status(500).json({ "error": "ServerError", "message": "Erreur BDD" });
-        });
-}
+
+    // Dynamically define model based on the 'table' field
+    const Model = getModelByTableName(req.body.table);
+
+    if (!Model) {
+        return res.status(400).json({ error: 'TableNotFoundError', message: `Table not found: ${req.body.table}` });
+    }
+
+    // Create submission
+    Model.create({
+        id: id,
+        type: req.body.type,
+        new_date: req.body.date,
+        new_title: req.body.title,
+        new_description: req.body.description,
+        event_id: req.body.event_id
+    }).then((submission) => {
+        // Set categories if applicable
+        submission.setCategories(req.body.categories)
+            .then(() => {
+                console.log(`Submission [${id}] created for table ${req.body.table}`);
+                res.status(200).json(submission);
+            })
+            .catch((error) => {
+                console.error(error);
+                res.status(500).json({ error: 'ServerError', message: 'Erreur BDD' });
+            });
+    }).catch((error) => {
+        console.error('Create submission failed', error);
+        res.status(500).json({ error: 'ServerError', message: 'Erreur BDD' });
+    });
+};
 
 exports.delete = (req, res, next) => {
-    console.request(req, `Add delete submission`)
+    console.request(req, `Add delete submission`);
 
-    const requiredFields = ['event_id'];
+    const requiredFields = ['submission_id', 'table'];
     for (const field of requiredFields) {
         if (!req.body[field]) {
             res.status(400).json({ "error": "ValidationError", "message": `Missing required field: ${field}` });
@@ -106,22 +126,28 @@ exports.delete = (req, res, next) => {
         }
     }
 
+    // Define the model dynamically based on the 'table' field
+    const Model = getModelByTableName(req.body.table);
 
-    const id = uuidv4();
-    Submission.create({
-            id: id,
-            type: 'DELETE',
-            event_id: req.body.event_id
-        }).then(() => {
-            console.log(`submission [${id}] added`)
-            res.status(201).end();
-        })
-        .catch((error) => {
-            console.error(`Create submission failed`, error);
-            res.status(400).json({ "error": "BadEventError", "message": "eventId does not exist" });
-        });
+    if (!Model) {
+        res.status(400).json({ "error": "TableNotFoundError", "message": `Table not found: ${req.body.table}` });
+        return;
+    }
+
+    Model.destroy({
+        where: { id: req.body.submission_id }
+    }).then((rowsDeleted) => {
+        if (rowsDeleted > 0) {
+            console.log(`submission [${req.body.submission_id}] deleted`);
+            res.status(200).end();
+        } else {
+            res.status(404).json({ "error": "SubmissionNotFoundError", "message": "Submission not found" });
+        }
+    }).catch((error) => {
+        console.error(`Delete submission failed`, error);
+        res.status(500).json({ "error": "ServerError", "message": "Erreur BDD" });
+    });
 }
-
 exports.getAll = (req, res, next) => {
     console.request(req, `GetAll submission`)
 
@@ -295,5 +321,34 @@ exports.reject = async(req, res, next) => {
         res.status(500).json({ error: "ServerError", message: `Erreur BDD on submission ${fail}` });
     } else {
         res.status(200).json();
+    }
+}
+
+function getModelByTableName(tableName) {
+    switch (tableName) {
+        case 'events':
+            return Event;
+        case 'avancees':
+            return Avancee;
+        case 'distinctions':
+            return Distinction;
+        case 'domaines':
+            return Domaine;
+        case 'entreprises':
+            return Entreprise;
+        case 'evenements_domaines':
+            return EvenementDomaine;
+        case 'evenements_historiques':
+            return EvenementHistorique;
+        case 'evenements_informatiques':
+            return EvenementInformatique;
+        case 'evenements':
+            return Evenement;
+        case 'generations_informatique':
+            return GenerationInformatique;
+        case 'personnalites':
+            return Personnalite;
+        default:
+            return null;
     }
 }

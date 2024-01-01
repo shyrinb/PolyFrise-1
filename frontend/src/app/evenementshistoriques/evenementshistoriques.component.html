@@ -1,0 +1,21 @@
+<button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Retour</button>
+<h1> EVENEMENTS HISTORIQUES : </h1>
+
+<div *ngIf="evenementshistoData" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date Evenements</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let evenementshisto of evenementshistoData" class="table-row">
+        <td>{{ evenementshisto.id }}</td>
+        <td>{{ evenementshisto.date_evenement }}</td>
+        <td>{{ evenementshisto.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

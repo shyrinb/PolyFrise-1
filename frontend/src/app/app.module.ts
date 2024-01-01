@@ -9,7 +9,6 @@ import { ErreurComponent } from './erreur/erreur.component';
 import { PageAdminComponent } from './page-admin/page-admin.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { Ng5SliderModule } from 'ng5-slider';
-import { Accueil2Component } from './accueil2/accueil2.component';
 import { PageFriseComponent } from './page-frise/page-frise.component';
 import { UpdateComponent } from './update/update.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -36,6 +35,19 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatTableModule} from '@angular/material/table';
 import { PopupAddEventAdminComponent } from './popup-add-event-admin/popup-add-event-admin.component';
 import { PopupModifyEventAdminComponent } from './popup-modify-event-admin/popup-modify-event-admin.component';
+import { InscriptionComponent } from './inscription/inscription.component';
+import { Pagefriseparam2Component } from './pagefriseparam2/pagefriseparam2.component';
+import { Pagefriseparam1Component } from './pagefriseparam1/pagefriseparam1.component';
+import { ProgrammesComponent } from './programmes/programmes.component';
+import { AvanceesComponent } from './avancees/avancees.component';
+import { EntreprisesComponent } from './entreprises/entreprises.component';
+import { EvenementshistoriquesComponent } from './evenementshistoriques/evenementshistoriques.component';
+import { EvenementsinformatiquesComponent } from './evenementsinformatiques/evenementsinformatiques.component';
+import { PersonnalitesComponent } from './personnalites/personnalites.component';
+import { DistinctionsComponent } from './distinctions/distinctions.component';
+import { GenerationinformatiqueComponent } from './generationinformatique/generationinformatique.component';
+import { DomainesComponent } from './domaines/domaines.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +55,6 @@ import { PopupModifyEventAdminComponent } from './popup-modify-event-admin/popup
     ErreurComponent,
     PageAdminComponent,
     AccueilComponent,
-    Accueil2Component,
     PageFriseComponent,
     UpdateComponent,
     PopupCatComponent,
@@ -53,6 +64,18 @@ import { PopupModifyEventAdminComponent } from './popup-modify-event-admin/popup
     PopupAddEventComponent,
     PopupAddEventAdminComponent,
     PopupModifyEventAdminComponent,
+    InscriptionComponent,
+    Pagefriseparam2Component,
+    Pagefriseparam1Component,
+    ProgrammesComponent,
+    AvanceesComponent,
+    EntreprisesComponent,
+    EvenementshistoriquesComponent,
+    EvenementsinformatiquesComponent,
+    PersonnalitesComponent,
+    DistinctionsComponent,
+    GenerationinformatiqueComponent,
+    DomainesComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +83,7 @@ import { PopupModifyEventAdminComponent } from './popup-modify-event-admin/popup
     FormsModule,
     HttpClientModule,
     Ng5SliderModule,
+    FormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
     MatInputModule,

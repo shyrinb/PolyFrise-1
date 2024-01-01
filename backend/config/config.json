@@ -1,0 +1,22 @@
+{
+  "development": {
+    "username": "root",
+    "password": "shyrin12",
+    "database": "polyfrise_development",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "shyrin12",
+    "database": "polyfrise_test",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  },"production": {
+        "username": "root",
+        "password": "shyrin12",
+        "database": "polyfrise_production",
+        "host": "127.0.0.1",
+        "dialect": "mysql"
+   }
+}

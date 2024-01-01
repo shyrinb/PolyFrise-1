@@ -1,0 +1,23 @@
+<button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Retour</button>
+<h1> ENTREPRISES : </h1>
+
+<div *ngIf="entreprisesData" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nom</th>
+        <th>Fondation</th>
+        <th>Developpement Majeurs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let entreprise of entreprisesData" class="table-row">
+        <td>{{ entreprise.id }}</td>
+        <td>{{ entreprise.nom }}</td>
+        <td>{{ entreprise.fondation }}</td>
+        <td>{{ entreprise.developpements_majeurs }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

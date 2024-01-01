@@ -1,0 +1,21 @@
+<button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Retour</button>
+<h1> EVENEMENTS INFORMATIQUES : </h1>
+
+<div *ngIf="evenementsinfoData" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Année</th>
+        <th>Evenements</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let evenementsinfo of evenementsinfoData" class="table-row">
+        <td>{{ evenementsinfo.id }}</td>
+        <td>{{ evenementsinfo.annee }}</td>
+        <td>{{ evenementsinfo.evenement }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -3,12 +3,12 @@ import { Router } from '@angular/router';
 import { MessageService } from '../message.service';
 
 @Component({
-  selector: 'app-accueil2',
-  templateUrl: './accueil2.component.html',
-  styleUrls: ['./accueil2.component.css']
+  selector: 'app-pagefriseparam2',
+  templateUrl: './pagefriseparam2.component.html',
+  styleUrls: ['./pagefriseparam2.component.css']
 })
 
-export class Accueil2Component implements OnInit{
+export class Pagefriseparam2Component implements OnInit{
   couleur: string = '';
   couleurPersonnalise: string = '';
   forme: string = '';
@@ -21,8 +21,6 @@ export class Accueil2Component implements OnInit{
   constructor (private router : Router, private messageService: MessageService){}
   ngOnInit(): void {
     this.data = JSON.parse(localStorage.getItem('data') || '{}');
-
-    //console.log(this.data);
   }
   toggleSelection() {
     this.selectionPersonnalisee = !this.selectionPersonnalisee;
@@ -52,7 +50,7 @@ export class Accueil2Component implements OnInit{
       shape : this.forme
     }
 
-    this.router.navigate(['/timeline'], { queryParams: { data: JSON.stringify(data) } });
+    this.router.navigate(['/frise'], { queryParams: { data: JSON.stringify(data) } });
 
   }
 

@@ -1,27 +1,26 @@
-<mat-card>
-    <mat-card-header>
-        <mat-card-title>Générateur de frises historiques</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-        <form #form="ngForm">
-            <h2 class="subtitle">Sélectionner des catégories :</h2>
-            <div class="checkbox-wrapper">
-                <div *ngFor="let category of categories" class="category">
-                    <mat-checkbox [(ngModel)]="category.selected" [ngModelOptions]="{standalone: true}">{{ category.name }}</mat-checkbox>
-                </div>
-            </div>
-            <h2 class="subtitle">Sélectionner la période :</h2>
-            <mat-slider min="0" max="2030" discrete [displayWith]="formatLabel">
-                <input name="startDate" matSliderStartThumb [(ngModel)]="selectedStartYear">
-                <input name="endDate" matSliderEndThumb [(ngModel)]="selectedEndYear">
-            </mat-slider>
-            <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
-                <p id="erreur" name="errorMessage"> {{ errorMessage }}</p>
-            </div>
-        </form>
-    </mat-card-content>
-    <mat-divider></mat-divider>
-    <mat-card-actions>
-        <button mat-raised-button color="primary" class="button" (click)="submit()">Suivant</button>
-    </mat-card-actions>
-</mat-card>
+<!-- Bouton Home -->
+
+<!-- Liste de choix de format de téléchargement -->
+<div id="top">
+    <button mat-raised-button color="primary" routerLink="/" class="home-button">Deconnexion</button>
+    <button mat-raised-button color="primary" routerLink="/friseparam1" class="home-button">Générer frise chronologique</button>
+</div>
+<div class="onglet">
+    <div>
+        <a routerLink="/avancees">Avancées</a>
+        <a routerLink="/entreprises">Entreprises</a>
+        <a routerLink="/evenementshistoriques">Evenements Historiques</a>
+        <a routerLink="/evenementsinformatiques">Evenements Informatiques </a>
+        <a routerLink="/distinctions">Distinctions</a>
+    </div>
+    <div>
+        <a routerLink="/personnalites">Personnalités</a>
+        <a routerLink="/generationsinformatique">Générations Informatiques</a>
+        <a routerLink="/domaines">Domaines</a> 
+       <!-- <a routerLink="/">Logiciel</a>
+        <a routerLink="/">Matériel</a>-->
+       <!-- <a routerLink="/">Internet</a>-->
+        <a routerLink="/programmes">Langages de Programmation</a> <!-- Programmes-->
+    </div>
+ </div>
+

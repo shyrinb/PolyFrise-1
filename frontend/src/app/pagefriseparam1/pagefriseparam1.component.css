@@ -1,0 +1,24 @@
+mat-card {
+    margin: auto;
+    margin-top: 50px;
+    text-align: center;
+    padding: 20px;
+    max-width: 70%;
+}
+
+mat-slider {
+    margin-top: 40px;
+    width: 95%;
+}
+
+h2 {
+    margin-top: 50px
+}
+
+mat-card-actions {
+    align-items: center;
+}
+
+button {
+    margin-top: 20px;
+}

@@ -63,3 +63,30 @@ button {
 mat-form-field {
     width: 100px;
 }
+
+.onglet {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 150vh;
+}
+
+.onglet a {
+  text-decoration: none;
+  color: #693B2D;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: #E3C49F;
+  border: 5px dashed black;
+  margin: 60px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 400px;
+  height: 100px;
+}
+
+.onglet a:hover {
+  color: #333;
+}

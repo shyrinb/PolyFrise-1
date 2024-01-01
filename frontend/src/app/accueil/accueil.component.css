@@ -1,24 +1,38 @@
-mat-card {
-    margin: auto;
-    margin-top: 50px;
-    text-align: center;
-    padding: 20px;
-    max-width: 70%;
-}
-
-mat-slider {
-    margin-top: 40px;
-    width: 95%;
-}
-
-h2 {
-    margin-top: 50px
-}
-
-mat-card-actions {
-    align-items: center;
+.home-button {
+    margin-top: 20px;
 }
 
 button {
-    margin-top: 20px;
+    margin: 5px;
+}
+
+mat-form-field {
+    width: 100px;
+}
+
+.onglet {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 150vh;
+}
+
+.onglet a {
+  text-decoration: none;
+  color: #693B2D;
+  border-radius: 5px;
+  font-weight: bold;
+  background-color: #E3C49F;
+  border: 5px dashed black;
+  margin: 10px;
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  height: 50px;
+}
+
+.onglet a:hover {
+  color: #333;
 }

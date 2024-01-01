@@ -1,0 +1,25 @@
+<button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Retour</button>
+<h1> GENERATIONS INFORMATIQUES : </h1>
+
+<div *ngIf="geninfoData" class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Année Debut</th>
+        <th>Année Fin</th>
+        <th>Nom Génération</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let geninfo of geninfoData" class="table-row">
+        <td>{{ geninfo.id }}</td>
+        <td>{{ geninfo.annee_debut }}</td>
+        <td>{{ geninfo.annee_fin }}</td>
+        <td>{{ geninfo.nom_generation }}</td>
+        <td>{{ geninfo.description }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

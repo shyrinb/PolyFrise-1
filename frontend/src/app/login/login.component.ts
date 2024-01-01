@@ -15,14 +15,13 @@ export class LoginComponent  {
   password: string = "";
   errorMessage: string="";
 
-
-  constructor(private router : Router, private messageService : MessageService) { }
-
+  constructor(private router: Router, private messageService: MessageService) { }
+  
   onSubmit() {
 
     if (this.email == "" || this.password == ""){ // On affiche un message d'erreur
         if (this.email == "") this.errorMessage = "Veuillez saisir votre nom d'utilisateur";
-        else this.errorMessage = "Veuillez saisir un mot de passe";
+        else this.errorMessage = "Veuillez saisir votre mot de passe";
         this.alert = true;
     }
 
@@ -30,28 +29,29 @@ export class LoginComponent  {
         const data = { login: this.email, password: this.password }
         const endpoint = "connexion"; // Remplacez par l'endpoint approprié
 
-        this.messageService.sendData(endpoint, data).subscribe(
-            response => {
-              // Traitez la réponse de la requête si nécessaire
-              this.router.navigateByUrl('/admin/submission');
-              // Après avoir obtenu le token JWT lors de la connexion réussie
-              const token = response.token;
-              console.log(token);
-              // Stockez le token dans le localStorage
-              localStorage.setItem('jwtToken', token);
-            },
+        this.messageService.login(data).subscribe(
+          (response: any) => {
+            // Use 'any' type to bypass TypeScript checks
+            const token = response.token;
+            console.log(token);
+            localStorage.setItem('jwtToken', token);
+            this.router.navigateByUrl('/accueil');
+          },
             error => {
               console.log(error);
-             // if ((error.error.error =="ErrDefault")|| (error="ProgressEvent")){
-              //  this.router.navigateByUrl('/error');
-           //   }
-            //  else {
-                this.errorMessage =error.error.message;
-                this.alert=true
-            //  }
-
+              if (error.error && error.error.message) {
+                this.errorMessage = error.error.message;
+              } else {
+                // Gérez le cas où la propriété message n'est pas présente dans l'objet error.error
+                this.errorMessage = "Une erreur inattendue s'est produite lors de l'inscription.";
+              }
+              this.alert=true
             }
           );
       }
     }
+
+  goToInscription() {
+      this.router.navigate(['/inscription']);
+  }
 }

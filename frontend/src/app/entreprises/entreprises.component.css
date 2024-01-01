@@ -1,0 +1,31 @@
+  
+  h1 {
+    margin: 10px;
+    text-align: center; 
+    font-weight: bold;
+  }
+  .table-container {
+    text-align: center; /* Centre le contenu horizontalement */
+    margin-top: 20px; /* Ajoute un espace en haut du tableau */
+    overflow-y: auto; /* Active le défilement vertical en cas de dépassement de la hauteur */
+    max-height: 80vh; /* Fixe la hauteur maximale du conteneur à 80% de la hauteur de la vue */
+  }
+
+  table {
+    background-color: WHITE;
+    border-collapse: collapse;
+    width: 80%; /* Ajustez la largeur du tableau selon vos besoins */
+    margin: auto; /* Centre le tableau horizontalement */
+  }
+  
+  table th, table td {
+    border: 1px solid black;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  table th {
+    background-color: brown; /* Couleur de fond pour l'en-tête */
+    border-width: 0;
+  }
+  
