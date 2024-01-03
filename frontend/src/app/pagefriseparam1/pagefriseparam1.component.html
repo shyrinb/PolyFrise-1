@@ -8,8 +8,16 @@
         <h2 class="subtitle">Sélectionner une catégorie :</h2>
         <div class="category-dropdown">
           <mat-form-field appearance="fill">
-            <mat-select [(ngModel)]="selectedCategories" name="selectedCategories" multiple>
-              <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
+            <mat-select [(ngModel)]="selectedCategories" name="selectedCategories" (selectionChange)="onCategorySelected()">
+              <mat-option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <h2 class="subtitle">Sélectionner des dates :</h2>
+        <div class="category-dropdown">
+          <mat-form-field appearance="fill">
+            <mat-select [(ngModel)]="selectedDates" name="selectedDates" multiple>
+              <mat-option *ngFor="let date of dates" [value]="date.id">{{ date.nom }}</mat-option>
             </mat-select>
           </mat-form-field>
         </div>
@@ -27,5 +35,4 @@
     <mat-card-actions>
       <button mat-raised-button color="primary" class="button" (click)="submit()">Suivant</button>
     </mat-card-actions>
-  </mat-card>
-  
+</mat-card>

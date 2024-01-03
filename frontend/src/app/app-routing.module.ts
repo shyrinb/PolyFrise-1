@@ -20,15 +20,14 @@ import { GenerationinformatiqueComponent } from './generationinformatique/genera
 import { DomainesComponent } from './domaines/domaines.component';
 
 const routes: Routes = [
+  // AUTHENTIFICATION
   {path: '', redirectTo: 'inscription', pathMatch: 'full'},
   {path: 'connexion', component: LoginComponent},
   {path: 'inscription', component: InscriptionComponent},
+  // 
   {path: 'error', component: ErreurComponent},
   {path: 'submission', component: PageAdminComponent},
   {path: 'accueil', component: AccueilComponent },
-  {path: 'friseparam2', component: Pagefriseparam2Component},
-  {path: 'friseparam1', component: Pagefriseparam1Component},
-  {path: 'frise', component: PageFriseComponent}, // ancien timeline
   {path: 'update', component: UpdateComponent},
   // ONGLETS
   {path: 'programmes', component: ProgrammesComponent},
@@ -40,6 +39,10 @@ const routes: Routes = [
   {path: 'evenementsinformatiques', component: EvenementsinformatiquesComponent},
   {path: 'domaines', component: DomainesComponent},
   {path: 'evenementshistoriques', component: EvenementshistoriquesComponent},
+  // TIMELINE
+  {path: 'timeline', component: PageFriseComponent}, // ancien timeline
+  {path: 'friseparam1', component: Pagefriseparam1Component},
+  {path: 'friseparam2', component: Pagefriseparam2Component},
 ];
 
 @NgModule({

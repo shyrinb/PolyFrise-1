@@ -9,6 +9,9 @@ EvenementHistorique.init( {
         primaryKey: true,
         autoIncrement: true
     },
+    nom: {
+        type: DataTypes.TEXT
+    },
     date_evenement: {
         type: DataTypes.DATE
     },

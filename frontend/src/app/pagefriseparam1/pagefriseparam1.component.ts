@@ -11,6 +11,12 @@ interface Category {
   selected: boolean;
 }
 
+interface Dates {
+  id: typeof UUID,
+  nom: string;
+  selected: boolean;
+}
+
 @Component({
   selector: 'app-pagefriseparam1',
   templateUrl: './pagefriseparam1.component.html',
@@ -19,7 +25,9 @@ interface Category {
 
 export class Pagefriseparam1Component implements OnInit {
   categories: Category[] = [];
+  dates: Dates[] = [];
   selectedCategories: typeof UUID[] = [];
+  selectedDates: typeof UUID[] = [];
   sliderOptions: Options = {
     floor: 0,
     ceil: 2023,
@@ -47,36 +55,87 @@ export class Pagefriseparam1Component implements OnInit {
     });
   }
 
+  // Fonction appelée lorsqu'une catégorie est sélectionnée
+  onCategorySelected() {
+    // Réinitialiser les dates
+    this.dates = [];
+
+    // Charger les dates uniquement si une catégorie est sélectionnée
+    if (this.selectedCategories.length > 0) {
+      // Charger les dates depuis le service ou l'API
+      this.messageService.getDataByCategory("databycategory", { categories: this.selectedCategories }).subscribe((response: Dates[]) => {
+        console.log('Données envoyées au serveur :', { categories: this.selectedCategories });
+        console.log('Réponse du serveur :', response);
+        this.dates = response.map(item => ({
+          id: item.id,
+          nom: item.nom,
+          selected: false
+        }));
+
+          // Mettez la logique pour traiter les dates ici
+          this.processSelectedDates();
+        console.log('Dates après transformation :', this.dates);
+      },
+      (error) => {
+        console.error('Erreur lors de la récupération des dates :', error);
+      });
+    }
+  }
+  
   submit() {
     this.alert = false;
-
+  
     for (const category of this.categories) {
       if (category.selected) {
         this.selectedCategories.push(category.id);
       }
     }
-
+  
     if (this.selectedStartYear > this.selectedEndYear) {
       this.errorMessage = "Sélectionnez une date de début inférieure à la date de fin";
       this.alert = true;
     }
-
+  
     if (!this.alert) {
       this.startYear = new Date(this.selectedStartYear, 0, 1);
       this.endYear = new Date(this.selectedEndYear, 11, 31);
-
+  
       this.data = {
-        categories: this.categoriesSelected,
+        categories: this.selectedCategories,
+        dates: this.selectedDates,
         startDate: this.startYear.toISOString(),
         endDate: this.endYear.toISOString()
       };
-
+  
+      console.log('Données envoyées au backend :', this.data);
+      // Envoyez les données correctes dans la requête
+      this.http.post('http://localhost:3000/api/databycategory', this.data).subscribe(
+        (response) => {
+          // Traitement de la réponse du backend
+          console.log('Réponse du backend :', response);
+        },
+        (error) => {
+          // Gestion des erreurs
+          console.error('Erreur HTTP :', error);
+        });
+  
+      console.log('Après la requête HTTP');
+  
       if (!this.alert) {
         this.router.navigateByUrl('friseparam2');
         localStorage.setItem('data', JSON.stringify(this.data));
       }
     }
   }
+  
+  private processSelectedDates() {
+    // Mettez la logique pour traiter les dates ici
+    for (const date of this.dates) {
+      if (date.selected) {
+        this.selectedDates.push(date.id);
+      }
+    }
+  }  
 
   formatLabel(value: number): string {
     return `${value}`;

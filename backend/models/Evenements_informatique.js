@@ -9,6 +9,9 @@ EvenementInformatique.init({
         primaryKey: true,
         autoIncrement: true
     },
+    nom: {
+        type: DataTypes.TEXT
+    },
     annee: {
         type: DataTypes.INTEGER
     },

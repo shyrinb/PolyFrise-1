@@ -31,6 +31,10 @@ export class MessageService {
       return this.http.get<any>(url, { params });
     }
 
+    getDataByCategory(endpoint: string, data: any): Observable<any> {
+      return this.http.post(`${this.prefixe}/${endpoint}`, data);
+    }
+
     getDataOnglets(fin: string): Observable<any> {
       const url = this.prefixe + fin;
       return this.http.get<any[]>(url);

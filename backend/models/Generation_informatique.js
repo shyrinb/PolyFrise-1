@@ -16,7 +16,7 @@ GenerationInformatique.init({
     annee_fin: {
         type: DataTypes.INTEGER
     },
-    nom_generation: {
+    nom: {
         type: DataTypes.STRING(50)
     },
     description: {

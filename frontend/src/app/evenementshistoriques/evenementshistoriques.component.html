@@ -6,6 +6,7 @@
     <thead>
       <tr>
         <th>ID</th>
+        <th>Nom</th>
         <th>Date Evenements</th>
         <th>Description</th>
       </tr>
@@ -13,6 +14,7 @@
     <tbody>
       <tr *ngFor="let evenementshisto of evenementshistoData" class="table-row">
         <td>{{ evenementshisto.id }}</td>
+        <td>{{ evenementshisto.nom }}</td>
         <td>{{ evenementshisto.date_evenement }}</td>
         <td>{{ evenementshisto.description }}</td>
       </tr>

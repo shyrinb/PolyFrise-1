@@ -31,6 +31,24 @@ INSERT INTO generations_informatique (annee_debut, annee_fin, nom_generation, de
     (1970, 1980, 'Quatrième génération', 'Les microprocesseurs'),
     (1980, 2024, 'Cinquième génération', 'Puces VLSI et Intelligence Artificielle');
 
+-- Création de la table generations_informatique
+CREATE TABLE IF NOT EXISTS categories (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(50)
+);
+
+-- Insertion des données dans la table generations_informatique
+INSERT INTO categories (nom) VALUES
+    ('avancees'),
+    ('personnalites'),
+    ('programmes'),
+    ('entreprises'),
+    ('evenements_historique'),
+    ('evenements_informatiques'),
+    ('domaines'),
+    ('generations_informatiques'),
+    ('distinctions');
+
 
 -- Création de la table evenements_informatiques
 CREATE TABLE IF NOT EXISTS evenements_informatiques (
@@ -40,31 +58,31 @@ CREATE TABLE IF NOT EXISTS evenements_informatiques (
 );
 
 -- Insertion des données dans la table evenements_informatiques
-INSERT INTO evenements_informatiques (annee, evenement) VALUES
-    (1632, 'La règle à calculer : William Oughtred imagine dès 1620 et réalise en 1632 les premières règles à calculer.'),
-    (1645, 'La Pascaline : Blaise Pascal invente la machine à calculer.'),
-    (1946, 'ENIAC, le premier ordinateur électronique, est mis en service aux États-Unis'),
-    (1973, "Création d'Internet : Le réseau ARPANET est opérationnel"),
-    (1951, 'UNIVAC I, le premier ordinateur commercial, est installé aux États-Unis.'),
-    (1983, 'Lancement du système d''exploitation Microsoft Windows 1.0.'),
-    (1991, 'Création du World Wide Web par Tim Berners-Lee.'),
-    (2001, 'Introduction de l''iPod par Apple, révolutionnant la musique portable.'),
-    (2007, 'Lancement de l''iPhone, marquant l''ère des smartphones modernes.'),
-    (2010, 'Sortie du premier iPad, popularisant les tablettes électroniques.'),
-    (2013, 'Révélation des fuites d''Edward Snowden sur la surveillance de la NSA.'),
-    (2016, 'AlphaGo de Google DeepMind bat le champion du monde de Go, marquant un jalon en intelligence artificielle.'),
-    (2018, 'Annonce du premier trou noir photographié par l''Event Horizon Telescope.'),
-    (2020, 'Pandémie de COVID-19 accélérant la transition vers le travail à distance et l''importance des technologies de l''information.'),
-    (1971, 'Lancement du microprocesseur Intel 4004, le premier microprocesseur commercial.'),
-    (1989, 'Invention du langage de programmation Python par Guido van Rossum.'),
-    (1993, 'Premier navigateur web graphique, Mosaic, développé par le NCSA.'),
-    (2004, 'Lancement de Facebook, plateforme de médias sociaux, par Mark Zuckerberg.'),
-    (2010, 'Introduction du langage de programmation Rust par Mozilla.'),
-    (2015, 'Accord de Paris sur le climat signé en utilisant une signature électronique.'),
-    (2016, 'Lancement de la réalité virtuelle grand public avec Oculus Rift.'),
-    (2019, 'Annonce du projet de cryptomonnaie Libra (plus tard renommé Diem) par Facebook.'),
-    (2021, 'Attaque du ransomware Colonial Pipeline, soulignant les vulnérabilités de la cybersécurité des infrastructures critiques.'),
-    (2022, 'Lancement du télescope spatial James Webb, successeur du télescope spatial Hubble.');
+INSERT INTO evenements_informatiques (nom,annee, evenement) VALUES
+    ('La règle à calculer',1632, ' William Oughtred imagine dès 1620 et réalise en 1632 les premières règles à calculer.'),
+    ('La Pascaline ',1645, ' Blaise Pascal invente la machine à calculer.'),
+    ('ENIAC',1946, ' le premier ordinateur électronique, est mis en service aux États-Unis'),
+    ("Création d'Internet",1973, " Le réseau ARPANET est opérationnel"),
+    ('UNIVAC I',1951, ' le premier ordinateur commercial, est installé aux États-Unis.'),
+    ('Microsoft',1983, 'Lancement du système d''exploitation Microsoft Windows 1.0.'),
+    ('Création',1991, 'Création du World Wide Web par Tim Berners-Lee.'),
+    ('Apple Ipod',2001, 'Introduction de l''iPod par Apple, révolutionnant la musique portable.'),
+    ('Apple Iphone',2007, 'Lancement de l''iPhone, marquant l''ère des smartphones modernes.'),
+    ('Apple Ipad',2010, 'Sortie du premier iPad, popularisant les tablettes électroniques.'),
+    ('NSA',2013, 'Révélation des fuites d''Edward Snowden sur la surveillance de la NSA.'),
+    ('Googlz',2016, 'AlphaGo de Google DeepMind bat le champion du monde de Go, marquant un jalon en intelligence artificielle.'),
+    ('Premier trou noir',2018, 'Annonce du premier trou noir photographié par l''Event Horizon Telescope.'),
+    ('Covid 19',2020, 'Pandémie de COVID-19 accélérant la transition vers le travail à distance et l''importance des technologies de l''information.'),
+    ('Intel',1971, 'Lancement du microprocesseur Intel 4004, le premier microprocesseur commercial.'),
+    ('Python',1989, 'Invention du langage de programmation Python par Guido van Rossum.'),
+    ('Navigateur web graphique',1993, 'Premier navigateur web graphique, Mosaic, développé par le NCSA.'),
+    ('Facebook',2004, 'Lancement de Facebook, plateforme de médias sociaux, par Mark Zuckerberg.'),
+    ('Mozilla',2010, 'Introduction du langage de programmation Rust par Mozilla.'),
+    ('Accord de Paris',2015, 'Accord de Paris sur le climat signé en utilisant une signature électronique.'),
+    ('Réalité virtuelle',2016, 'Lancement de la réalité virtuelle grand public avec Oculus Rift.'),
+    ('Cryptommonnaie',2019, 'Annonce du projet de cryptomonnaie Libra (plus tard renommé Diem) par Facebook.'),
+    ('Cybersécurité',2021, 'Attaque du ransomware Colonial Pipeline, soulignant les vulnérabilités de la cybersécurité des infrastructures critiques.'),
+    ('Télescope spatial',2022, 'Lancement du télescope spatial James Webb, successeur du télescope spatial Hubble.');
 
 -- Création de la table pour les programmes informatiques
 CREATE TABLE IF NOT EXISTS programmes (
@@ -73,7 +91,6 @@ CREATE TABLE IF NOT EXISTS programmes (
     date_creation DATE,
     description TEXT
 );
-
 
 
 -- Insertion des événements significatifs
@@ -303,34 +320,35 @@ VALUES
 -- Création de la table pour les événements historiques
 CREATE TABLE IF NOT EXISTS evenements_historiques (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    nom VARCHAR(255),
     date_evenement DATE,
     description TEXT
 );
 
 -- Insertion des événements historiques
-INSERT INTO evenements_historiques (date_evenement, description)
+INSERT INTO evenements_historiques (nom,date_evenement, description)
 VALUES
-    ('2000-01-01', "L'effet Y2K. Préoccupations liées à la programmation informatique et à la stabilité des systèmes liées au passage à l'an 2000."),
-    ('1936-05-01', 'Alan Turing publie son article fondateur sur la machine de Turing et la notion de calculabilité.'),
-    ('1945-12-10', 'Claude Shannon publie "A Mathematical Theory of Communication", jetant les bases de la théorie de l''information.'),
-    ('1956-08-17', 'John McCarthy organise la Conférence de Dartmouth, considérée comme le point de départ de l''intelligence artificielle.'),
-    ('1969-04-07', 'Lancement du premier message sur ARPANET, le précurseur d''Internet.'),
-    ('1971-04-01', 'Lancement du microprocesseur Intel 4004, le premier microprocesseur commercial.'),
-    ('1973-10-29', 'Raymond Tomlinson envoie le premier e-mail, marquant le début de la communication électronique.'),
-    ('1983-03-15', 'Lancement du système d''exploitation UNIX, qui a une influence majeure sur le développement des systèmes d''exploitation.'),
-    ('1990-08-06', 'Lancement du World Wide Web par Tim Berners-Lee au CERN, marquant le début de l''ère Internet moderne.'),
-    ('1995-07-16', 'Lancement de Windows 95, marquant l''introduction de l''interface utilisateur graphique de Microsoft.'),
-    ('2004-02-04', 'Mark Zuckerberg lance Facebook depuis sa chambre à l''Université Harvard.'),
-    ('1951-05-21', 'Premier ordinateur commercial UNIVAC I livré aux États-Unis.'),
-    ('1953-09-21', 'IBM annonce l''IBM 650, le premier ordinateur à semi-conducteurs disponible en location.'),
-    ('1964-04-01', 'IBM lance le System/360, une famille de mainframes compatibles.'),
-    ('1976-04-01', 'Steve Jobs et Steve Wozniak fondent Apple Inc.'),
-    ('1980-12-12', 'Lancement du premier jeu vidéo d''arcade populaire, Pac-Man.'),
-    ('1989-03-12', 'Tim Berners-Lee propose son idée de ce qui deviendra le World Wide Web.'),
-    ('1991-08-06', 'Lancement du premier site Web public par Tim Berners-Lee.'),
-    ('1997-05-23', 'IBM Deep Blue bat le champion du monde d''échecs Garry Kasparov.'),
-    ('2007-06-29', 'Lancement du premier iPhone par Apple, marquant le début de l''ère des smartphones.'),
-    ('2013-06-06', 'Edward Snowden révèle des documents sur la surveillance mondiale par les agences de renseignement.');
+    ("Passage à l'an 2000", '2000-01-01', "L'effet Y2K. Préoccupations liées à la programmation informatique et à la stabilité des systèmes liées au passage à l'an 2000."),
+    ('Machine de Turing','1936-05-01', 'Alan Turing publie son article fondateur sur la machine de Turing et la notion de calculabilité.'),
+    ("Base théorie de l'information",'1945-12-10', 'Claude Shannon publie "A Mathematical Theory of Communication", jetant les bases de la théorie de l''information.'),
+    ("Debut de l' IA",'1956-08-17', 'John McCarthy organise la Conférence de Dartmouth, considérée comme le point de départ de l''intelligence artificielle.'),
+    ('Lancement premier message','1969-04-07', 'Lancement du premier message sur ARPANET, le précurseur d''Internet.'),
+    ('Lancement microprocesseur','1971-04-01', 'Lancement du microprocesseur Intel 4004, le premier microprocesseur commercial.'),
+    ('Premier email','1973-10-29', 'Raymond Tomlinson envoie le premier e-mail, marquant le début de la communication électronique.'),
+    ('Lancement UNIX','1983-03-15', 'Lancement du système d''exploitation UNIX, qui a une influence majeure sur le développement des systèmes d''exploitation.'),
+    ('Lancement du web','1990-08-06', 'Lancement du World Wide Web par Tim Berners-Lee au CERN, marquant le début de l''ère Internet moderne.'),
+    ('Lancement de Windows 95','1995-07-16', 'Lancement de Windows 95, marquant l''introduction de l''interface utilisateur graphique de Microsoft.'),
+    ('Facebook','2004-02-04', 'Mark Zuckerberg lance Facebook depuis sa chambre à l''Université Harvard.'),
+    ('Premier ordinateur','1951-05-21', 'Premier ordinateur commercial UNIVAC I livré aux États-Unis.'),
+    ('IBM 650','1953-09-21', 'IBM annonce l''IBM 650, le premier ordinateur à semi-conducteurs disponible en location.'),
+    ('IBM System 60','1964-04-01', 'IBM lance le System/360, une famille de mainframes compatibles.'),
+    ("Fondation d'Apple",'1976-04-01', 'Steve Jobs et Steve Wozniak fondent Apple Inc.'),
+    ('Pac-Man','1980-12-12', 'Lancement du premier jeu vidéo d''arcade populaire, Pac-Man.'),
+    ('WWW','1989-03-12', 'Tim Berners-Lee propose son idée de ce qui deviendra le World Wide Web.'),
+    ('Premier site web','1991-08-06', 'Lancement du premier site Web public par Tim Berners-Lee.'),
+    ("Nouveau champion d'échec",'1997-05-23', 'IBM Deep Blue bat le champion du monde d''échecs Garry Kasparov.'),
+    ('Premier Iphone','2007-06-29', 'Lancement du premier iPhone par Apple, marquant le début de l''ère des smartphones.'),
+    ('Faille de sécurité','2013-06-06', 'Edward Snowden révèle des documents sur la surveillance mondiale par les agences de renseignement.');
 
 
 -- Sélection de toutes les données dans les tables

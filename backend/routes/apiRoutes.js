@@ -1,4 +1,5 @@
 // routes/apiRoutes.js
+const { Router } = require('express');
 const express = require('express');
 const router = express.Router();
 const {
@@ -17,7 +18,8 @@ const {
   getDistinctions,
   getEntreprises,
   getPersonnalites,
-  getProgrammes
+  getProgrammes,
+  getDataByCategories
 } = require('../controllers/apiControllers');
 
 // Routes pour récupérer les données
@@ -34,6 +36,7 @@ router.get('/entreprises', getEntreprises);
 router.get('/personnalites', getPersonnalites);
 router.get('/programmes', getProgrammes);
 router.get('/timeline', getTimeline);
+router.post('/databycategory', getDataByCategories );
 
 // Routes pour l'authentification
 router.post('/inscription', signup);

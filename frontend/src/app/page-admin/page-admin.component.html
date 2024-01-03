@@ -1,6 +1,7 @@
 <div class="container">
     <div class="header">
         <button mat-raised-button color="primary" (click)="logout()" class="btn btn-primary">Déconnexion</button>
+        <button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Accueil</button>
     </div>
     <mat-accordion>
         <mat-expansion-panel *ngFor="let suggestion of suggestions" hideToggle [ngClass]="getBackgroundColor(suggestion.type)">
@@ -18,7 +19,7 @@
     </mat-accordion>
     <button mat-raised-button color="primary" (click)="validate()" id="valider">Valider</button>
     <button mat-raised-button color="warn" (click)="ignore()" id="ignorer">Ignorer</button>
-    <button mat-raised-button (click)="manageHistoricalEvents()" class="buttonEvent">Gérer les événements historiques</button>
+   <!--<button mat-raised-button (click)="manageHistoricalEvents()" class="buttonEvent">Gérer les événements historiques</button> --> 
     <footer class="col-md-6 text-center">
         <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
             <p id="erreur" name="errorMessage"> {{ errorMessage }}</p>

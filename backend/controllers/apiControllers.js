@@ -5,6 +5,7 @@ const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 var validator = require("email-validator");
+const { Op } = require('sequelize');  // Assurez-vous que vous importez Op depuis sequelize, si vous l'utilisez
 
 // Contrôleurs pour récupérer les données
 exports.getSubmissions = (req, res) => {
@@ -22,6 +23,57 @@ exports.getTimeline= (req, res) => {
 };
 
 //--------
+
+exports.getDataByCategories = async (req, res) => {
+  const selectedCategories = req.body.categories;
+
+  console.log('Données reçues du frontend :', req.body);
+  console.log('Catégories reçues du frontend :', selectedCategories);
+  try {
+    let selectedTable;
+
+    // Déterminez quelle table interroger en fonction de la catégorie sélectionnée
+    switch (selectedCategories) {
+      case 'avancees':
+        selectedTable = require('../models/Avancees'); // Remplacez par le chemin correct de votre modèle
+        break;
+      case 'personnalites':
+        selectedTable = require('../models/Personnalite'); // Remplacez par le chemin correct de votre modèle
+        break;
+      case 'programmes':
+        selectedTable = require('../models/Programmes'); // Remplacez par le chemin correct de votre modèle
+        break;
+      case 'entreprises':
+        selectedTable = require('../models/Entreprises'); // Remplacez par le chemin correct de votre modèle
+        break;
+      case 'evenements_historique':
+        selectedTable = require('../models/Evenements_historiques'); // Remplacez par le chemin correct de votre modèle
+        break;
+      case 'evenements_informatiques':
+        selectedTable = require('../models/Evenements_informatique'); // Remplacez par le chemin correct de votre modèle
+        break;
+      case 'domaines':
+        selectedTable = require('../models/Domaines'); // Remplacez par le chemin correct de votre modèle
+        break;
+      case 'distinctions':
+        selectedTable = require('../models/Distinctions'); // Remplacez par le chemin correct de votre modèle
+        break;
+      case 'generations_informatiques':
+        selectedTable = require('../models/Generation_informatique'); // Remplacez par le chemin correct de votre modèle
+        break;
+      default:
+        return res.status(400).json({ error: 'Catégorie non valide' });
+    }
+
+    // Assurez-vous que vous utilisez la colonne 'category' pour correspondre à votre condition
+    const timelineData = await selectedTable.findAll();
+    res.json(timelineData);
+  } catch (err) {
+    console.error('Erreur de requête SQL:', err);
+    res.status(500).json({ error: 'Erreur de serveur' });
+  }
+};
+
 
 exports.getDomaines = async (req, res) => {
   try {

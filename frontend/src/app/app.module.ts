@@ -47,6 +47,7 @@ import { PersonnalitesComponent } from './personnalites/personnalites.component'
 import { DistinctionsComponent } from './distinctions/distinctions.component';
 import { GenerationinformatiqueComponent } from './generationinformatique/generationinformatique.component';
 import { DomainesComponent } from './domaines/domaines.component';
+import { Pagefriseparam1dateComponent } from './pagefriseparam1date/pagefriseparam1date.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +77,7 @@ import { DomainesComponent } from './domaines/domaines.component';
     DistinctionsComponent,
     GenerationinformatiqueComponent,
     DomainesComponent,
+    Pagefriseparam1dateComponent,
   ],
   imports: [
     BrowserModule,
