@@ -1,15 +1,24 @@
-# PolyFrise
+# Getting Started
 
-## 1) Backend
+## Installation
+First, in the [backend directory](./), use the script :
 
-First navigate to ./backend and run `npm install` then run `npm run dev` for a dev environment or `npm run prod` for a production environment.
-\
-\
-More information [here](./backend/README.md).
-## 2) Frontend
+### `npm install`
 
-Then in another terminal navigate to ./frontend and run `npm install` then `ng serve` to start the frontend.
-\
-You can access your application on the URL : `http://localhost:4200/`
+This command installs a package, and any packages that it depends on.  
+If it doesnt work, use `npm install --force` .
 
-More information [here](./frontend/README.md).
+## Environment variable
+
+Make sure to update the environment variable in the [env directory](./env/).
+
+## Available Scripts
+
+Then, in the [backend directory](./), you can run:
+
+### `npm run prod`
+
+Runs the app in the production mode.
+### `npm run dev`
+
+Runs the app in the development mode.
