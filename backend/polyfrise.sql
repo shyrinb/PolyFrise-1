@@ -19,12 +19,12 @@ CREATE TABLE IF NOT EXISTS generations_informatique (
     id INT PRIMARY KEY AUTO_INCREMENT,
     annee_debut INT,
     annee_fin INT, 
-    nom_generation VARCHAR(50),
+    nom VARCHAR(50),
     description TEXT
 );
 
 -- Insertion des données dans la table generations_informatique
-INSERT INTO generations_informatique (annee_debut, annee_fin, nom_generation, description) VALUES
+INSERT INTO generations_informatique (annee_debut, annee_fin, nom, description) VALUES
     (1940, 1950, 'Première génération', 'Des relais aux lampes'),
     (1950, 1960, 'Deuxième génération', 'Les transistors'),
     (1960, 1970, 'Troisième génération', 'Les circuits intégrés'),
@@ -34,20 +34,20 @@ INSERT INTO generations_informatique (annee_debut, annee_fin, nom_generation, de
 -- Création de la table generations_informatique
 CREATE TABLE IF NOT EXISTS categories (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    nom VARCHAR(50)
+    name VARCHAR(50)
 );
 
 -- Insertion des données dans la table generations_informatique
-INSERT INTO categories (nom) VALUES
-    ('avancees'),
-    ('personnalites'),
-    ('programmes'),
-    ('entreprises'),
-    ('evenements_historique'),
-    ('evenements_informatiques'),
-    ('domaines'),
-    ('generations_informatiques'),
-    ('distinctions');
+INSERT INTO categories (id, name) VALUES
+    (1, 'avancees'),
+    (2, 'personnalites'),
+    (3, 'programmes'),
+    (4, 'entreprises'),
+    (5, 'evenements_historique'),
+    (6, 'evenements_informatiques'),
+    (7, 'domaines'),
+    (8, 'generations_informatiques'),
+    (9, 'distinctions');
 
 
 -- Création de la table evenements_informatiques
@@ -284,38 +284,38 @@ INSERT INTO domaines (nom, date_creation) VALUES
 
 
 -- Création de la table pour les événements dans les domaines spécifiques
-CREATE TABLE IF NOT EXISTS evenements_domaine (
+CREATE TABLE IF NOT EXISTS event(
     id INT AUTO_INCREMENT PRIMARY KEY,
-    id_evenement INT,
-    id_domaine INT,
+    title TEXT,
     date_evenement DATE,
     description TEXT
 );
 
 -- Insertion des événements dans les domaines spécifiques
-INSERT INTO evenements_domaine (id_evenement, id_domaine, date_evenement, description)
+INSERT INTO event (id,title, date_evenement, description)
 VALUES
-    (1, 1, '1997-01-01', 'IBM Deep Blue bat Garry Kasparov aux échecs. Première victoire d''une machine sur un champion du monde d''échecs.'),
-    (2, 2, '2012-01-01', 'Fondation de Oculus VR. Développement de technologies de réalité virtuelle.'),(3, 3, '2018-10-01', 'Lancement d''AlphaZero par DeepMind, une IA qui apprend à jouer aux échecs, au shogi et au Go sans connaissance préalable des règles.'),
-    (4, 4, '2019-06-01', 'Première image d''un trou noir capturée par le télescope Event Horizon Telescope.'),
-    (5, 5, '2009-01-03', 'Création de Bitcoin par Satoshi Nakamoto, introduisant la technologie de la blockchain.'),
-    (6, 6, '2011-10-04', 'Annonce de Siri par Apple, assistant virtuel basé sur le traitement du langage naturel.'),
-    (7, 7, '2000-03-10', 'Honda lance ASIMO, un robot humanoïde capable de marcher et de courir.'),
-    (8, 8, '2017-05-12', 'Attaque mondiale de ransomware WannaCry, soulignant les défis de la cybersécurité mondiale.'),
-    (9, 9, '2015-02-19', 'Cisco annonce le lancement de la plateforme IoE (Internet of Everything) pour l''IoT.'),
-    (10, 10, '2016-05-03', 'Publication du livre blanc Ethereum par Vitalik Buterin, formalisant la création de contrats intelligents sur la blockchain.'),
-    (11, 11, '2019-10-23', 'Google atteint la suprématie quantique avec Sycamore, réalisant un calcul hors de portée pour les supercalculateurs classiques.'),
-    (12, 12, '2002-12-15', 'Publication du premier séquençage complet du génome humain par le projet génome humain.'),
-    (13, 13, '2008-11-11', 'Lancement du langage de programmation Python 3, apportant des améliorations significatives à la version précédente.'),
-    (14, 14, '2010-06-24', 'Steve Jobs dévoile l''iPhone 4 avec l''écran Retina, marquant une avancée majeure dans les écrans mobiles.'),
-    (15, 15, '2008-10-31', 'Publication du livre blanc de Bitcoin par Satoshi Nakamoto, introduisant la technologie de la blockchain.'),
-    (16, 16, '1998-05-23', 'Larry Page et Sergey Brin fondent Google, initiant une transformation majeure dans la recherche en ligne.'),
-    (17, 17, '2009-02-05', 'Lancement du projet Apache Hadoop, marquant le début du traitement distribué de grandes quantités de données.'),
-    (18, 18, '2006-08-23', 'Lancement du service de stockage en nuage Amazon S3, révolutionnant le stockage de données en ligne.'),
-    (19, 19, '1969-10-29', 'Premier message envoyé sur ARPANET, l''ancêtre d''Internet, marquant le début de la communication informatique à longue distance.'),
-    (20, 20, '2001-02-12', 'Lancement de Wikipedia, une encyclopédie en ligne collaborative.'),
-    (21, 21, '2009-08-21', 'Lancement de Android OS, le système d''exploitation mobile open source pour smartphones.'),
-    (22, 22, '2015-12-08', 'Lancement de Microsoft Azure, la plateforme de cloud computing de Microsoft.');
+    (1, "IBM", '1997-01-01', 'IBM Deep Blue bat Garry Kasparov aux échecs. Première victoire d''une machine sur un champion du monde d''échecs.'),
+    (2, "RV", '2012-01-01', 'Fondation de Oculus VR. Développement de technologies de réalité virtuelle.'),
+    (3,"IA", '2018-10-01', 'Lancement d''AlphaZero par DeepMind, une IA qui apprend à jouer aux échecs, au shogi et au Go sans connaissance préalable des règles.'),
+    (4, "Trou noir", '2019-06-01', 'Première image d''un trou noir capturée par le télescope Event Horizon Telescope.'),
+    (5, "Bitcoin", '2009-01-03', 'Création de Bitcoin par Satoshi Nakamoto, introduisant la technologie de la blockchain.'),
+    (6, "Siri", '2011-10-04', 'Annonce de Siri par Apple, assistant virtuel basé sur le traitement du langage naturel.'),
+    (7, "Robot", '2000-03-10', 'Honda lance ASIMO, un robot humanoïde capable de marcher et de courir.'),
+    (8,"Cybersecurité", '2017-05-12', 'Attaque mondiale de ransomware WannaCry, soulignant les défis de la cybersécurité mondiale.'),
+    (9, "Iot", '2015-02-19', 'Cisco annonce le lancement de la plateforme IoE (Internet of Everything) pour l''IoT.'),
+    (10, "Blockchain", '2016-05-03', 'Publication du livre blanc Ethereum par Vitalik Buterin, formalisant la création de contrats intelligents sur la blockchain.'),
+    (11, "Supercalculateur", '2019-10-23', 'Google atteint la suprématie quantique avec Sycamore, réalisant un calcul hors de portée pour les supercalculateurs classiques.'),
+    (12, "Sequencage", '2002-12-15', 'Publication du premier séquençage complet du génome humain par le projet génome humain.'),
+    (13, "Python", '2008-11-11', 'Lancement du langage de programmation Python 3, apportant des améliorations significatives à la version précédente.'),
+    (14, "Iphone", '2010-06-24', 'Steve Jobs dévoile l''iPhone 4 avec l''écran Retina, marquant une avancée majeure dans les écrans mobiles.'),
+    (15, "Livre blanc", '2008-10-31', 'Publication du livre blanc de Bitcoin par Satoshi Nakamoto, introduisant la technologie de la blockchain.'),
+    (16, "Google", '1998-05-23', 'Larry Page et Sergey Brin fondent Google, initiant une transformation majeure dans la recherche en ligne.'),
+    (17, "Big Data", '2009-02-05', 'Lancement du projet Apache Hadoop, marquant le début du traitement distribué de grandes quantités de données.'),
+    (18, "Amazon S3", '2006-08-23', 'Lancement du service de stockage en nuage Amazon S3, révolutionnant le stockage de données en ligne.'),
+    (19, "Arpanet", '1969-10-29', 'Premier message envoyé sur ARPANET, l''ancêtre d''Internet, marquant le début de la communication informatique à longue distance.'),
+    (20, "Wikipedia", '2001-02-12', 'Lancement de Wikipedia, une encyclopédie en ligne collaborative.'),
+    (21, "Androis OS", '2009-08-21', 'Lancement de Android OS, le système d''exploitation mobile open source pour smartphones.'),
+    (22, "Microsoft Azure", '2015-12-08', 'Lancement de Microsoft Azure, la plateforme de cloud computing de Microsoft.');
 
 -- Création de la table pour les événements historiques
 CREATE TABLE IF NOT EXISTS evenements_historiques (
@@ -356,7 +356,6 @@ SELECT * FROM submissions;
 SELECT * FROM generations_informatique;
 SELECT * FROM evenements_informatiques;
 SELECT * FROM evenements_historiques;
-SELECT * FROM evenements_domaine;
 SELECT * FROM domaines;
 SELECT * FROM avancees;
 SELECT * FROM distinctions;

@@ -12,7 +12,6 @@ const {
   getGenerationsInformatique,
   getEvenementsInformatiques,
   getEvenementsHistoriques,
-  getEvenementsDomaine,
   getDomaines,
   getAvancees,
   getDistinctions,
@@ -27,7 +26,6 @@ router.get('/submissions', getSubmissions);
 router.get('/generationsinformatique', getGenerationsInformatique);
 router.get('/evenementsinformatiques', getEvenementsInformatiques);
 router.get('/evenementshistoriques', getEvenementsHistoriques);
-router.get('/evenementsdomaine', getEvenementsDomaine);
 router.get('/domaines', getDomaines);
 router.get('/category', getCategory);
 router.get('/avancees', getAvancees);
