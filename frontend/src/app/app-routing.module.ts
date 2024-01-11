@@ -26,7 +26,7 @@ const routes: Routes = [
   {path: 'inscription', component: InscriptionComponent},
   // 
   {path: 'error', component: ErreurComponent},
-  {path: 'submission', component: PageAdminComponent},
+  {path: 'submissions', component: PageAdminComponent},
   {path: 'accueil', component: AccueilComponent },
   {path: 'update', component: UpdateComponent},
   // ONGLETS

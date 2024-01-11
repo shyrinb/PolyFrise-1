@@ -25,6 +25,7 @@ interface TimelineItem {
   styleUrls: ['./page-frise.component.css'],
 
 })
+
 export class PageFriseComponent implements OnInit {  
   downloadFormats = {
     svg: false,
