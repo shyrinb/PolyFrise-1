@@ -1,6 +1,7 @@
 const express = require('express');
 const sequelize = require('./database');
 const app = express();
+const chalk = require('chalk');
 
 // Importez les routes API
 const router = require('./routes/apiRoutes');
@@ -26,7 +27,7 @@ sequelize.authenticate()
     })
     .catch((e) => {
         // Erreur de connexion
-        console.error(e);
+        console.error('Unable to connect to the database:', e);
         console.error(chalk.bold(`Connexion à la base `, chalk.bold(`${process.env.mysqlDatabase}:${process.env.bdd_port}`), ` échouée !`));
     });
 

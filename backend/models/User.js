@@ -14,7 +14,12 @@ User.init(
     password: {
         allowNull: false,
         type: DataTypes.STRING
-    }
+    },
+    status: {
+      allowNull: false,
+      type: DataTypes.STRING,
+      defaultValue: 'user', // Définissez la valeur par défaut que vous souhaitez
+    }, 
   },
   {
     sequelize,

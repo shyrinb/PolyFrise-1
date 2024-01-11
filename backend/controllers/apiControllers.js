@@ -7,11 +7,6 @@ const jwt = require('jsonwebtoken');
 var validator = require("email-validator");
 const { Op } = require('sequelize');  // Assurez-vous que vous importez Op depuis sequelize, si vous l'utilisez
 
-exports.getEvenementsDomaine = (req, res) => {
-  const sql = 'SELECT * FROM evenements_domaine';
-  db.query(sql, (err, result) => handleQueryResult(err, res, result));
-};
-
 exports.getTimeline= (req, res) => {
   res.json({ message: 'Timeline ' });
 };
