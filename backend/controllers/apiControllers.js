@@ -7,12 +7,6 @@ const jwt = require('jsonwebtoken');
 var validator = require("email-validator");
 const { Op } = require('sequelize');  // Assurez-vous que vous importez Op depuis sequelize, si vous l'utilisez
 
-// Contrôleurs pour récupérer les données
-exports.getSubmissions = (req, res) => {
-  const sql = 'SELECT * FROM submissions';
-  db.query(sql, (err, result) => handleQueryResult(err, res, result));
-};
-
 exports.getEvenementsDomaine = (req, res) => {
   const sql = 'SELECT * FROM evenements_domaine';
   db.query(sql, (err, result) => handleQueryResult(err, res, result));
@@ -169,6 +163,16 @@ exports.getDistinctions = async (req, res) => {
   try {
     const distinctions = await Distinctions.findAll();
     res.json(distinctions);
+  } catch (err) {
+    console.error('Erreur de requête SQL:', err);
+    res.status(500).json({ error: 'Erreur de serveur' });
+  }
+};
+
+exports.getSubmissions = async (req, res) => {
+  try {
+    const submissions = await Submission.findAll();
+    res.json(submissions);
   } catch (err) {
     console.error('Erreur de requête SQL:', err);
     res.status(500).json({ error: 'Erreur de serveur' });
