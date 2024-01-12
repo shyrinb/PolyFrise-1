@@ -13,7 +13,7 @@ EvenementHistorique.init( {
         type: DataTypes.TEXT
     },
     date_evenement: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
     },
     description: {
         type: DataTypes.TEXT

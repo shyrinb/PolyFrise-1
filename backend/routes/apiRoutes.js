@@ -33,8 +33,10 @@ router.get('/distinctions', getDistinctions);
 router.get('/entreprises', getEntreprises);
 router.get('/personnalites', getPersonnalites);
 router.get('/programmes', getProgrammes);
-router.get('/timeline', getTimeline);
 router.post('/databycategory', getDataByCategories );
+
+router.get('/timeline', getTimeline);
+//router.post('/timeline/filter', eventController.getTimeline);
 
 // Routes pour l'authentification
 router.post('/inscription', signup);

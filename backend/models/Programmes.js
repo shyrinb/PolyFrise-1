@@ -14,7 +14,7 @@ Programme.init({
         type: DataTypes.STRING(255)
     },
     date_creation: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
     },
     description: {
         type: DataTypes.TEXT

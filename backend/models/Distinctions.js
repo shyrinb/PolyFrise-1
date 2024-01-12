@@ -14,7 +14,7 @@ Distinction.init({
         type: DataTypes.STRING(255)
     },
     creation: {
-        type: DataTypes.INTEGER
+        type: DataTypes.DATEONLY
     },
     recompense: {
         type: DataTypes.TEXT

@@ -14,10 +14,10 @@ Personnalite.init({
         type: DataTypes.STRING(255)
     },
     date_naissance: {
-        type: DataTypes.INTEGER
+        type: DataTypes.DATEONLY
     },
     date_fin: {
-        type: DataTypes.INTEGER
+        type: DataTypes.DATEONLY
     },
     biographie: {
         type: DataTypes.TEXT

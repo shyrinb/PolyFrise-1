@@ -14,7 +14,7 @@ Domaine.init({
         type: DataTypes.STRING(255)
     },
     date_creation: {
-        type: DataTypes.INTEGER
+        type: DataTypes.DATEONLY
     }
 }, {
     sequelize,

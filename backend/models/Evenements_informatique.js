@@ -13,7 +13,7 @@ EvenementInformatique.init({
         type: DataTypes.TEXT
     },
     annee: {
-        type: DataTypes.INTEGER
+        type: DataTypes.DATEONLY
     },
     evenement: {
         type: DataTypes.TEXT

@@ -44,195 +44,146 @@ export class PageFriseComponent implements OnInit {
   updatedItemTmp : TimelineItem[] = []
   timelineItemsTmp: TimelineItem[] = []
 
+  @ViewChild('friseContainer', { static: true }) friseContainer: ElementRef;
+
+  timelineData: any; // Assurez-vous que le type correspond à la structure de vos données
   color : any ;
   shape : any;
   constructor(private route: ActivatedRoute, private messageService : MessageService,public dialog: MatDialog) {}
 
-  ngOnInit() {
-
-    this.route.queryParams.subscribe(params => {
-      const donnees = JSON.parse(params['data']);
-      this.color = donnees.color
-      this.shape = donnees.shape
-
-      this.categories = donnees.categories;
-      this.startDate = donnees.startDate;
-      this.endDate = donnees.endDate;
-
-      const data = {
-        categories : donnees.categories,
-        startDate : donnees.startDate,
-        endDate : donnees.endDate
-      }
-      this.messageService.sendData("timeline", data).subscribe(
-        response => {
-          this.timelineItems = response.map((e: any) => {
-            e.date = new Date(e.date); // Conversion de la chaîne de date en objet Date
-            return {
-              event: e
-            };
-          });
-          this.generateTimeline();
-
-      })
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params: { [key: string]: any }) => {
+      const rawData = JSON.parse(params['data']);
+      this.timelineData = this.processData(rawData);
+      this.drawFrise();
     });
-
   }
 
-  draw() {
-    const timelineItems = this.timelineItems.concat(this.timelineItemsTmp).map(element1 => {
-      const element2 = this.updatedItemTmp.find(element => element.event.id === element1.event.id);
-      return element2 ?  element2 : element1;
-    }).filter((event : TimelineItem) =>!this.deletedItemTmp.includes(event.event.id))
+  formatDate(date: Date): string {
+    // Formatez la date comme vous le souhaitez, par exemple : 'YYYY-MM-DD'
+    return date.getFullYear().toString();
+  }
 
-      var options = {
-        margin: {
-            left: 20,
-            right: 20,
-            top: 100,
-            bottom: 100
-        },
-        initialWidth: 500,
-        initialHeight: 1000,
-      };
+  processData(rawData: any): any {
+    console.log("AVANT FORMATAGE DE LA DATE", rawData);
+    
+    // Vérifiez si rawData.date est défini avant d'extraire les années
+    const formattedDates = rawData.date
+      ? rawData.date.split(',').map((date: string) => this.formatDate(new Date(date)))
+      : [];
+    
+    // Créez un nouvel objet avec les dates au format années
+    const processedData = {
+      categories: rawData.categories,
+      nom: rawData.nom,
+      dates: formattedDates,
+      startDate: rawData.startDate,
+      endDate: rawData.endDate,
+      color: rawData.color,
+      shape: rawData.shape
+    };
+  
+    console.log("APRES FORMATAGE DE LA DATE", processedData);
+    return processedData;
+  }
 
-      // Calcul des dimensions utiles de la frise
-      var innerWidth = options.initialWidth - options.margin.left - options.margin.right;
-      var innerHeight = options.initialHeight - options.margin.top - options.margin.bottom;
+  drawFrise(): void {
+      const container = this.friseContainer.nativeElement;
 
-      d3.select("#timeline").html("");
-      // Select the SVG element with ID "timeline"
-      var svg = d3.select('#timeline').append('svg')
-        .attr('width', options.initialWidth)
-        .attr('height', options.initialHeight)
-        .append('g')
-        .attr('transform', 'translate(' + (options.margin.left) + ',' + (options.margin.top) + ')');
+      // Configurez les dimensions de votre frise
+      const friseWidth = 1200; // La largeur initiale de la frise
+      const height = 1200;
 
-      // Fonction pour la création du texte de chaque label
-      function labelText(d : TimelineItem) {
-        return d.event.date.toLocaleDateString('fr-FR') + ' - ' + d.event.title;
-      }
+      const minStartDate = new Date('1900-01-01');
+      const maxStartDate = new Date('2024-01-01');
 
-      // Création d'un élément "dummyText" pour mesurer la taille de chaque label
-      var dummyText = svg.append('text');
+      const friseStartX = 100;
+      // Obtenez la date de début minimale de vos données
+      const dataMinStartDate = d3.min(this.timelineData.dates, (date: string) => new Date(date)) || minStartDate;
 
-      // Définition de l'échelle de temps
-      const timeScale = d3.scaleTime()
-        .domain(d3.extent(timelineItems, (d: TimelineItem) => d.event.date)as [Date, Date])
-        .range([0, innerHeight])
-        .nice();
+      // Obtenez la date de début minimale de vos données
+      const dataMaxFinDate = d3.min(this.timelineData.dates, (date: string) => new Date(date)) || maxStartDate;
 
-      // Création des noeuds de la frise
-      var nodes: any = timelineItems.map(function(element) {
-        // Mesure de la taille du texte pour chaque label
-        var textElement = dummyText.text(labelText(element)).node();
-        if (textElement) {
-          var bbox = textElement.getBBox();
-          element.h = bbox.height;
-          element.w = bbox.width;
-        }
-        // Création des nœuds avec la librairie "labella.js"
-        return new labella.Node(timeScale(element.event.date), (element.h ?? 0) + 4, element);
-      });
+      // Étendez la plage minimale pour prendre en compte la date de début minimale des données
+      const xScale = d3.scaleTime()
+          .domain([dataMinStartDate, new Date('2023-12-31')])
+          .range([friseStartX, friseStartX + friseWidth]);
 
-      // Suppression de l'élément "dummyText"
-      dummyText.remove();
+      // Créez l'élément SVG
+        const svg = d3.select(container).append('svg')
+        .attr('width', friseWidth + friseStartX)
+        .attr('height', height);
 
-      // Ajout d'une ligne pour représenter la timeline
-      svg.append('line')
-        .style('stroke', this.color)
-        .style('stroke-width', '20px') // Ajout de l'épaisseur de 20px
-        .classed('timeline', true)
-        .attr('y2', innerHeight);
+        // Ajoutez le rectangle de la frise
+        svg.append('rect')
+        .attr('x', friseStartX) // Position de départ du rectangle
+        .attr('y', height / 2 - 25) // Ajustez la position de la frise au centre de la ligne d'événement
+        .attr('width', friseWidth)
+        .attr('height', 30) // Ajustez la hauteur de la frise selon vos besoins
+        .style('fill', 'brown');
 
-      // Création de 3 groupes d'éléments pour les noeuds, les liens et les labels
-      var linkLayer = svg.append('g');
-      var labelLayer = svg.append('g');
-      var dotLayer = svg.append('g');
-
-      // Ajout d'un cercle pour chaque noeud
-      dotLayer.selectAll('circle.dot')
-        .data(nodes)
-        .enter().append('circle')
-        .classed('dot', true)
-        .attr('r', 3)
-        .attr('cy', function(d: any) {
-          return d.getRoot().idealPos;
-        })
-        .style('fill', '#D4F6F0'); // Ajout de la couleur #D4F6F0
-
-      // Fonction de couleur
-      function color(d: any, i: number): string {
-        return '#1D1F20';
-      }
-
-      // Création d'un objet Renderer de la librairie "labella.js"
-        // Ici, on instancie un objet Renderer de la bibliothèque "labella.js"
-        var renderer = new labella.Renderer({
-          layerGap: 60, // Définition de l'espace entre les couches du graphique
-          nodeHeight: nodes[0] ? nodes[0].width : 10, // Hauteur des nœuds du graphique
-          direction: 'right' // Direction du graphique (ici, de gauche à droite)
-      });
-
-      // Création d'un objet Force de la bibliothèque "labella.js"
-      var force = new labella.Force({
-        minPos: -10 // Position minimale des nœuds
-      })
-      .nodes(nodes) // Ajout des nœuds fournis en entrée
-      .compute(); // Calcul des positions des nœud
-
-      renderer.layout(nodes); // Création de la disposition des nœuds
-
-      // Sélection de l'élément SVG qui contiendra les étiquettes
-      var sEnter = labelLayer.selectAll<SVGGElement, any>('rect.flag')
-        .data(nodes)
-        .enter().append('g')
-        .attr('transform', function(d: any) {
-          return 'translate(' + (d.x) + ',' + (d.y - d.dy / 2) + ')';
-        });
-
-      // Ajout d'un rectangle pour chaque étiquette
-      sEnter
-        .append('rect')
-        .classed('flag', true)
-        .attr('width', function(d: any) {
-          return d.data.w + 9;
-        })
-        .attr('height', function(d: any) {
-          return d.dy;
-        })
-        .attr('rx', 2)
-        .attr('ry', 2)
-        .style('fill', this.color);
-
-      // Ajout du texte pour chaque étiquette
-      sEnter
+        // Ajoutez DATE DE L'EVENEMENT OK
+        svg.selectAll('.event-text')
+        .data(this.timelineData.dates)
+        .enter()
         .append('text')
-        .attr('x', 4)
-        .attr('y', 15)
-        .style('fill', '#D4F6F0')
-        .text(function(d: any) {
-          return labelText(d.data);
-        })
-        .on('click', this.eventClicked);
+        .attr('x', (date: string) => friseStartX + xScale(new Date(date))) // Ajustez la position avec le décalage de départ
+        .attr('y', height / 2 + 45) // Ajustez la position du texte au-dessus de la ligne de début
+        .style('text-anchor', 'middle') // ou 'end' selon vos préférences
+        .style('font-size', '20px')
+        .style('fill', 'black')
+        .text((date: string) => date);
+         // Utilisez le nom de l'événement
 
-      // Sélection de l'élément SVG qui contiendra les liens
-      linkLayer.selectAll('path.link')
-        .data(nodes)
-        .enter().append('path')
-        .classed('link', true)
-        .attr('d', function(d) {
-            return renderer.generatePath(d);
-        })
-        .style('stroke', color)
-        .style('stroke-width', 2)
-        .style('opacity', 0.6)
-        .style('fill', 'none');
-  }
+        // POINT DE COULEUR DES EVENEMENTS OK
+        svg.selectAll('.event-circle')
+        .data(this.timelineData.dates)
+        .enter()
+        .append('circle')
+        .attr('cx', (date: string) => friseStartX + xScale(new Date(date)))
+        .attr('cy',  height / 2 - 10)
+        .attr('r', 15)
+        .style('fill', (date: string) => this.timelineData.color);
+
+        // Ajoutez le texte pour afficher la date de début sur la frise
+        svg.append('text')
+        .attr('x', friseStartX + 20)
+        .attr('y', height / 2 + 25) // Ajustez la position du texte au-dessus de la ligne de début
+        .style('text-anchor', 'middle')
+        .style('font-size', '20px')
+        .style('fill', 'black')
+        .text(this.timelineData.startDate); // Utilisez la couleur de l'événement
+
+        // Ajoutez le texte pour afficher la date de fin sur la frise
+        svg.append('text')
+        .attr('x', friseStartX + friseWidth -50 )
+        .attr('y', height / 2 + 25) // Ajustez la position du texte au-dessus de la ligne de début
+        .style('text-anchor', 'start')
+        .style('font-size', '20px')
+        .style('fill', 'black')
+        .text(this.timelineData.endDate); 
+
+        const data = this.timelineData.dates.map((date, index) => ({ date, nom: this.timelineData.nom[index] }));
+
+        svg.selectAll('.event-text')
+          .data(this.timelineData.dates)
+          .enter()
+          .append('text')
+          .attr('x', (date: string) => friseStartX + xScale(new Date(date))) // Ajustez la position avec le décalage de départ
+          .attr('y', height / 2 + 65) // Ajustez la position du texte au-dessus de la ligne de début
+          .style('text-anchor', 'middle') // ou 'end' selon vos préférences
+          .style('font-size', '14px')
+          .style('fill', 'black')
+          .text((date: string, index: number) => {
+              const eventName = this.timelineData.nom.split(', ')[index];; // Utilisez le nom de l'événement
+              return eventName;
+          });
+
+}
 
   generateTimeline() {
     // Appel de la fonction de dessin du graphique avec les nœuds calculés par l'objet Force
-    this.draw();
+    this.drawFrise();
   }
 
   exportTimeline() {

@@ -11,10 +11,10 @@ GenerationInformatique.init({
         autoIncrement: true
     },
     annee_debut: {
-        type: DataTypes.INTEGER
+        type: DataTypes.DATEONLY
     },
     annee_fin: {
-        type: DataTypes.INTEGER
+        type: DataTypes.DATEONLY
     },
     nom: {
         type: DataTypes.STRING(50)

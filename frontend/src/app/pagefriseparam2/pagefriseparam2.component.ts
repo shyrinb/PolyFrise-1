@@ -42,16 +42,21 @@ export class Pagefriseparam2Component implements OnInit{
       };
     }
 
+    const startDate = new Date(this.data.startDate);
+    const endDate = new Date(this.data.endDate);
+
     const data = {
       categories : this.data.categories,
-      startDate : this.data.startDate,
-      endDate : this.data.endDate,
+      nom : this.data.nom_event,
+      date : this.data.date,
+      startDate : startDate.getFullYear(),
+      endDate : endDate.getFullYear(),
       color : this.couleur == "personnalise" ? this.couleurPersonnalise : this.couleur,
       shape : this.forme
     }
 
     this.router.navigate(['/timeline'], { queryParams: { data: JSON.stringify(data) } });
-
+    console.log('Données envoyées au backend :', this.data);
   }
 
   }

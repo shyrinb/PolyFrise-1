@@ -14,7 +14,7 @@ Entreprise.init({
         type: DataTypes.STRING(255)
     },
     fondation: {
-        type: DataTypes.INTEGER
+        type: DataTypes.DATEONLY
     },
     developpements_majeurs: {
         type: DataTypes.TEXT

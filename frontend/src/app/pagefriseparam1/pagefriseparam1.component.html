@@ -17,7 +17,7 @@
         <div class="category-dropdown">
           <mat-form-field appearance="fill">
             <mat-select [(ngModel)]="selectedDates" name="selectedDates" multiple>
-              <mat-option *ngFor="let date of dates" [value]="date.id">{{ date.nom }}</mat-option>
+              <mat-option *ngFor="let date of dates" [value]="date.id"> {{ date.nom }} </mat-option>
             </mat-select>
           </mat-form-field>
         </div>

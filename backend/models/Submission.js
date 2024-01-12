@@ -24,7 +24,7 @@ Submission.init({
         allowNull: false
     },
     new_date: {
-        type: DataTypes.DATE
+        type: DataTypes.DATEONLY
     },
     new_title: {
         type: DataTypes.STRING

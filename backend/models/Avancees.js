@@ -14,7 +14,7 @@ Avancee.init({
         type: DataTypes.STRING(255)
     },
     date_avancee: {
-        type: DataTypes.INTEGER
+        type: DataTypes.DATEONLY
     },
     description: {
         type: DataTypes.TEXT
