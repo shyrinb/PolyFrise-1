@@ -101,128 +101,240 @@ export class PageFriseComponent implements OnInit {
   }
 
   drawFrise(): void {
-      const container = this.friseContainer.nativeElement;
+  const container = this.friseContainer.nativeElement;
 
-      // Configurez les dimensions de votre frise
-      const friseWidth = 1200; // La largeur initiale de la frise
-      const height = 1200;
+  // Configurez les dimensions de votre frise
+  const friseWidth = 1200; // La largeur initiale de la frise
+  const friseHeight = 1200;
+  const friseHeightY = 570;
+  const friseStart = 100;
 
-      const friseStartX = 100;
-      const minStartDate = new Date('1900-01-01');
-      const maxStartDate = new Date('2024-01-01');
+  const friseStartY = 80;
+  const minStartDate = new Date('1900-01-01');
+  const maxStartDate = new Date('2024-01-01');
 
-      const dateFormatter = timeFormat('%b %Y');
-      console.log("Dates avant l'affichage sur la frise:", this.timelineData.dates);
-      console.log("endDate avant l'affichage sur la frise:", this.timelineData.endDate);
+  const dateFormatter = timeFormat('%b %Y');
+  console.log("Dates avant l'affichage sur la frise:", this.timelineData.dates);
+  console.log("endDate avant l'affichage sur la frise:", this.timelineData.endDate);
 
-      console.log("startDate avant l'affichage sur la frise:", this.timelineData.startDate);
+  console.log("startDate avant l'affichage sur la frise:", this.timelineData.startDate);
 
-      // Étendez la plage minimale pour prendre en compte la date de début minimale des données
+  console.log("choisi",this.timelineData.shape) ;
+  if (this.timelineData.shape === 'horizontale') {
+
+  console.log("choisi horizontale");
+     // Étendez la plage minimale pour prendre en compte la date de début minimale des données
       const xScale = d3.scaleTime()
-        .domain([minStartDate, maxStartDate])  // Utilisez une assertion de type pour spécifier explicitement le type
-        .range([friseStartX, friseStartX + friseWidth]);
+      .domain([minStartDate, maxStartDate])
+      .range([friseStart, friseStart + friseWidth]);
 
-      // Créez l'élément SVG
-        const svg = d3.select(container).append('svg')
-        .attr('width', friseWidth + friseStartX)
-        .attr('height', height);
+    // Créez l'élément SVG
+    const svg = d3.select(container).append('svg')
+      .attr('width', friseWidth + friseStart)
+      .attr('height', friseHeight);
 
-        // Ajoutez le rectangle de la frise
-        svg.append('rect')
-        .attr('x', friseStartX) // Position de départ du rectangle
-        .attr('y', height / 2 - 25) // Ajustez la position de la frise au centre de la ligne d'événement
-        .attr('width', friseWidth)
-        .attr('height', 30) // Ajustez la hauteur de la frise selon vos besoins
-        .style('fill', 'brown');
-        
-        // PLAGE SELECTIONNÉE 
-        const xStart = friseStartX + xScale(this.timelineData.startDate);
-        const xEnd = friseStartX + xScale(this.timelineData.endDate);
+    // Ajoutez le rectangle de la frise
+    svg.append('rect')
+      .attr('x', friseStart) // Position de départ du rectangle
+      .attr('y', friseHeight / 2 - 25) // Ajustez la position de la frise au centre de la ligne d'événement
+      .attr('width', friseWidth)
+      .attr('height', 30) // Ajustez la hauteur de la frise selon vos besoins
+      .style('fill', 'brown');
 
-        // Ajoutez le rectangle de la plage sélectionnée
-        svg.append('rect')
-          .attr('x', xStart) // Position de départ du rectangle
-          .attr('y', height / 2 - 25) // Ajustez la position de la frise au centre de la ligne d'événement
-          .attr('width', xEnd - xStart)
-          .attr('height', 30) // Ajustez la hauteur de la frise selon vos besoins
-          .style('fill', 'black');
+    // PLAGE SELECTIONNÉE 
+    const xStart = friseStart + xScale(this.timelineData.startDate);
+    const xEnd = friseStart + xScale(this.timelineData.endDate);
 
-        const yearFormatter = timeFormat('%Y');
+    // Ajoutez le rectangle de la plage sélectionnée
+    svg.append('rect')
+      .attr('x', xStart)
+      .attr('y', friseHeight / 2 - 25)
+      .attr('width', xEnd - xStart)
+      .attr('height', 30)
+      .style('fill', 'black');
 
-         // Ajoutez le texte pour afficher la date de début PERIODE SELECTIONNE 
-       svg.append('text')
-       .attr('x', xStart)
-       .attr('y', height / 2 - 35) // Ajustez la position du texte au-dessus de la ligne de début
-       .style('text-anchor', 'middle')
-       .style('font-size', '20px')
-       .style('fill', 'black')
-       .text(yearFormatter(this.timelineData.startDate));
-
-     // Ajoutez le texte pour afficher la date de fin PERIODE SELECTIONNE 
-     svg.append('text')
-       .attr('x', xEnd)
-       .attr('y', height / 2 - 35) // Ajustez la position du texte au-dessus de la ligne de début
-       .style('text-anchor', 'middle') // Utilisez 'end' pour aligner le texte à droite
-       .style('font-size', '20px')
-       .style('fill', 'black')
-       .text(yearFormatter(this.timelineData.endDate));
-
-        // Ajoutez le texte pour afficher la date de début sur la frise
-       svg.append('text')
-        .attr('x', friseStartX + 20)
-        .attr('y', height / 2 + 25) // Ajustez la position du texte au-dessus de la ligne de début
+    const yearFormatter = timeFormat('%Y');
+      // Ajoutez le texte pour afficher la date de début PERIODE SELECTIONNE 
+      svg.append('text')
+        .attr('x', xStart)
+        .attr('y', friseHeight / 2 - 35)
         .style('text-anchor', 'middle')
         .style('font-size', '20px')
         .style('fill', 'black')
-        .text(yearFormatter(minStartDate)); 
+        .text(yearFormatter(this.timelineData.startDate));
 
-      // Ajoutez le texte pour afficher la date de fin sur la frise
-      svg.append('text')
-        .attr('x', friseStartX + friseWidth )
-        .attr('y', height / 2 + 25) // Ajustez la position du texte au-dessus de la ligne de début
-        .style('text-anchor', 'end') // Utilisez 'end' pour aligner le texte à droite
+    // Ajoutez le texte pour afficher la date de fin PERIODE SELECTIONNE 
+    svg.append('text')
+        .attr('x', xEnd)
+        .attr('y', friseHeight / 2 - 35)
+        .style('text-anchor', 'middle')
         .style('font-size', '20px')
         .style('fill', 'black')
+        .text(yearFormatter(this.timelineData.endDate));
+
+    // Ajoutez le texte pour afficher la date de début sur la frise
+    svg.append('text')
+        .attr('x', friseStart + 20)
+        .attr('y', friseHeight / 2 + 25)
+        .style('text-anchor', 'middle')
+        .style('font-size', '20px')
+        .style('fill', 'brown')
+        .text(yearFormatter(minStartDate));
+
+    // Ajoutez le texte pour afficher la date de fin sur la frise
+    svg.append('text')
+        .attr('x', friseStart + friseWidth)
+        .attr('y', friseHeight / 2 + 25)
+        .style('text-anchor', 'end')
+        .style('font-size', '20px')
+        .style('fill', 'brown')
         .text(yearFormatter(maxStartDate));
 
-       // DATE DES EVENEMENTS
-       svg.selectAll('.event-text')
+    // DATE DES EVENEMENTS
+    svg.selectAll('.event-text')
         .data(this.timelineData.dates)
         .enter()
         .append('text')
-        .attr('x', (date: string) => friseStartX + xScale(new Date(date))) // Ajustez la position avec le décalage de départ
-        .attr('y', height / 2 + 45) // Ajustez la position du texte au-dessus de la ligne de début
-        .style('text-anchor', 'middle') // ou 'end' selon vos préférences
+        .attr('x', (date: string) => friseStart + xScale(new Date(date)))
+        .attr('y', friseHeight / 2 + 45)
+        .style('text-anchor', 'middle')
         .style('font-size', '20px')
         .style('fill', 'black')
         .text((date: string) => dateFormatter(new Date(date)));
 
-      // CERCLE DES DATES
-      svg.selectAll('.event-circle')
+    // CERCLE DES DATES
+    svg.selectAll('.event-circle')
         .data(this.timelineData.dates)
         .enter()
         .append('circle')
-        .attr('cx', (date: string) => friseStartX + xScale(new Date(date)))
-        .attr('cy',  height / 2 - 10)
+        .attr('cx', (date: string) => friseStart + xScale(new Date(date)))
+        .attr('cy', friseHeight / 2 - 10)
         .attr('r', 15)
         .style('fill', (date: string) => this.timelineData.color);
 
-        // NOM DES EVENEMENTS 
-        svg.selectAll('.event-text')
-          .data(this.timelineData.dates)
-          .enter()
-          .append('text')
-          .attr('x', (date: string) => friseStartX + xScale(new Date(date))) // Ajustez la position avec le décalage de départ
-          .attr('y', height / 2 + 65) // Ajustez la position du texte au-dessus de la ligne de début
-          .style('text-anchor', 'middle') // ou 'end' selon vos préférences
-          .style('font-size', '14px')
-          .style('fill', 'black')
-          .text((date: string, index: number) => {
-              const eventName = this.timelineData.nom.split(', ')[index];; // Utilisez le nom de l'événement
-              return eventName;
-          });
-  }       
+    // NOM DES EVENEMENTS 
+    svg.selectAll('.event-text')
+        .data(this.timelineData.dates)
+        .enter()
+        .append('text')
+        .attr('x', (date: string) => friseStart + xScale(new Date(date)))
+        .attr('y', friseHeight / 2 + 65)
+        .style('text-anchor', 'middle')
+        .style('font-size', '14px')
+        .style('fill', 'black')
+        .text((date: string, index: number) => {
+            const eventName = this.timelineData.nom.split(', ')[index];
+            return eventName;
+        });
+} else if (this.timelineData.shape === 'verticale') {
+  console.log("choisi verticale");
+  //-------// Étendez la plage minimale pour prendre en compte la date de début minimale des données
+    const yScale = d3.scaleTime()
+    .domain([minStartDate, maxStartDate])
+    .range([friseStartY, friseStartY + friseHeightY]);
 
+    // Créez l'élément SVG
+    const svg = d3.select(container).append('svg')
+    .attr('width', friseWidth)
+    .attr('height', friseHeightY + friseStartY);
+
+    // Ajoutez le rectangle de la frise
+    svg.append('rect')
+    .attr('x', friseWidth / 2 - 15)  // Ajustez la position de la frise au centre de la ligne d'événement
+    .attr('y', friseStartY)
+    .attr('width', 30)  // Ajustez la largeur de la frise selon vos besoins
+    .attr('height', friseHeightY)
+    .style('fill', 'brown');
+
+    // PLAGE SELECTIONNÉE 
+    const yStart = friseStartY + yScale(this.timelineData.startDate);
+    const yEnd = friseStartY + yScale(this.timelineData.endDate);
+
+     // Ajoutez le rectangle de la plage sélectionnée
+     svg.append('rect')
+     .attr('x', friseHeight / 2 - 15)  // Ajustez la position de la plage sélectionnée au centre de la ligne d'événement
+     .attr('y', yStart)
+     .attr('width', 30)  // Ajustez la largeur de la plage sélectionnée selon vos besoins
+     .attr('height', yEnd - yStart)
+     .style('fill', 'black');
+   
+
+    const yearFormatter = timeFormat('%Y');
+    // Ajoutez le texte pour afficher la date de début PERIODE SELECTIONNE 
+    svg.append('text')
+        .attr('x', friseHeight / 2 + 55)  // Ajustez la position du texte à gauche de la ligne de début
+        .attr('y', yStart+10)
+        .style('text-anchor', 'middle')  // Utilisez 'end' pour aligner le texte à droite
+        .style('font-size', '20px')
+        .style('fill', 'black')
+        .text(yearFormatter(this.timelineData.startDate));
+
+    // Ajoutez le texte pour afficher la date de fin PERIODE SELECTIONNE 
+    svg.append('text')
+        .attr('x', friseHeight / 2 + 55)  // Ajustez la position du texte à gauche de la ligne de début
+        .attr('y', yEnd-10)
+        .style('text-anchor', 'middle')  // Utilisez 'end' pour aligner le texte à droite
+        .style('font-size', '20px')
+        .style('fill', 'black')
+        .text(yearFormatter(this.timelineData.endDate));
+
+    // Ajoutez le texte pour afficher la date de début sur la frise
+    svg.append('text')
+        .attr('x', friseHeight / 2 + 25)  // Ajustez la position du texte à gauche de la ligne de début
+        .attr('y', friseStartY - 10)
+        .style('text-anchor', 'start')  // Utilisez 'end' pour aligner le texte à droite
+        .style('font-size', '20px')
+        .style('fill', 'brown')
+        .text(yearFormatter(minStartDate));
+
+    // Ajoutez le texte pour afficher la date de fin sur la frise
+    svg.append('text')
+        .attr('x', friseHeight / 2 + 25)  // Ajustez la position du texte à gauche de la ligne de début
+        .attr('y', friseStartY + friseHeightY -10)
+        .style('text-anchor', 'start')  // Utilisez 'end' pour aligner le texte à droite
+        .style('font-size', '20px')
+        .style('fill', 'brown')
+        .text(yearFormatter(maxStartDate));
+
+    // DATE DES EVENEMENTS
+    svg.selectAll('.event-text')
+        .data(this.timelineData.dates)
+        .enter()
+        .append('text')
+        .attr('x', friseHeight / 2 -20)  // Ajustez la position avec le décalage de départ
+        .attr('y', (date: string) => yScale(new Date(date)))
+        .style('text-anchor', 'end')  // Utilisez 'end' pour aligner le texte à droite
+        .style('font-size', '20px')
+        .style('fill', 'black')
+        .text((date: string) => dateFormatter(new Date(date)));
+
+    // CERCLE DES DATES
+    svg.selectAll('.event-circle')
+        .data(this.timelineData.dates)
+        .enter()
+        .append('circle')
+        .attr('cx', friseHeight / 2)  // Ajustez la position avec le décalage de départ
+        .attr('cy', (date: string) => yScale(new Date(date)))
+        .attr('r', 15)
+        .style('fill', (date: string) => this.timelineData.color);
+
+    // NOM DES EVENEMENTS 
+    svg.selectAll('.event-text')
+        .data(this.timelineData.dates)
+        .enter()
+        .append('text')
+        .attr('x', friseHeight / 2 -120)  // Ajustez la position avec le décalage de départ
+        .attr('y', (date: string) => yScale(new Date(date)))
+        .style('text-anchor', 'end')  // Utilisez 'end' pour aligner le texte à droite
+        .style('font-size', '14px')
+        .style('fill', 'black')
+        .text((date: string, index: number) => {
+            const eventName = this.timelineData.nom.split(', ')[index];
+            return eventName;
+        });
+      }
+
+   }
   generateTimeline() {
     // Appel de la fonction de dessin du graphique avec les nœuds calculés par l'objet Force
     this.drawFrise();
