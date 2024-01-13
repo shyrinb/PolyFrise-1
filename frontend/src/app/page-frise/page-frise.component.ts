@@ -111,12 +111,6 @@ export class PageFriseComponent implements OnInit {
       const minStartDate = new Date('1900-01-01');
       const maxStartDate = new Date('2024-01-01');
 
-      // Obtenez la date de début minimale de vos données
-     // const dataMinStartDate = d3.min(this.timelineData.dates, (date: string | Date) => typeof date === 'string' ? new Date(date) : date) as Date || minStartDate;
-
-      // Obtenez la date de début maximale de vos données
-   //   const dataMaxFinDate = d3.max(this.timelineData.dates, (date: string | Date) => typeof date === 'string' ? new Date(date) : date) as Date || maxStartDate;
-
       const dateFormatter = timeFormat('%b %Y');
       console.log("Dates avant l'affichage sur la frise:", this.timelineData.dates);
       console.log("endDate avant l'affichage sur la frise:", this.timelineData.endDate);
@@ -140,8 +134,39 @@ export class PageFriseComponent implements OnInit {
         .attr('width', friseWidth)
         .attr('height', 30) // Ajustez la hauteur de la frise selon vos besoins
         .style('fill', 'brown');
+        
+        // PLAGE SELECTIONNÉE 
+        const xStart = friseStartX + xScale(this.timelineData.startDate);
+        const xEnd = friseStartX + xScale(this.timelineData.endDate);
+
+        // Ajoutez le rectangle de la plage sélectionnée
+        svg.append('rect')
+          .attr('x', xStart) // Position de départ du rectangle
+          .attr('y', height / 2 - 25) // Ajustez la position de la frise au centre de la ligne d'événement
+          .attr('width', xEnd - xStart)
+          .attr('height', 30) // Ajustez la hauteur de la frise selon vos besoins
+          .style('fill', 'black');
 
         const yearFormatter = timeFormat('%Y');
+
+         // Ajoutez le texte pour afficher la date de début PERIODE SELECTIONNE 
+       svg.append('text')
+       .attr('x', xStart)
+       .attr('y', height / 2 - 35) // Ajustez la position du texte au-dessus de la ligne de début
+       .style('text-anchor', 'middle')
+       .style('font-size', '20px')
+       .style('fill', 'black')
+       .text(yearFormatter(this.timelineData.startDate));
+
+     // Ajoutez le texte pour afficher la date de fin PERIODE SELECTIONNE 
+     svg.append('text')
+       .attr('x', xEnd)
+       .attr('y', height / 2 - 35) // Ajustez la position du texte au-dessus de la ligne de début
+       .style('text-anchor', 'middle') // Utilisez 'end' pour aligner le texte à droite
+       .style('font-size', '20px')
+       .style('fill', 'black')
+       .text(yearFormatter(this.timelineData.endDate));
+
         // Ajoutez le texte pour afficher la date de début sur la frise
        svg.append('text')
         .attr('x', friseStartX + 20)
@@ -149,7 +174,7 @@ export class PageFriseComponent implements OnInit {
         .style('text-anchor', 'middle')
         .style('font-size', '20px')
         .style('fill', 'black')
-        .text(yearFormatter(minStartDate)); // Utilisez la couleur de l'événement
+        .text(yearFormatter(minStartDate)); 
 
       // Ajoutez le texte pour afficher la date de fin sur la frise
       svg.append('text')
@@ -159,8 +184,6 @@ export class PageFriseComponent implements OnInit {
         .style('font-size', '20px')
         .style('fill', 'black')
         .text(yearFormatter(maxStartDate));
-
-       // const data = this.timelineData.dates.map((date, index) => ({ date, nom: this.timelineData.nom[index] }));
 
        // DATE DES EVENEMENTS
        svg.selectAll('.event-text')

@@ -49,8 +49,8 @@ export class Pagefriseparam2Component implements OnInit{
       categories : this.data.categories,
       nom : this.data.nom_event,
       date : this.data.date,
-      startDate : startDate.getFullYear(),
-      endDate : endDate.getFullYear(),
+      startDate : startDate,
+      endDate : endDate,
       color : this.couleur == "personnalise" ? this.couleurPersonnalise : this.couleur,
       shape : this.forme
     }
