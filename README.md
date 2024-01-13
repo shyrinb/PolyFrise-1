@@ -15,11 +15,10 @@ Si cela ne fonctionne pas, vous pouvez essayer :
 npm install --force
 ```
 
-###Variable d'environnement
+### Variable d'environnement
 Assurez-vous de mettre à jour la variable d'environnement dans le répertoire env.
-Ensuite, toujours dans le répertoire backend, vous pouvez exécuter les commandes suivantes :
 
-###Mode Production
+### Mode Production
 
 ```bash
 npm run prod
