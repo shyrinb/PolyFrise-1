@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule } from '@angular/platform-browser'
+
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
@@ -11,7 +12,7 @@ import { AccueilComponent } from './accueil/accueil.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { PageFriseComponent } from './page-frise/page-frise.component';
 import { UpdateComponent } from './update/update.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -87,7 +88,6 @@ import { PopupModifyEventComponent } from './popup-modify-event/popup-modify-eve
     FormsModule,
     HttpClientModule,
     Ng5SliderModule,
-    FormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
     MatInputModule,
