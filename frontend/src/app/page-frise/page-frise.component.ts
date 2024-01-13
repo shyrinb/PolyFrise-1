@@ -1,18 +1,19 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as labella from 'labella';
-import * as d3 from "d3";
+import * as d3 from 'd3';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../message.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCatComponent } from '../popup-cat/popup-cat.component';
 import { PopupDateComponent } from '../popup-date/popup-date.component';
 import { PopupStyleComponent } from '../popup-style/popup-style.component';
-import { saveAs } from 'file-saver';
-import domtoimage from 'dom-to-image';
-import { jsPDF } from 'jspdf';
+//import html2canvas from 'html2canvas';
+import * as jspdf from 'jspdf';
 import { PopupDescComponent } from '../popup-desc/popup-desc.component';
 import { PopupAddEventComponent } from '../popup-add-event/popup-add-event.component';
 import { HttpClient } from '@angular/common/http';
+
+import { timeFormat } from 'd3-time-format';
 
 interface TimelineItem {
 
@@ -27,15 +28,14 @@ interface TimelineItem {
 
 })
 
-
 export class PageFriseComponent implements OnInit {  
   downloadFormats = {
     svg: false,
-    csv: false,
     jpeg: false,
     pdf: false
   };
-token!: string;
+
+  token!: string;
 
   selectedFormat : string ="svg";
   categories : any;
@@ -70,28 +70,28 @@ token!: string;
     this.messageService.sendDataAuto("deconnexion","", this.token).subscribe();
       localStorage.removeItem("jwtToken");
       this.router.navigateByUrl('/');
-  
   }
-  formatDate(date: Date): string {
+
+  formatDate(date: Date): Date {
     // Formatez la date comme vous le souhaitez, par exemple : 'YYYY-MM-DD'
-    return date.getFullYear().toString();
+    return new Date(date.getFullYear(), 0, 1); 
   }
 
   processData(rawData: any): any {
     console.log("AVANT FORMATAGE DE LA DATE", rawData);
-    
+  
     // Vérifiez si rawData.date est défini avant d'extraire les années
-    const formattedDates = rawData.date
-      ? rawData.date.split(',').map((date: string) => this.formatDate(new Date(date)))
+    const dates = rawData.date
+      ? rawData.date.split(',').map((date: string) => new Date(date))
       : [];
-    
-    // Créez un nouvel objet avec les dates au format années
+  
+    // Créez un nouvel objet avec les dates au format Date
     const processedData = {
       categories: rawData.categories,
       nom: rawData.nom,
-      dates: formattedDates,
-      startDate: rawData.startDate,
-      endDate: rawData.endDate,
+      dates: dates,
+      startDate: new Date(rawData.startDate),
+      endDate: new Date(rawData.endDate),
       color: rawData.color,
       shape: rawData.shape
     };
@@ -107,20 +107,26 @@ token!: string;
       const friseWidth = 1200; // La largeur initiale de la frise
       const height = 1200;
 
+      const friseStartX = 100;
       const minStartDate = new Date('1900-01-01');
       const maxStartDate = new Date('2024-01-01');
 
-      const friseStartX = 100;
       // Obtenez la date de début minimale de vos données
-      const dataMinStartDate = d3.min(this.timelineData.dates, (date: string) => new Date(date)) || minStartDate;
+     // const dataMinStartDate = d3.min(this.timelineData.dates, (date: string | Date) => typeof date === 'string' ? new Date(date) : date) as Date || minStartDate;
 
-      // Obtenez la date de début minimale de vos données
-      const dataMaxFinDate = d3.max(this.timelineData.dates, (date: string) => new Date(date)) || maxStartDate;
+      // Obtenez la date de début maximale de vos données
+   //   const dataMaxFinDate = d3.max(this.timelineData.dates, (date: string | Date) => typeof date === 'string' ? new Date(date) : date) as Date || maxStartDate;
+
+      const dateFormatter = timeFormat('%b %Y');
+      console.log("Dates avant l'affichage sur la frise:", this.timelineData.dates);
+      console.log("endDate avant l'affichage sur la frise:", this.timelineData.endDate);
+
+      console.log("startDate avant l'affichage sur la frise:", this.timelineData.startDate);
 
       // Étendez la plage minimale pour prendre en compte la date de début minimale des données
       const xScale = d3.scaleTime()
-          .domain([dataMinStartDate, dataMaxFinDate])
-          .range([friseStartX, friseStartX + friseWidth]);
+        .domain([minStartDate, maxStartDate])  // Utilisez une assertion de type pour spécifier explicitement le type
+        .range([friseStartX, friseStartX + friseWidth]);
 
       // Créez l'élément SVG
         const svg = d3.select(container).append('svg')
@@ -135,8 +141,29 @@ token!: string;
         .attr('height', 30) // Ajustez la hauteur de la frise selon vos besoins
         .style('fill', 'brown');
 
-        // Ajoutez DATE DE L'EVENEMENT OK
-        svg.selectAll('.event-text')
+        const yearFormatter = timeFormat('%Y');
+        // Ajoutez le texte pour afficher la date de début sur la frise
+       svg.append('text')
+        .attr('x', friseStartX + 20)
+        .attr('y', height / 2 + 25) // Ajustez la position du texte au-dessus de la ligne de début
+        .style('text-anchor', 'middle')
+        .style('font-size', '20px')
+        .style('fill', 'black')
+        .text(yearFormatter(minStartDate)); // Utilisez la couleur de l'événement
+
+      // Ajoutez le texte pour afficher la date de fin sur la frise
+      svg.append('text')
+        .attr('x', friseStartX + friseWidth )
+        .attr('y', height / 2 + 25) // Ajustez la position du texte au-dessus de la ligne de début
+        .style('text-anchor', 'end') // Utilisez 'end' pour aligner le texte à droite
+        .style('font-size', '20px')
+        .style('fill', 'black')
+        .text(yearFormatter(maxStartDate));
+
+       // const data = this.timelineData.dates.map((date, index) => ({ date, nom: this.timelineData.nom[index] }));
+
+       // DATE DES EVENEMENTS
+       svg.selectAll('.event-text')
         .data(this.timelineData.dates)
         .enter()
         .append('text')
@@ -145,11 +172,10 @@ token!: string;
         .style('text-anchor', 'middle') // ou 'end' selon vos préférences
         .style('font-size', '20px')
         .style('fill', 'black')
-        .text((date: string) => date);
-         // Utilisez le nom de l'événement
+        .text((date: string) => dateFormatter(new Date(date)));
 
-        // POINT DE COULEUR DES EVENEMENTS OK
-        svg.selectAll('.event-circle')
+      // CERCLE DES DATES
+      svg.selectAll('.event-circle')
         .data(this.timelineData.dates)
         .enter()
         .append('circle')
@@ -158,26 +184,7 @@ token!: string;
         .attr('r', 15)
         .style('fill', (date: string) => this.timelineData.color);
 
-        // Ajoutez le texte pour afficher la date de début sur la frise
-        svg.append('text')
-        .attr('x', friseStartX + 20)
-        .attr('y', height / 2 + 25) // Ajustez la position du texte au-dessus de la ligne de début
-        .style('text-anchor', 'middle')
-        .style('font-size', '20px')
-        .style('fill', 'black')
-        .text(this.timelineData.startDate); // Utilisez la couleur de l'événement
-
-        // Ajoutez le texte pour afficher la date de fin sur la frise
-        svg.append('text')
-        .attr('x', friseStartX + friseWidth -50 )
-        .attr('y', height / 2 + 25) // Ajustez la position du texte au-dessus de la ligne de début
-        .style('text-anchor', 'start')
-        .style('font-size', '20px')
-        .style('fill', 'black')
-        .text(this.timelineData.endDate); 
-
-       // const data = this.timelineData.dates.map((date, index) => ({ date, nom: this.timelineData.nom[index] }));
-
+        // NOM DES EVENEMENTS 
         svg.selectAll('.event-text')
           .data(this.timelineData.dates)
           .enter()
@@ -191,121 +198,84 @@ token!: string;
               const eventName = this.timelineData.nom.split(', ')[index];; // Utilisez le nom de l'événement
               return eventName;
           });
-
   }       
 
   generateTimeline() {
     // Appel de la fonction de dessin du graphique avec les nœuds calculés par l'objet Force
     this.drawFrise();
   }
-
   exportTimeline() {
-    const containerElement = document.querySelector('.frise-container.my-custom-frise');
-    const svgElement = containerElement?.querySelector('svg');
-
     switch (this.selectedFormat) {
-      case 'svg':
-        this.exportSVG(svgElement)
-        break;
-      case 'png':
-        this.exportPNG(svgElement)
-        break;
-      case 'pdf':
-        this.exportPDF(svgElement)
-        break;
-      case 'csv':
-        this.exportCSV()
-        break;
-      default:
-        this.exportSVG(svgElement)
-        break;
+        case 'svg':
+            this.exportSVG();
+            break;
+        case 'png':
+            this.exportPNG();
+            break;
+        case 'pdf':
+            this.exportPDF();
+            break;
+        // Ajoutez d'autres cas si nécessaire (par exemple, pour le format CSV)
+        default:
+            // Gérer le cas par défaut ou lancer une erreur
+            console.error('Format d\'exportation non pris en charge');
+            break;
     }
   }
 
-  exportSVG(svgElement: any) {
-    console.log("export svg");
-    if (svgElement) {
-      const serializer = new XMLSerializer();
-      const svgData = serializer.serializeToString(svgElement);
-  
-      const blob = new Blob([svgData], { type: 'image/svg+xml' });
-      const url = window.URL.createObjectURL(blob);
-  
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = 'frise.svg';
-      link.click();
-  
-      window.URL.revokeObjectURL(url);
-    }
+  // Fonction pour exporter au format PNG
+  exportPNG() {
+    const container = this.friseContainer.nativeElement;
+    const svg = d3.select(container).select('svg').node() as Element; // Spécifiez le type ici
+
+    // Convertir le SVG en données d'URL au format base64
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+    const img = new Image();
+
+    img.onload = () => {
+        // Dessiner l'image sur le canevas
+        context?.drawImage(img, 0, 0);
+
+        // Télécharger l'image en tant que fichier PNG
+        const a = document.createElement('a');
+        a.href = canvas.toDataURL('image/png');
+        a.download = 'frise.png';
+        a.click();
+    };
+
+    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
   }
 
-  exportPNG(svgElement: any) {
+  // Fonction pour exporter au format PDF
+  exportPDF() {
+    const container = this.friseContainer.nativeElement;
+    const svg = d3.select(container).select('svg').node() as Element; // Spécifiez le type ici
 
-    console.log("export png");
-    if (svgElement) {
-      domtoimage.toBlob(svgElement)
-        .then((blob: Blob) => {
-          saveAs(blob, 'frise.png');
-        });
-    }
+    // Convertir le SVG en données d'URL au format base64
+    const svgData = new XMLSerializer().serializeToString(svg);
+
+    // Créer un élément de lien (a) pour télécharger le PDF
+    const a = document.createElement('a');
+    a.href = 'data:application/pdf;base64,' + btoa(svgData);
+    a.download = 'frise.pdf';
+    a.click();
   }
 
-  exportPDF(svgElement: any) {
+  // Fonction pour exporter au format SVG
+  exportSVG() {
+    const container = this.friseContainer.nativeElement;
+    const svg = d3.select(container).select('svg').node() as Element; // Spécifiez le type ici
 
-    console.log("export pdf");
-    if (svgElement) {
-      domtoimage.toPng(svgElement)
-        .then((dataUrl: string) => {
-          const pdf = new jsPDF();
-          const imgWidth = pdf.internal.pageSize.getWidth();
-          const imgHeight = (svgElement.clientHeight * imgWidth) / svgElement.clientWidth;
-  
-          pdf.addImage(dataUrl, 'PNG', 0, 0, imgWidth, imgHeight);
-          pdf.save('frise.pdf');
-        });
-    }
-  }
+    // Convertir le SVG en données d'URL au format base64
+    const svgData = new XMLSerializer().serializeToString(svg);
 
-  exportCSV(){
-
-    console.log("export csv");
-    const separator = ','; // Caractère de séparation des valeurs
-
-    // Générer les en-têtes du CSV
-    const timelineItems = this.timelineItems.concat(this.timelineItemsTmp).map(element1 => {
-      const element2 = this.updatedItemTmp.find(element => element.event.id === element1.event.id);
-      return element2 ?  element2 : element1;
-    }).filter((event : TimelineItem) =>!this.deletedItemTmp.includes(event.event.id)).map((event : any) => {return(event.event) })
-
-
-    if(timelineItems.length == 0 ){
-      console.log("pas d'évènements")
-      return
-    }
-    const headers = Object.keys(timelineItems[0]);
-    const headerRow = headers.join(separator);
-
-    // Générer les lignes de données
-    const rows = timelineItems.map((item : any ) => {
-      return headers.map(header => {
-        if(item[header] instanceof Date){
-          return `"${item[header].toLocaleDateString('fr-FR') }"`;
-        }
-        if(Array.isArray(item[header])){
-          return `"${item[header].map((e : any) => {return e.id}) }"`;
-        }
-        return `"${item[header]}"`
-      }).join(separator);
-    });
-
-    // Concaténer les en-têtes et les lignes de données
-    const csvContent : string = `${headerRow}\n${rows.join('\n')}`;
-    // Créer un objet Blob avec le contenu CSV
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-
-    // Télécharger le fichier CSV
-    saveAs(blob, 'timeline.csv');
+    // Créer un élément de lien (a) pour télécharger le SVG
+    const a = document.createElement('a');
+    a.href = 'data:image/svg+xml;base64,' + btoa(svgData);
+    a.download = 'frise.svg';
+    a.click();
   }
 
   changeCategories() {
@@ -340,6 +310,7 @@ token!: string;
       }
     });
   }
+  
 
   changeDates() {
     const dialogRef = this.dialog.open(PopupDateComponent, {
