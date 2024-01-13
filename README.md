@@ -1,24 +1,47 @@
-# Getting Started
+# Polyfrise
 
-## Installation
-First, in the [backend directory](./), use the script :
+## Backend
 
-### `npm install`
+### Installation
+Tout d'abord, dans le répertoire backend, exécutez la commande suivante pour installer les dépendances :
 
-This command installs a package, and any packages that it depends on.  
-If it doesnt work, use `npm install --force` .
+```bash
+cd backend
+npm install
+```
 
-## Environment variable
+Si cela ne fonctionne pas, vous pouvez essayer :
+```bash
+npm install --force
+```
 
-Make sure to update the environment variable in the [env directory](./env/).
+###Variable d'environnement
+Assurez-vous de mettre à jour la variable d'environnement dans le répertoire env.
+Ensuite, toujours dans le répertoire backend, vous pouvez exécuter les commandes suivantes :
 
-## Available Scripts
+###Mode Production
 
-Then, in the [backend directory](./), you can run:
+```bash
+npm run prod
+```
+Cela lance l'application en mode production.
 
-### `npm run prod`
+###Mode Développement
 
-Runs the app in the production mode.
-### `npm run dev`
+```bash
+npm run dev
+```
+Cela lance l'application en mode développement.
 
-Runs the app in the development mode.
+## Fontend :
+
+Dans un autre terminal, allez dans le répertoire frontend et exécutez :
+
+```bash
+cd frontend
+ng serve
+```
+
+Cela lance l'application frontend sur localhost:4200. Vous pouvez ouvrir votre navigateur et accéder à cette URL pour utiliser l'application.
+
+Assurez-vous également d'avoir correctement configuré les variables d'environnement nécessaires pour le backend et le frontend.
