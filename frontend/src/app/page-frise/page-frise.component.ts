@@ -7,8 +7,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { PopupCatComponent } from '../popup-cat/popup-cat.component';
 import { PopupDateComponent } from '../popup-date/popup-date.component';
 import { PopupStyleComponent } from '../popup-style/popup-style.component';
-//import html2canvas from 'html2canvas';
-import * as jspdf from 'jspdf';
+import { saveAs } from 'file-saver';
+import domtoimage from 'dom-to-image';
+import { jsPDF } from 'jspdf';
 import { PopupDescComponent } from '../popup-desc/popup-desc.component';
 import { PopupAddEventComponent } from '../popup-add-event/popup-add-event.component';
 import { HttpClient } from '@angular/common/http';
@@ -46,8 +47,6 @@ export class PageFriseComponent implements OnInit {
   deletedItemTmp : any[] = []
   updatedItemTmp : TimelineItem[] = []
   timelineItemsTmp: TimelineItem[] = []
-
-  @ViewChild('friseContainer', { static: true }) friseContainer: ElementRef;
 
   timelineData: any; // Assurez-vous que le type correspond à la structure de vos données
   color : any ;
@@ -101,7 +100,8 @@ export class PageFriseComponent implements OnInit {
   }
 
   drawFrise(): void {
-  const container = this.friseContainer.nativeElement;
+    const container = document.querySelector('.frise-container.my-custom-frise');
+
 
   // Configurez les dimensions de votre frise
   const friseWidth = 1200; // La largeur initiale de la frise
@@ -335,82 +335,81 @@ export class PageFriseComponent implements OnInit {
       }
 
    }
-  generateTimeline() {
-    // Appel de la fonction de dessin du graphique avec les nœuds calculés par l'objet Force
-    this.drawFrise();
-  }
+
+   generateTimeline():void {
+    this.drawFrise()
+   };
+
   exportTimeline() {
+    
+    const container = document.querySelector('.frise-container.my-custom-frise');
+    const svgElement = container.querySelector('svg');
+
     switch (this.selectedFormat) {
-        case 'svg':
-            this.exportSVG();
-            break;
-        case 'png':
-            this.exportPNG();
-            break;
-        case 'pdf':
-            this.exportPDF();
-            break;
-        // Ajoutez d'autres cas si nécessaire (par exemple, pour le format CSV)
-        default:
-            // Gérer le cas par défaut ou lancer une erreur
-            console.error('Format d\'exportation non pris en charge');
-            break;
+      case 'svg':
+        this.exportSVG(svgElement)
+        break;
+      case 'png':
+        this.exportPNG(svgElement)
+        break;
+      case 'pdf':
+        this.exportPDF(svgElement)
+        break;
+      default:
+        this.exportSVG(svgElement)
+        break;
     }
   }
 
-  // Fonction pour exporter au format PNG
-  exportPNG() {
-    const container = this.friseContainer.nativeElement;
-    const svg = d3.select(container).select('svg').node() as Element; // Spécifiez le type ici
+  exportSVG(svgElement : any){
+    console.log("choisi svg");
+    if (!svgElement) {
+      console.error("L'élément SVG est null ou non défini");
+      return;
+    }
 
-    // Convertir le SVG en données d'URL au format base64
-    const svgData = new XMLSerializer().serializeToString(svg);
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-    const img = new Image();
+    if (svgElement) {
+      const serializer = new XMLSerializer();
+      const svgData = serializer.serializeToString(svgElement);
 
-    img.onload = () => {
-        // Dessiner l'image sur le canevas
-        context?.drawImage(img, 0, 0);
+      const blob = new Blob([svgData], { type: 'image/svg+xml' });
+      const url = window.URL.createObjectURL(blob);
 
-        // Télécharger l'image en tant que fichier PNG
-        const a = document.createElement('a');
-        a.href = canvas.toDataURL('image/png');
-        a.download = 'frise.png';
-        a.click();
-    };
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = 'timeline.svg';
+      link.click();
 
-    img.src = 'data:image/svg+xml;base64,' + btoa(svgData);
+      window.URL.revokeObjectURL(url);
+    }
   }
 
-  // Fonction pour exporter au format PDF
-  exportPDF() {
-    const container = this.friseContainer.nativeElement;
-    const svg = d3.select(container).select('svg').node() as Element; // Spécifiez le type ici
+  exportPNG(svgElement : any){
 
-    // Convertir le SVG en données d'URL au format base64
-    const svgData = new XMLSerializer().serializeToString(svg);
+    console.log("choisi png");
+    if (svgElement) {
+      domtoimage.toBlob(svgElement)
+        .then((blob: Blob) => {
+          saveAs(blob, 'timeline.png');
+        });
+    }
 
-    // Créer un élément de lien (a) pour télécharger le PDF
-    const a = document.createElement('a');
-    a.href = 'data:application/pdf;base64,' + btoa(svgData);
-    a.download = 'frise.pdf';
-    a.click();
   }
 
-  // Fonction pour exporter au format SVG
-  exportSVG() {
-    const container = this.friseContainer.nativeElement;
-    const svg = d3.select(container).select('svg').node() as Element; // Spécifiez le type ici
+  exportPDF(svgElement : any){
 
-    // Convertir le SVG en données d'URL au format base64
-    const svgData = new XMLSerializer().serializeToString(svg);
+    console.log("choisi pdf");
+    if (svgElement) {
+      domtoimage.toPng(svgElement)
+        .then((dataUrl: string) => {
+          const pdf = new jsPDF();
+          const imgWidth = pdf.internal.pageSize.getWidth();
+          const imgHeight = (svgElement.clientHeight * imgWidth) / svgElement.clientWidth;
 
-    // Créer un élément de lien (a) pour télécharger le SVG
-    const a = document.createElement('a');
-    a.href = 'data:image/svg+xml;base64,' + btoa(svgData);
-    a.download = 'frise.svg';
-    a.click();
+          pdf.addImage(dataUrl, 'PNG', 0, 0, imgWidth, imgHeight);
+          pdf.save('timeline.pdf');
+        });
+    }
   }
 
   changeCategories() {
