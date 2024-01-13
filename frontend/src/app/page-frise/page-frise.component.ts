@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import * as labella from 'labella';
 import * as d3 from "d3";
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../message.service';
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCatComponent } from '../popup-cat/popup-cat.component';
@@ -12,6 +12,7 @@ import domtoimage from 'dom-to-image';
 import { jsPDF } from 'jspdf';
 import { PopupDescComponent } from '../popup-desc/popup-desc.component';
 import { PopupAddEventComponent } from '../popup-add-event/popup-add-event.component';
+import { HttpClient } from '@angular/common/http';
 
 interface TimelineItem {
 
@@ -26,6 +27,7 @@ interface TimelineItem {
 
 })
 
+
 export class PageFriseComponent implements OnInit {  
   downloadFormats = {
     svg: false,
@@ -33,6 +35,7 @@ export class PageFriseComponent implements OnInit {
     jpeg: false,
     pdf: false
   };
+token!: string;
 
   selectedFormat : string ="svg";
   categories : any;
@@ -49,9 +52,13 @@ export class PageFriseComponent implements OnInit {
   timelineData: any; // Assurez-vous que le type correspond à la structure de vos données
   color : any ;
   shape : any;
-  constructor(private route: ActivatedRoute, private messageService : MessageService,public dialog: MatDialog) {}
+  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private messageService : MessageService,public dialog: MatDialog) {}
 
   ngOnInit(): void {
+    const token = localStorage.getItem('jwtToken');
+    if (token !== null) {
+      this.token = token;
+    }
     this.route.queryParams.subscribe((params: { [key: string]: any }) => {
       const rawData = JSON.parse(params['data']);
       this.timelineData = this.processData(rawData);
@@ -59,6 +66,12 @@ export class PageFriseComponent implements OnInit {
     });
   }
 
+  logout() {
+    this.messageService.sendDataAuto("deconnexion","", this.token).subscribe();
+      localStorage.removeItem("jwtToken");
+      this.router.navigateByUrl('/');
+  
+  }
   formatDate(date: Date): string {
     // Formatez la date comme vous le souhaitez, par exemple : 'YYYY-MM-DD'
     return date.getFullYear().toString();
@@ -102,11 +115,11 @@ export class PageFriseComponent implements OnInit {
       const dataMinStartDate = d3.min(this.timelineData.dates, (date: string) => new Date(date)) || minStartDate;
 
       // Obtenez la date de début minimale de vos données
-      const dataMaxFinDate = d3.min(this.timelineData.dates, (date: string) => new Date(date)) || maxStartDate;
+      const dataMaxFinDate = d3.max(this.timelineData.dates, (date: string) => new Date(date)) || maxStartDate;
 
       // Étendez la plage minimale pour prendre en compte la date de début minimale des données
       const xScale = d3.scaleTime()
-          .domain([dataMinStartDate, new Date('2023-12-31')])
+          .domain([dataMinStartDate, dataMaxFinDate])
           .range([friseStartX, friseStartX + friseWidth]);
 
       // Créez l'élément SVG
@@ -163,7 +176,7 @@ export class PageFriseComponent implements OnInit {
         .style('fill', 'black')
         .text(this.timelineData.endDate); 
 
-        const data = this.timelineData.dates.map((date, index) => ({ date, nom: this.timelineData.nom[index] }));
+       // const data = this.timelineData.dates.map((date, index) => ({ date, nom: this.timelineData.nom[index] }));
 
         svg.selectAll('.event-text')
           .data(this.timelineData.dates)
@@ -179,7 +192,7 @@ export class PageFriseComponent implements OnInit {
               return eventName;
           });
 
-}
+  }       
 
   generateTimeline() {
     // Appel de la fonction de dessin du graphique avec les nœuds calculés par l'objet Force
@@ -187,7 +200,7 @@ export class PageFriseComponent implements OnInit {
   }
 
   exportTimeline() {
-    const containerElement = document.querySelector('#timeline');
+    const containerElement = document.querySelector('.frise-container.my-custom-frise');
     const svgElement = containerElement?.querySelector('svg');
 
     switch (this.selectedFormat) {
@@ -209,50 +222,54 @@ export class PageFriseComponent implements OnInit {
     }
   }
 
-  exportSVG(svgElement : any){
-
-
+  exportSVG(svgElement: any) {
+    console.log("export svg");
     if (svgElement) {
       const serializer = new XMLSerializer();
       const svgData = serializer.serializeToString(svgElement);
-
+  
       const blob = new Blob([svgData], { type: 'image/svg+xml' });
       const url = window.URL.createObjectURL(blob);
-
+  
       const link = document.createElement('a');
       link.href = url;
-      link.download = 'timeline.svg';
+      link.download = 'frise.svg';
       link.click();
-
+  
       window.URL.revokeObjectURL(url);
     }
   }
 
-  exportPNG(svgElement : any){
+  exportPNG(svgElement: any) {
+
+    console.log("export png");
     if (svgElement) {
       domtoimage.toBlob(svgElement)
         .then((blob: Blob) => {
-          saveAs(blob, 'timeline.png');
+          saveAs(blob, 'frise.png');
         });
     }
-
   }
 
-  exportPDF(svgElement : any){
+  exportPDF(svgElement: any) {
+
+    console.log("export pdf");
     if (svgElement) {
       domtoimage.toPng(svgElement)
         .then((dataUrl: string) => {
           const pdf = new jsPDF();
           const imgWidth = pdf.internal.pageSize.getWidth();
           const imgHeight = (svgElement.clientHeight * imgWidth) / svgElement.clientWidth;
-
+  
           pdf.addImage(dataUrl, 'PNG', 0, 0, imgWidth, imgHeight);
-          pdf.save('timeline.pdf');
+          pdf.save('frise.pdf');
         });
     }
   }
 
   exportCSV(){
+
+    console.log("export csv");
     const separator = ','; // Caractère de séparation des valeurs
 
     // Générer les en-têtes du CSV

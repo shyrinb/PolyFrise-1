@@ -1,7 +1,23 @@
 <div class="container">
     <div class="header">
         <button mat-raised-button color="primary" (click)="logout()" class="btn btn-primary">Déconnexion</button>
-        <button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Accueil</button>
+        <nav class="navbar">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Accueil</button>
+                </li><br>
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/ajouter" class="home-button">Ajouter données</button>
+                </li><br>
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/modifier" class="home-button">Modifier données</button>
+                </li><br>
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/supprimer" class="home-button">Supprimer données</button>
+                </li><br>
+            </ul>
+        </nav>        
+    
     </div>
     <mat-accordion>
         <mat-expansion-panel *ngFor="let suggestion of suggestions" hideToggle [ngClass]="getBackgroundColor(suggestion.type)">

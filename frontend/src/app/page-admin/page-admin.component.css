@@ -22,3 +22,29 @@ button {
 .suggestion-update {
     background-color: rgb(255, 237, 198);
 }
+
+.navbar {
+    background-color: #CFB1AA; /* Couleur de fond de la navbar */
+    border-radius: 10px;
+    display: flex;
+    justify-content: center; /* Centrer horizontalement les éléments enfants */
+    align-items: center; /* Centrer verticalement les éléments enfants */
+}
+
+
+.nav-list {
+    list-style-type: none; /* Supprimer les puces de la liste */
+    padding: 0;
+}
+
+.nav-item {
+    margin-bottom: 10px; /* Espacement entre chaque bouton */
+    text-align: center;
+}
+
+.home-button {
+    margin: 0; /* Supprimer les marges par défaut des boutons */
+    border-radius: 20px; /* Bord arrondi pour les boutons */
+    display: block; /* Faire en sorte que les boutons occupent la largeur complète */
+    width: 100%; /* Faire en sorte que les boutons occupent la largeur complète */
+}

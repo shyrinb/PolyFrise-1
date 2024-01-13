@@ -2,7 +2,7 @@
 
 <!-- Liste de choix de format de téléchargement -->
 <div id="top">
-    <button mat-raised-button color="primary" routerLink="/" class="home-button">Deconnexion</button>
+    <button mat-raised-button color="primary" (click)="logout()" class="home-button">Déconnexion</button>
     <button mat-raised-button color="primary" routerLink="/friseparam1" class="home-button">Générer frise chronologique</button>
     <button mat-raised-button color="primary" routerLink="/submissions" class="home-button">Gérer les soumissions</button>
 </div>

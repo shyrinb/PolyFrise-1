@@ -18,6 +18,9 @@ import { PersonnalitesComponent } from './personnalites/personnalites.component'
 import { DistinctionsComponent } from './distinctions/distinctions.component';
 import { GenerationinformatiqueComponent } from './generationinformatique/generationinformatique.component';
 import { DomainesComponent } from './domaines/domaines.component';
+import { PopupAddEventAdminComponent } from './popup-add-event-admin/popup-add-event-admin.component';
+import { PopupDeleteEventComponent } from './popup-delete-event/popup-delete-event.component';
+import { PopupModifyEventComponent } from './popup-modify-event/popup-modify-event.component';
 
 const routes: Routes = [
   // AUTHENTIFICATION
@@ -43,6 +46,11 @@ const routes: Routes = [
   {path: 'timeline', component: PageFriseComponent}, // ancien timeline
   {path: 'friseparam1', component: Pagefriseparam1Component},
   {path: 'friseparam2', component: Pagefriseparam2Component},
+
+  // AJOUTER, MODIFIER, SUPPRIMER DONNÉES 
+  {path: 'ajouter', component: PopupAddEventAdminComponent}, // ancien timeline
+  {path: 'supprimer', component: PopupDeleteEventComponent},
+  {path: 'modifier', component: PopupModifyEventComponent},
 ];
 
 @NgModule({

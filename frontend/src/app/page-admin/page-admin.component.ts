@@ -54,7 +54,7 @@ export class PageAdminComponent implements OnInit {
   logout() {
     this.messageService.sendDataAuto("deconnexion","", this.token).subscribe();
       localStorage.removeItem("jwtToken");
-      this.router.navigateByUrl('/admin');
+      this.router.navigateByUrl('/');
 
   }
 

@@ -37,6 +37,8 @@ exports.getTimeline= (req, res) => {
 }
 
 
+
+
 exports.getDataByCategories = async (req, res) => {
   const selectedCategories = req.body.categories;
   try {

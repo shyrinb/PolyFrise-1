@@ -25,7 +25,7 @@ npm run prod
 ```
 Cela lance l'application en mode production.
 
-###Mode Développement
+### Mode Développement
 
 ```bash
 npm run dev

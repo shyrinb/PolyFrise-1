@@ -47,6 +47,8 @@ import { PersonnalitesComponent } from './personnalites/personnalites.component'
 import { DistinctionsComponent } from './distinctions/distinctions.component';
 import { GenerationinformatiqueComponent } from './generationinformatique/generationinformatique.component';
 import { DomainesComponent } from './domaines/domaines.component';
+import { PopupDeleteEventComponent } from './popup-delete-event/popup-delete-event.component';
+import { PopupModifyEventComponent } from './popup-modify-event/popup-modify-event.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,8 @@ import { DomainesComponent } from './domaines/domaines.component';
     DistinctionsComponent,
     GenerationinformatiqueComponent,
     DomainesComponent,
+    PopupDeleteEventComponent,
+    PopupModifyEventComponent,
   ],
   imports: [
     BrowserModule,
