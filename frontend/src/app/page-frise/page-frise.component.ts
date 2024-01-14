@@ -12,7 +12,9 @@ import { HttpClient } from '@angular/common/http';
 import { timeFormat } from 'd3-time-format'; // Assurez-vous que le chemin est correct
 import * as d3 from 'd3'; // Assurez-vous que le chemin est correct
 import { saveAs } from 'file-saver';
-
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
+import * as canvg from 'canvg';
 
 interface TimelineItem {
 
@@ -359,7 +361,7 @@ export class PageFriseComponent implements OnInit {
     }
   }
 
-  exportSVG(svgElement : any){
+  exportSVG(svgElement: any){
 
     if (svgElement) {
       const serializer = new XMLSerializer();
@@ -377,52 +379,63 @@ export class PageFriseComponent implements OnInit {
     }
   }
 
-  exportPNG(svgElement : any){
-   console.log('export png');
+  exportPNG(svgElement: any) {
+    console.log("export png");
+    if (svgElement) {
+      // Exportez le SVG en tant que fichier SVG
+      const serializer = new XMLSerializer();
+      const svgData = serializer.serializeToString(svgElement);
+  
+      const svgBlob = new Blob([svgData], { type: 'image/svg+xml' });
+      const svgUrl = window.URL.createObjectURL(svgBlob);
+  
+      // Créez un lien pour télécharger le fichier SVG
+      const svgLink = document.createElement('a');
+      svgLink.href = svgUrl;
+      svgLink.download = 'timeline.svg';
+      svgLink.click();
+  
+      // Révoquez l'URL du fichier SVG
+      window.URL.revokeObjectURL(svgUrl);
+  
+      // Maintenant, convertissez le SVG en PNG
+      const canvas = document.createElement('canvas');
+      document.body.appendChild(canvas);
+  
+      const context = canvas.getContext('2d');
+      
+      if (context) {
+        const image = new Image();
+        
+        image.onload = () => {
+          canvas.width = image.width;
+          canvas.height = image.height;
+  
+          // Dessinez le SVG sur le canvas
+          context.drawImage(image, 0, 0, image.width, image.height);
+  
+          // Exportez le canvas en tant que fichier PNG
+          const imgData = canvas.toDataURL('image/png');
+  
+          // Créez un lien pour télécharger le fichier PNG
+          const pngLink = document.createElement('a');
+          pngLink.href = imgData;
+          pngLink.download = 'timeline.png';
+          pngLink.click();
+  
+          // Supprimez le canvas du corps du document
+          document.body.removeChild(canvas);
+        };
+  
+        // Chargez l'URL du fichier SVG dans l'image
+        image.src = svgUrl;
+      }
+    }
   }
+  
 
   exportPDF(svgElement : any){
-    
-   console.log('export pdf');
-  }
-
-  exportCSV(){
-    const separator = ','; // Caractère de séparation des valeurs
-
-    // Générer les en-têtes du CSV
-    const timelineItems = this.timelineItems.concat(this.timelineItemsTmp).map(element1 => {
-      const element2 = this.updatedItemTmp.find(element => element.event.id === element1.event.id);
-      return element2 ?  element2 : element1;
-    }).filter((event : TimelineItem) =>!this.deletedItemTmp.includes(event.event.id)).map((event : any) => {return(event.event) })
-
-
-    if(timelineItems.length == 0 ){
-      console.log("pas d'évènements")
-      return
-    }
-    const headers = Object.keys(timelineItems[0]);
-    const headerRow = headers.join(separator);
-
-    // Générer les lignes de données
-    const rows = timelineItems.map((item : any ) => {
-      return headers.map(header => {
-        if(item[header] instanceof Date){
-          return `"${item[header].toLocaleDateString('fr-FR') }"`;
-        }
-        if(Array.isArray(item[header])){
-          return `"${item[header].map((e : any) => {return e.id}) }"`;
-        }
-        return `"${item[header]}"`
-      }).join(separator);
-    });
-
-    // Concaténer les en-têtes et les lignes de données
-    const csvContent : string = `${headerRow}\n${rows.join('\n')}`;
-     // Créer un objet Blob avec le contenu CSV
-    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-
-    // Télécharger le fichier CSV
-    saveAs(blob, 'timeline.csv');
+    console.log('export pdf');
   }
 
   changeCategories() {
