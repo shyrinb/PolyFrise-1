@@ -15,6 +15,9 @@ const {
   getDomaines,
   getAvancees,
   getDistinctions,
+  updateSubmission,
+  createSubmission,
+  deleteSubmission,
   getEntreprises,
   getPersonnalites,
   getProgrammes,
@@ -22,7 +25,6 @@ const {
 } = require('../controllers/apiControllers');
 
 // Routes pour récupérer les données
-router.get('/submissions', getSubmissions);
 router.get('/generationsinformatique', getGenerationsInformatique);
 router.get('/evenementsinformatiques', getEvenementsInformatiques);
 router.get('/evenementshistoriques', getEvenementsHistoriques);
@@ -34,9 +36,13 @@ router.get('/entreprises', getEntreprises);
 router.get('/personnalites', getPersonnalites);
 router.get('/programmes', getProgrammes);
 router.post('/databycategory', getDataByCategories );
-
 router.get('/timeline', getTimeline);
-//router.post('/timeline/filter', eventController.getTimeline);
+
+// SUBMISSION
+router.get('/submissions', getSubmissions);
+router.post('/', createSubmission);
+router.put('/:submission_id', updateSubmission);
+router.delete('/:submission_id', deleteSubmission);
 
 // Routes pour l'authentification
 router.post('/inscription', signup);

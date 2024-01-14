@@ -27,6 +27,7 @@ const routes: Routes = [
   // 
   {path: 'error', component: ErreurComponent},
   {path: 'submission', component: PageAdminComponent},
+  
   {path: 'accueil', component: AccueilComponent },
   {path: 'update', component: UpdateComponent},
   // TIMELINE

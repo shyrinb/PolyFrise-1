@@ -1,42 +1,36 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = require('../database');
 const Category = require('./Category');
-const Avancee = require('./Avancees');
-const Distinction = require('./Distinctions');
-const Domaine = require('./Domaines');
-const Entreprise = require('./Entreprises');
-const EvenementHistorique = require('./Evenements_historiques');
-const EvenementInformatique = require('./Evenements_informatique');
-const Programme = require('./Programmes');
-const GenerationInformatique = require('./Generation_informatique');
-const Personnalite = require('./Personnalite');
 class Submission extends Sequelize.Model {}
 
 Submission.init({
     id: {
-        type: DataTypes.UUID,
-        allowNull: false,
-        primaryKey: true,
-        unique: true
-    },
-    type: {
-        type: DataTypes.ENUM('CREATE', 'UPDATE', 'DELETE'),
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+      },
+      submission_type: {
+        type: DataTypes.STRING(50),
         allowNull: false
-    },
-    new_date: {
-        type: DataTypes.DATEONLY
-    },
-    new_title: {
-        type: DataTypes.STRING
-    },
-    new_description: {
-        type: DataTypes.STRING
-    },
-    created_at: {
+      },
+      submitted_by: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+      },
+      submission_data: {
+        type: DataTypes.JSON,
+        allowNull: false
+      },
+      status: {
+        type: DataTypes.ENUM('pending', 'approved', 'rejected'),
+        defaultValue: 'pending'
+      },
+      timestamp: {
         type: DataTypes.DATE,
-        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
-    }
-}, {
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
+        allowNull: false
+      }
+    },  {
     sequelize,
     modelName: 'Submission',
     tableName: 'submissions',

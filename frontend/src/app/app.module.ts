@@ -48,6 +48,7 @@ import { DomainesComponent } from './domaines/domaines.component';
 import { InscriptionComponent } from './inscription/inscription.component';
 import { Pagefriseparam2Component } from './pagefriseparam2/pagefriseparam2.component';
 import { PageAdminComponent } from './page-admin/page-admin.component';
+import { SubmissionadminComponent } from './submissionadmin/submissionadmin.component';
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import { PageAdminComponent } from './page-admin/page-admin.component';
     GenerationinformatiqueComponent,
     DomainesComponent,
     Pagefriseparam2Component,
+    SubmissionadminComponent,
   ],
   imports: [
     BrowserModule,

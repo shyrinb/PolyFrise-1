@@ -113,7 +113,7 @@ export class PageFriseComponent implements OnInit {
   const friseStart = 100;
 
   const friseStartY = 80;
-  const minStartDate = new Date('1900-01-01');
+  const minStartDate = new Date('1850-01-01');
   const maxStartDate = new Date('2024-01-01');
 
   // Formatez les dates pour l'affichage
@@ -162,7 +162,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', xStart)
         .attr('y', friseHeight / 2 - 35)
         .style('text-anchor', 'middle')
-        .style('font-size', '15px')
+        .style('font-size', '17px')
         .style('fill', 'black')
         .text(yearFormatter(formattedStartDate));
 
@@ -171,7 +171,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', xEnd)
         .attr('y', friseHeight / 2 - 35)
         .style('text-anchor', 'middle')
-        .style('font-size', '15px')
+        .style('font-size', '17px')
         .style('fill', 'black')
         .text(yearFormatter(formattedEndDate));
 
@@ -180,7 +180,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseStart + 20)
         .attr('y', friseHeight / 2 + 25)
         .style('text-anchor', 'middle')
-        .style('font-size', '15px')
+        .style('font-size', '17px')
         .style('fill', 'brown')
         .text(yearFormatter(minStartDate));
 
@@ -189,7 +189,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseStart + friseWidth)
         .attr('y', friseHeight / 2 + 25)
         .style('text-anchor', 'end')
-        .style('font-size', '15px')
+        .style('font-size', '17px')
         .style('fill', 'brown')
         .text(yearFormatter(maxStartDate));
 
@@ -267,7 +267,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseHeight / 2 + 55)  // Ajustez la position du texte à gauche de la ligne de début
         .attr('y', yStart+10)
         .style('text-anchor', 'middle')  // Utilisez 'end' pour aligner le texte à droite
-        .style('font-size', '15px')
+        .style('font-size', '17px')
         .style('fill', 'black')
         .text(yearFormatter(this.timelineData.startDate));
 
@@ -276,7 +276,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseHeight / 2 + 55)  // Ajustez la position du texte à gauche de la ligne de début
         .attr('y', yEnd-10)
         .style('text-anchor', 'middle')  // Utilisez 'end' pour aligner le texte à droite
-        .style('font-size', '15px')
+        .style('font-size', '17px')
         .style('fill', 'black')
         .text(yearFormatter(this.timelineData.endDate));
 
@@ -285,7 +285,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseHeight / 2 + 25)  // Ajustez la position du texte à gauche de la ligne de début
         .attr('y', friseStartY - 10)
         .style('text-anchor', 'start')  // Utilisez 'end' pour aligner le texte à droite
-        .style('font-size', '15px')
+        .style('font-size', '17px')
         .style('fill', 'brown')
         .text(yearFormatter(minStartDate));
 
@@ -294,7 +294,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseHeight / 2 + 25)  // Ajustez la position du texte à gauche de la ligne de début
         .attr('y', friseStartY + friseHeightY -10)
         .style('text-anchor', 'start')  // Utilisez 'end' pour aligner le texte à droite
-        .style('font-size', '15px')
+        .style('font-size', '17px')
         .style('fill', 'brown')
         .text(yearFormatter(maxStartDate));
     
