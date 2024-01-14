@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { ErreurComponent } from './erreur/erreur.component';
 import { MatExpansionModule } from '@angular/material/expansion';
-
 import { AccueilComponent } from './accueil/accueil.component';
 import { Ng5SliderModule } from 'ng5-slider';
 import { Accueil2Component } from './accueil2/accueil2.component';
