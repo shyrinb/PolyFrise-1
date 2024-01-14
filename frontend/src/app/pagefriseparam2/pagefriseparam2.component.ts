@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from '../message.service';
 
@@ -7,8 +7,7 @@ import { MessageService } from '../message.service';
   templateUrl: './pagefriseparam2.component.html',
   styleUrls: ['./pagefriseparam2.component.css']
 })
-
-export class Pagefriseparam2Component implements OnInit{
+export class Pagefriseparam2Component {
   couleur: string = '';
   couleurPersonnalise: string = '';
   forme: string = '';
@@ -19,6 +18,7 @@ export class Pagefriseparam2Component implements OnInit{
   errorMessage: string="";
   infoChoix: any;
   constructor (private router : Router, private messageService: MessageService){}
+  
   ngOnInit(): void {
     this.data = JSON.parse(localStorage.getItem('data') || '{}');
   }
@@ -63,5 +63,4 @@ export class Pagefriseparam2Component implements OnInit{
   toggleSelectionOff() {
     this.selectionPersonnalisee = false;
   }
-
 }

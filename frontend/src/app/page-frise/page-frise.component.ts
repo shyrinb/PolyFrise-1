@@ -1,20 +1,18 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import * as labella from 'labella';
-import * as d3 from 'd3';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../message.service';
+
 import { MatDialog } from '@angular/material/dialog';
 import { PopupCatComponent } from '../popup-cat/popup-cat.component';
 import { PopupDateComponent } from '../popup-date/popup-date.component';
 import { PopupStyleComponent } from '../popup-style/popup-style.component';
-import { saveAs } from 'file-saver';
-import domtoimage from 'dom-to-image';
-import { jsPDF } from 'jspdf';
 import { PopupDescComponent } from '../popup-desc/popup-desc.component';
 import { PopupAddEventComponent } from '../popup-add-event/popup-add-event.component';
 import { HttpClient } from '@angular/common/http';
+import { timeFormat } from 'd3-time-format'; // Assurez-vous que le chemin est correct
+import * as d3 from 'd3'; // Assurez-vous que le chemin est correct
+import { saveAs } from 'file-saver';
 
-import { timeFormat } from 'd3-time-format';
 
 interface TimelineItem {
 
@@ -25,11 +23,10 @@ interface TimelineItem {
 @Component({
   selector: 'app-page-frise',
   templateUrl: './page-frise.component.html',
-  styleUrls: ['./page-frise.component.css'],
-
+  styleUrls: ['./page-frise.component.css']
 })
 
-export class PageFriseComponent implements OnInit {  
+export class PageFriseComponent implements OnInit {
   downloadFormats = {
     svg: false,
     jpeg: false,
@@ -81,8 +78,9 @@ export class PageFriseComponent implements OnInit {
   
     // Vérifiez si rawData.date est défini avant d'extraire les années
     const dates = rawData.date
-      ? rawData.date.split(',').map((date: string) => new Date(date))
-      : [];
+    ? rawData.date.split(',').map((date: string) => new Date(date))
+    : [];
+  
   
     // Créez un nouvel objet avec les dates au format Date
     const processedData = {
@@ -99,9 +97,10 @@ export class PageFriseComponent implements OnInit {
     return processedData;
   }
 
-  drawFrise(): void {
-    const container = document.querySelector('.frise-container.my-custom-frise');
 
+  drawFrise(): void {
+    console.log("drawfrise");
+    const container = document.querySelector('.frise-container.my-custom-frise');
 
   // Configurez les dimensions de votre frise
   const friseWidth = 1200; // La largeur initiale de la frise
@@ -113,11 +112,12 @@ export class PageFriseComponent implements OnInit {
   const minStartDate = new Date('1900-01-01');
   const maxStartDate = new Date('2024-01-01');
 
-  const dateFormatter = timeFormat('%b %Y');
-  console.log("Dates avant l'affichage sur la frise:", this.timelineData.dates);
-  console.log("endDate avant l'affichage sur la frise:", this.timelineData.endDate);
+  // Formatez les dates pour l'affichage
+  const formattedStartDate = this.formatDate(this.timelineData.startDate);
+  const formattedEndDate = this.formatDate(this.timelineData.endDate);
 
-  console.log("startDate avant l'affichage sur la frise:", this.timelineData.startDate);
+  const yearFormatter = timeFormat('%Y');
+  const dateFormatter = timeFormat('%b %Y');
 
   console.log("choisi",this.timelineData.shape) ;
   if (this.timelineData.shape === 'horizontale') {
@@ -142,8 +142,8 @@ export class PageFriseComponent implements OnInit {
       .style('fill', 'brown');
 
     // PLAGE SELECTIONNÉE 
-    const xStart = friseStart + xScale(this.timelineData.startDate);
-    const xEnd = friseStart + xScale(this.timelineData.endDate);
+    const xStart: number = friseStart + xScale(this.timelineData.startDate);
+    const xEnd: number = friseStart + xScale(this.timelineData.endDate);
 
     // Ajoutez le rectangle de la plage sélectionnée
     svg.append('rect')
@@ -153,7 +153,6 @@ export class PageFriseComponent implements OnInit {
       .attr('height', 30)
       .style('fill', 'black');
 
-    const yearFormatter = timeFormat('%Y');
       // Ajoutez le texte pour afficher la date de début PERIODE SELECTIONNE 
       svg.append('text')
         .attr('x', xStart)
@@ -161,7 +160,7 @@ export class PageFriseComponent implements OnInit {
         .style('text-anchor', 'middle')
         .style('font-size', '20px')
         .style('fill', 'black')
-        .text(yearFormatter(this.timelineData.startDate));
+        .text(yearFormatter(formattedStartDate));
 
     // Ajoutez le texte pour afficher la date de fin PERIODE SELECTIONNE 
     svg.append('text')
@@ -170,7 +169,7 @@ export class PageFriseComponent implements OnInit {
         .style('text-anchor', 'middle')
         .style('font-size', '20px')
         .style('fill', 'black')
-        .text(yearFormatter(this.timelineData.endDate));
+        .text(yearFormatter(formattedEndDate));
 
     // Ajoutez le texte pour afficher la date de début sur la frise
     svg.append('text')
@@ -190,42 +189,43 @@ export class PageFriseComponent implements OnInit {
         .style('fill', 'brown')
         .text(yearFormatter(maxStartDate));
 
-    // DATE DES EVENEMENTS
+   // DATE DES EVENEMENTS
     svg.selectAll('.event-text')
-        .data(this.timelineData.dates)
-        .enter()
-        .append('text')
-        .attr('x', (date: string) => friseStart + xScale(new Date(date)))
-        .attr('y', friseHeight / 2 + 45)
-        .style('text-anchor', 'middle')
-        .style('font-size', '20px')
-        .style('fill', 'black')
-        .text((date: string) => dateFormatter(new Date(date)));
+     .data(this.timelineData.dates as Date[])
+     .enter()
+     .append('text')
+     .attr('x', (date: Date) => friseStart + xScale(date))
+     .attr('y', friseHeight / 2 + 45)
+     .style('text-anchor', 'middle')
+     .style('font-size', '20px')
+     .style('fill', 'black')
+     .text((date: Date) => dateFormatter(date));
 
     // CERCLE DES DATES
     svg.selectAll('.event-circle')
-        .data(this.timelineData.dates)
+        .data(this.timelineData.dates as Date[])
         .enter()
         .append('circle')
-        .attr('cx', (date: string) => friseStart + xScale(new Date(date)))
+        .attr('cx', (date: Date) => friseStart + xScale(date))
         .attr('cy', friseHeight / 2 - 10)
         .attr('r', 15)
-        .style('fill', (date: string) => this.timelineData.color);
+        .style('fill', (date: Date) => this.timelineData.color);
 
     // NOM DES EVENEMENTS 
-    svg.selectAll('.event-text')
-        .data(this.timelineData.dates)
+    svg.selectAll('.event-text') 
+        .data(this.timelineData.dates as Date[])
         .enter()
         .append('text')
-        .attr('x', (date: string) => friseStart + xScale(new Date(date)))
+        .attr('x', (date: Date) => friseStart + xScale(date))
         .attr('y', friseHeight / 2 + 65)
         .style('text-anchor', 'middle')
         .style('font-size', '14px')
         .style('fill', 'black')
-        .text((date: string, index: number) => {
+        .text((date: Date, index: number) => {
             const eventName = this.timelineData.nom.split(', ')[index];
             return eventName;
         });
+
 } else if (this.timelineData.shape === 'verticale') {
   console.log("choisi verticale");
   //-------// Étendez la plage minimale pour prendre en compte la date de début minimale des données
@@ -258,8 +258,6 @@ export class PageFriseComponent implements OnInit {
      .attr('height', yEnd - yStart)
      .style('fill', 'black');
    
-
-    const yearFormatter = timeFormat('%Y');
     // Ajoutez le texte pour afficher la date de début PERIODE SELECTIONNE 
     svg.append('text')
         .attr('x', friseHeight / 2 + 55)  // Ajustez la position du texte à gauche de la ligne de début
@@ -295,55 +293,55 @@ export class PageFriseComponent implements OnInit {
         .style('font-size', '20px')
         .style('fill', 'brown')
         .text(yearFormatter(maxStartDate));
+    
 
     // DATE DES EVENEMENTS
     svg.selectAll('.event-text')
-        .data(this.timelineData.dates)
-        .enter()
-        .append('text')
-        .attr('x', friseHeight / 2 -20)  // Ajustez la position avec le décalage de départ
-        .attr('y', (date: string) => yScale(new Date(date)))
-        .style('text-anchor', 'end')  // Utilisez 'end' pour aligner le texte à droite
-        .style('font-size', '20px')
-        .style('fill', 'black')
-        .text((date: string) => dateFormatter(new Date(date)));
+    .data(this.timelineData.dates as Date[])
+    .enter()
+    .append('text')
+    .attr('x', friseHeight / 2 -20)  // Ajustez la position avec le décalage de départ
+    .attr('y', (date: Date) => friseStartY + yScale(date))
+    .style('text-anchor', 'end')  // Utilisez 'end' pour aligner le texte à droite
+    .style('font-size', '20px')
+    .style('fill', 'black')
+    .text((date: Date) => dateFormatter(date));
 
     // CERCLE DES DATES
     svg.selectAll('.event-circle')
-        .data(this.timelineData.dates)
+     .data(this.timelineData.dates as Date[])
         .enter()
         .append('circle')
         .attr('cx', friseHeight / 2)  // Ajustez la position avec le décalage de départ
-        .attr('cy', (date: string) => yScale(new Date(date)))
+        .attr('cy', (date: Date) => friseStartY + yScale(date))
         .attr('r', 15)
-        .style('fill', (date: string) => this.timelineData.color);
+        .style('fill', (date: Date)  => this.timelineData.color);
 
     // NOM DES EVENEMENTS 
     svg.selectAll('.event-text')
-        .data(this.timelineData.dates)
+     .data(this.timelineData.dates as Date[])
         .enter()
         .append('text')
         .attr('x', friseHeight / 2 -120)  // Ajustez la position avec le décalage de départ
-        .attr('y', (date: string) => yScale(new Date(date)))
+        .attr('y', (date: Date) => friseStartY + yScale(date))
         .style('text-anchor', 'end')  // Utilisez 'end' pour aligner le texte à droite
         .style('font-size', '14px')
         .style('fill', 'black')
-        .text((date: string, index: number) => {
+        .text((date: Date, index: number) => {
             const eventName = this.timelineData.nom.split(', ')[index];
             return eventName;
         });
       }
+  }
 
-   }
-
-   generateTimeline():void {
-    this.drawFrise()
-   };
+  generateTimeline() {
+    // Appel de la fonction de dessin du graphique avec les nœuds calculés par l'objet Force
+    this.drawFrise();
+  }
 
   exportTimeline() {
-    
     const container = document.querySelector('.frise-container.my-custom-frise');
-    const svgElement = container.querySelector('svg');
+    const svgElement = container?.querySelector('svg');
 
     switch (this.selectedFormat) {
       case 'svg':
@@ -362,11 +360,6 @@ export class PageFriseComponent implements OnInit {
   }
 
   exportSVG(svgElement : any){
-    console.log("choisi svg");
-    if (!svgElement) {
-      console.error("L'élément SVG est null ou non défini");
-      return;
-    }
 
     if (svgElement) {
       const serializer = new XMLSerializer();
@@ -385,31 +378,51 @@ export class PageFriseComponent implements OnInit {
   }
 
   exportPNG(svgElement : any){
-
-    console.log("choisi png");
-    if (svgElement) {
-      domtoimage.toBlob(svgElement)
-        .then((blob: Blob) => {
-          saveAs(blob, 'timeline.png');
-        });
-    }
-
+   console.log('export png');
   }
 
   exportPDF(svgElement : any){
+    
+   console.log('export pdf');
+  }
 
-    console.log("choisi pdf");
-    if (svgElement) {
-      domtoimage.toPng(svgElement)
-        .then((dataUrl: string) => {
-          const pdf = new jsPDF();
-          const imgWidth = pdf.internal.pageSize.getWidth();
-          const imgHeight = (svgElement.clientHeight * imgWidth) / svgElement.clientWidth;
+  exportCSV(){
+    const separator = ','; // Caractère de séparation des valeurs
 
-          pdf.addImage(dataUrl, 'PNG', 0, 0, imgWidth, imgHeight);
-          pdf.save('timeline.pdf');
-        });
+    // Générer les en-têtes du CSV
+    const timelineItems = this.timelineItems.concat(this.timelineItemsTmp).map(element1 => {
+      const element2 = this.updatedItemTmp.find(element => element.event.id === element1.event.id);
+      return element2 ?  element2 : element1;
+    }).filter((event : TimelineItem) =>!this.deletedItemTmp.includes(event.event.id)).map((event : any) => {return(event.event) })
+
+
+    if(timelineItems.length == 0 ){
+      console.log("pas d'évènements")
+      return
     }
+    const headers = Object.keys(timelineItems[0]);
+    const headerRow = headers.join(separator);
+
+    // Générer les lignes de données
+    const rows = timelineItems.map((item : any ) => {
+      return headers.map(header => {
+        if(item[header] instanceof Date){
+          return `"${item[header].toLocaleDateString('fr-FR') }"`;
+        }
+        if(Array.isArray(item[header])){
+          return `"${item[header].map((e : any) => {return e.id}) }"`;
+        }
+        return `"${item[header]}"`
+      }).join(separator);
+    });
+
+    // Concaténer les en-têtes et les lignes de données
+    const csvContent : string = `${headerRow}\n${rows.join('\n')}`;
+     // Créer un objet Blob avec le contenu CSV
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+
+    // Télécharger le fichier CSV
+    saveAs(blob, 'timeline.csv');
   }
 
   changeCategories() {
@@ -444,7 +457,6 @@ export class PageFriseComponent implements OnInit {
       }
     });
   }
-  
 
   changeDates() {
     const dialogRef = this.dialog.open(PopupDateComponent, {

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 
 export class AvanceesComponent implements OnInit {
   avanceesData: any[];
-token!: string;
+  token!: string;
 
   constructor(private http: HttpClient, private router: Router,private avanceesService: MessageService) {}
 

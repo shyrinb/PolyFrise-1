@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpParams,HttpHeaders } from '@angular/common/http';
-import { catchError, Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 
 
 @Injectable({
@@ -8,13 +8,19 @@ import { catchError, Observable, throwError } from 'rxjs';
 })
 
 export class MessageService {
-  private prefixe= 'http://localhost:3000/api';
+  prefixe: string;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient) {this.prefixe='http://localhost:3000/api'}
 
     sendData(fin: string, data: any): Observable<any> {
       const url = this.prefixe + "/" + fin;
       return this.http.post<any>(url, data);
+    }
+
+    getData(fin: string, data: any ): Observable<any>{
+      const params = new HttpParams({fromObject: data});
+      const url = this.prefixe + "/" + fin;
+      return this.http.get<any>(url, { params });
     }
 
     signup(data: any) {
@@ -25,12 +31,6 @@ export class MessageService {
       return this.http.post(`${this.prefixe}/connexion`, data);
     }
 
-    getData(fin: string, data: any ): Observable<any>{
-      const params = new HttpParams({fromObject: data});
-      const url = this.prefixe + "/" + fin;
-      return this.http.get<any>(url, { params });
-    }
-
     getDataByCategory(endpoint: string, data: any): Observable<any> {
       return this.http.post(`${this.prefixe}/${endpoint}`, data);
     }
@@ -39,13 +39,13 @@ export class MessageService {
       const url = this.prefixe + fin;
       return this.http.get<any[]>(url);
     }
-    
+
     getDataAuto(fin: string, token: any ): Observable<any>{
 
         // Créez les en-têtes de la requête avec le token d'authentification
       const headers = new HttpHeaders().set('Authorization',`Bearer ${token}`);
       const options = {headers:headers};
-      const url = this.prefixe + "/" +fin;
+      const url = this.prefixe + fin;
       return this.http.get<any>(url,options);
     }
 
@@ -56,3 +56,4 @@ export class MessageService {
       return this.http.post<any>(url,data,options);
     }
   }
+
