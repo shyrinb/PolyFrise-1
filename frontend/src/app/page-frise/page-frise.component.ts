@@ -50,7 +50,7 @@ export class PageFriseComponent implements OnInit {
 
   timelineData: any; // Assurez-vous que le type correspond à la structure de vos données
   color : any ;
-  shape : any;
+  private shape: string = ''; 
   constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private messageService : MessageService,public dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -83,7 +83,8 @@ export class PageFriseComponent implements OnInit {
     const dates = rawData.date
     ? rawData.date.split(',').map((date: string) => new Date(date))
     : [];
-  
+    // Stockez la valeur de shape
+    this.shape = rawData.shape;
   
     // Créez un nouvel objet avec les dates au format Date
     const processedData = {
@@ -161,7 +162,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', xStart)
         .attr('y', friseHeight / 2 - 35)
         .style('text-anchor', 'middle')
-        .style('font-size', '20px')
+        .style('font-size', '15px')
         .style('fill', 'black')
         .text(yearFormatter(formattedStartDate));
 
@@ -170,7 +171,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', xEnd)
         .attr('y', friseHeight / 2 - 35)
         .style('text-anchor', 'middle')
-        .style('font-size', '20px')
+        .style('font-size', '15px')
         .style('fill', 'black')
         .text(yearFormatter(formattedEndDate));
 
@@ -179,7 +180,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseStart + 20)
         .attr('y', friseHeight / 2 + 25)
         .style('text-anchor', 'middle')
-        .style('font-size', '20px')
+        .style('font-size', '15px')
         .style('fill', 'brown')
         .text(yearFormatter(minStartDate));
 
@@ -188,7 +189,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseStart + friseWidth)
         .attr('y', friseHeight / 2 + 25)
         .style('text-anchor', 'end')
-        .style('font-size', '20px')
+        .style('font-size', '15px')
         .style('fill', 'brown')
         .text(yearFormatter(maxStartDate));
 
@@ -200,7 +201,7 @@ export class PageFriseComponent implements OnInit {
      .attr('x', (date: Date) => friseStart + xScale(date))
      .attr('y', friseHeight / 2 + 45)
      .style('text-anchor', 'middle')
-     .style('font-size', '20px')
+     .style('font-size', '18px')
      .style('fill', 'black')
      .text((date: Date) => dateFormatter(date));
 
@@ -266,7 +267,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseHeight / 2 + 55)  // Ajustez la position du texte à gauche de la ligne de début
         .attr('y', yStart+10)
         .style('text-anchor', 'middle')  // Utilisez 'end' pour aligner le texte à droite
-        .style('font-size', '20px')
+        .style('font-size', '15px')
         .style('fill', 'black')
         .text(yearFormatter(this.timelineData.startDate));
 
@@ -275,7 +276,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseHeight / 2 + 55)  // Ajustez la position du texte à gauche de la ligne de début
         .attr('y', yEnd-10)
         .style('text-anchor', 'middle')  // Utilisez 'end' pour aligner le texte à droite
-        .style('font-size', '20px')
+        .style('font-size', '15px')
         .style('fill', 'black')
         .text(yearFormatter(this.timelineData.endDate));
 
@@ -284,7 +285,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseHeight / 2 + 25)  // Ajustez la position du texte à gauche de la ligne de début
         .attr('y', friseStartY - 10)
         .style('text-anchor', 'start')  // Utilisez 'end' pour aligner le texte à droite
-        .style('font-size', '20px')
+        .style('font-size', '15px')
         .style('fill', 'brown')
         .text(yearFormatter(minStartDate));
 
@@ -293,7 +294,7 @@ export class PageFriseComponent implements OnInit {
         .attr('x', friseHeight / 2 + 25)  // Ajustez la position du texte à gauche de la ligne de début
         .attr('y', friseStartY + friseHeightY -10)
         .style('text-anchor', 'start')  // Utilisez 'end' pour aligner le texte à droite
-        .style('font-size', '20px')
+        .style('font-size', '15px')
         .style('fill', 'brown')
         .text(yearFormatter(maxStartDate));
     
@@ -306,7 +307,7 @@ export class PageFriseComponent implements OnInit {
     .attr('x', friseHeight / 2 -20)  // Ajustez la position avec le décalage de départ
     .attr('y', (date: Date) => friseStartY + yScale(date))
     .style('text-anchor', 'end')  // Utilisez 'end' pour aligner le texte à droite
-    .style('font-size', '20px')
+    .style('font-size', '18px')
     .style('fill', 'black')
     .text((date: Date) => dateFormatter(date));
 
@@ -445,16 +446,31 @@ export class PageFriseComponent implements OnInit {
       // Utilisez html2pdf pour exporter le contenu SVG en PDF
       const pdfElement = document.createElement('div');
       pdfElement.innerHTML = svgData;
+      let pdfOptions;
+
+      if (this.shape === 'horizontale') {
+        pdfOptions = {
+          margin: 2,
+          filename: 'timeline.pdf',
+          image: { type: 'jpeg', quality: 1 },
+          html2canvas: { scale: 1 },
+          jsPDF: { unit: 'mm', format: [350,250], orientation: 'landscape' },
+        };
+      } else { // Par défaut ou pour la forme 'vertical'
+        pdfOptions = {
+          margin: 2,
+          filename: 'timeline.pdf',
+          image: { type: 'jpeg', quality: 0.95 },
+          html2canvas: { scale: 1 },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        };
+      }
   
-      const pdfOptions = {
-        margin: 10,
-        filename: 'timeline.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
-        html2canvas: { scale: 1 },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
-      };
-  
-      html2pdf(pdfElement, pdfOptions);
+      html2pdf(pdfElement, pdfOptions).then((pdf: any) => { // Spécifiez le type de pdf
+       
+        // Téléchargez le PDF
+        pdf.save('timeline.pdf');
+      });
     }
   }
 
