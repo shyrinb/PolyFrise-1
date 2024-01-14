@@ -5,7 +5,7 @@
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "types": ["dom-to-image", "file-saver", "jspdf","html2canvas"],
+    "types": ["dom-to-image", "file-saver", "jspdf", "html2canvas", "html2pdf.js"],
     "noImplicitOverride": true,
     "strictPropertyInitialization": false,
     "noPropertyAccessFromIndexSignature": true,

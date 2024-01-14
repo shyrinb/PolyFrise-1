@@ -15,6 +15,7 @@ import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import * as canvg from 'canvg';
+import * as html2pdf from 'html2pdf.js';
 
 interface TimelineItem {
 
@@ -432,10 +433,29 @@ export class PageFriseComponent implements OnInit {
       }
     }
   }
-  
 
-  exportPDF(svgElement : any){
+  exportPDF(svgElement: any) {
     console.log('export pdf');
+    if (svgElement) {
+      
+      // Exportez le SVG en tant que fichier SVG
+      const serializer = new XMLSerializer();
+      const svgData = serializer.serializeToString(svgElement);
+  
+      // Utilisez html2pdf pour exporter le contenu SVG en PDF
+      const pdfElement = document.createElement('div');
+      pdfElement.innerHTML = svgData;
+  
+      const pdfOptions = {
+        margin: 10,
+        filename: 'timeline.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 1 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' },
+      };
+  
+      html2pdf(pdfElement, pdfOptions);
+    }
   }
 
   changeCategories() {
