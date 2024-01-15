@@ -42,16 +42,6 @@
       </div>
     </div>
     
-    <!-- Affichage des colonnes de la catégorie sélectionnée (excluez la colonne 'id') -->
-    <div class="columns">
-      <label>Sélectionnez les champs à supprimer :</label>
-      <div *ngFor="let column of selectedCategoriesColumns">
-        <ng-container *ngIf="column !== 'id'">
-          <label>{{ column }} :</label>
-          <input type="text" [value]="formData.get(column)?.value" (input)="onInput($event, column)">
-        </ng-container>
-      </div>
-    </div>
   </div>
   
     </form>

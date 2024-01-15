@@ -104,7 +104,7 @@ export class PopupModifyEventComponent {
             case 'entreprises':
               date_name = 'fondation';
               break;
-            case 'evenements_historique':
+            case 'evenements_historiques':
               date_name = 'date_evenement';
               break;
             case 'evenements_informatiques':
@@ -197,7 +197,7 @@ export class PopupModifyEventComponent {
   
     this.messageService.sendDataMod(this.selectedCategoryName,this.selectedEventId, formDataValues).subscribe(
       response => {
-        // Traitez la réponse du service si nécessaire
+        alert("modification effectuée");
         console.log('Réponse du service :', response);
       },
       error => {

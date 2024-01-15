@@ -103,7 +103,7 @@ export class PopupDeleteEventComponent {
             case 'entreprises':
               date_name = 'fondation';
               break;
-            case 'evenements_historique':
+            case 'evenements_historiques':
               date_name = 'date_evenement';
               break;
             case 'evenements_informatiques':
@@ -162,12 +162,6 @@ export class PopupDeleteEventComponent {
       this.loadDates();
 
       console.log("affiche les colonnes");
-
-      this.messageService.getChampByCategorie(categoryName).subscribe(columns => {
-        // Excluez la colonne 'id' de la liste des colonnes
-        this.selectedCategoriesColumns = columns.filter(column => column !== 'id');
-        this.initializeForm();  // Initialiser le formulaire lorsque vous avez les colonnes
-      });
     }
   }
 
@@ -192,11 +186,10 @@ export class PopupDeleteEventComponent {
   }
 
   submitData(): void {
-    const formDataValues = this.formData.value;
   
-    this.messageService.sendDataMod(this.selectedCategoryName,this.selectedEventId, formDataValues).subscribe(
+    this.messageService.sendDataDel(this.selectedCategoryName,this.selectedEventId).subscribe(
       response => {
-        // Traitez la réponse du service si nécessaire
+        alert("suppression effectuée ");
         console.log('Réponse du service :', response);
       },
       error => {

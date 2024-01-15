@@ -230,9 +230,9 @@ function getDateFieldName(selectedCategories) {
 
 
 exports.modifDataByCategories = async (req, res) => {
-  const selectedCategories = req.body.category;
+  const selectedCategories = req.params.category;
   console.log("table:", selectedCategories);
-  const selectedEvent = req.body.event;
+  const selectedEvent = req.params.event;
   console.log("event id:", selectedEvent);
   let newData = req.body; // Créez une copie de req.body pour éviter les modifications directes
 
@@ -296,6 +296,63 @@ exports.modifDataByCategories = async (req, res) => {
     await existingData.save();
 
     res.json({ success: true, message: 'Données mises à jour avec succès' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur de serveur' });
+  }
+};
+
+exports.delDataByCategories = async (req, res) => {
+  const selectedCategories = req.params.category;
+  console.log("table:", selectedCategories);
+  const selectedEvent = req.params.event;
+  console.log("event id:", selectedEvent);
+  let newData = req.body; // Créez une copie de req.body pour éviter les modifications directes
+
+  try {
+    let selectedTable;
+
+    // Déterminez quelle table utiliser en fonction de la catégorie sélectionnée
+    switch (selectedCategories) {
+      case 'avancees':
+          selectedTable = require('../models/Avancees'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'personnalites':
+          selectedTable = require('../models/Personnalite'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'programmes':
+          selectedTable = require('../models/Programmes'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'entreprises':
+          selectedTable = require('../models/Entreprises'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'evenements_historiques':
+          selectedTable = require('../models/Evenements_historiques'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'evenements_informatiques':
+          selectedTable = require('../models/Evenements_informatiques'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'domaines':
+          selectedTable = require('../models/Domaines'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'distinctions':
+          selectedTable = require('../models/Distinctions'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'generations_informatiques':
+          selectedTable = require('../models/Generation_informatique');
+          break;
+      default:
+        return res.status(400).json({ error: 'Catégorie non valide' });
+    }
+
+   // Supprimez les données existantes de la base de données
+   const deletedRowsCount = await selectedTable.destroy({ where: { id: parseInt(selectedEvent, 10) } });
+
+   if (deletedRowsCount === 0) {
+     return res.status(404).json({ error: 'Donnée non trouvée' });
+   }
+
+   res.json({ success: true, message: 'Données supprimées avec succès' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Erreur de serveur' });

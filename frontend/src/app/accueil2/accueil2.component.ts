@@ -82,7 +82,7 @@ export class Accueil2Component implements OnInit{
           case 'entreprises':
             date_name = 'fondation';
             break;
-          case 'evenements_historique':
+          case 'evenements_historiques':
             date_name = 'date_evenement';
             break;
           case 'evenements_informatiques':

@@ -56,14 +56,18 @@ export class MessageService {
       return this.http.post<any>(url, formData);
     }
     
-    sendDataMod(selectedCategory: string,event_id:string, formData: any): Observable<any> {
+    sendDataMod(selectedCategory: string, event_id: string, formData: any): Observable<any> {
       const url = `${this.prefixe}/modify-event`;
-      formData.category = selectedCategory;
-      formData.event = event_id;  // Utilisez la même propriété ici
+      const modifiedUrl = `${url}/${selectedCategory}/${event_id}`;
       console.log("formulaire service", formData);
-      console.log("service categories", formData.category);
-      console.log("service modfication event", formData.event);  
-      return this.http.post<any>(url, formData);
+      console.log("service categories", selectedCategory);
+      console.log("service modification event", event_id);  
+      return this.http.put<any>(modifiedUrl, formData);
+    }
+
+    sendDataDel(selectedCategory: string, event_id: string): Observable<any> {
+      const url = `${this.prefixe}/del-event/${selectedCategory}/${event_id}`;
+      return this.http.delete<any>(url);
     }
 
     getChampByCategorie(selectedCategories: string): Observable<any[]> {

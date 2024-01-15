@@ -10,6 +10,7 @@ const {
   getCategory,
   getTimeline,
   getGenerationsInformatique,
+  delDataByCategories,
   getEvenementsInformatiques,
   getEvenementsHistoriques,
   getDomaines,
@@ -43,7 +44,8 @@ router.get('/timeline', getTimeline);
 
 //EVENT
 router.post('/add-event',insertDataByCategories);
-router.post('/modify-event',modifDataByCategories);
+router.put('/modify-event/:category/:event', modifDataByCategories);
+router.delete('/del-event/:category/:event', delDataByCategories);
 
 // SUBMISSION
 router.get('/submissions', getSubmissions);
