@@ -1,1 +1,21 @@
-<p>popup-delete-event works!</p>
+<div class="container">
+    <div class="header">
+        <button mat-raised-button color="primary" (click)="logout()" class="btn btn-primary">Déconnexion</button>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/accueil" class="home-button" >Accueil</button>
+                </li>
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/add-event" class="home-button">Ajouter données</button>
+                </li>
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/modify-event" class="home-button">Modifier données</button>
+                </li>
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/delete-event" class="home-button" style="color:red;">Supprimer données</button>
+                </li><br>
+            </ul>     
+    </div>
+
+
+    <h1 mat-dialog-title>Supprimer un évènement</h1>

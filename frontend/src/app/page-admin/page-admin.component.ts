@@ -100,10 +100,6 @@ export class PageAdminComponent implements OnInit {
   }
 
 
-  manageHistoricalEvents() {
-    this.router.navigateByUrl('/admin/update');
-  }
-
   getBackgroundColor(type: string): string {
     switch (type) {
       case 'UPDATE':

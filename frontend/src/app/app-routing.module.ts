@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { ErreurComponent } from './erreur/erreur.component';
 import { AccueilComponent } from './accueil/accueil.component';
-import { UpdateComponent } from './update/update.component';
 import { AvanceesComponent } from './avancees/avancees.component';
 import { ProgrammesComponent } from './programmes/programmes.component';
 import { EntreprisesComponent } from './entreprises/entreprises.component';
@@ -18,6 +17,9 @@ import { Accueil2Component } from './accueil2/accueil2.component';
 import { Pagefriseparam2Component } from './pagefriseparam2/pagefriseparam2.component';
 import { PageFriseComponent } from './page-frise/page-frise.component';
 import { PageAdminComponent } from './page-admin/page-admin.component';
+import { PopupModifyEventComponent } from './popup-modify-event/popup-modify-event.component';
+import { PopupAddEventComponent } from './popup-add-event/popup-add-event.component';
+import { PopupDeleteEventComponent } from './popup-delete-event/popup-delete-event.component';
 
 const routes: Routes = [
   // AUTHENTIFICATION
@@ -29,7 +31,6 @@ const routes: Routes = [
   {path: 'submission', component: PageAdminComponent},
   
   {path: 'accueil', component: AccueilComponent },
-  {path: 'update', component: UpdateComponent},
   // TIMELINE
   {path: 'timeline', component: PageFriseComponent},
   {path: 'friseparam1', component: Accueil2Component},
@@ -44,6 +45,11 @@ const routes: Routes = [
 {path: 'evenementsinformatiques', component: EvenementsinformatiquesComponent},
 {path: 'domaines', component: DomainesComponent},
 {path: 'evenementshistoriques', component: EvenementshistoriquesComponent},
+
+// EVENT
+{path: "add-event",component: PopupAddEventComponent},
+{path: "modify-event",component: PopupModifyEventComponent},
+{path: "delete-event",component: PopupDeleteEventComponent},
 
 ];
 

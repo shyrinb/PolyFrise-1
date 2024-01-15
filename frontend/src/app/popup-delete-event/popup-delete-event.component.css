@@ -1,0 +1,19 @@
+h2 {
+    margin-top: 50px
+}
+
+mat-card-actions {
+    align-items: center;
+}
+
+button {
+    margin: 20px;
+    margin-left: 0px;
+}
+
+.home-button {
+    margin: 0; /* Supprimer les marges par défaut des boutons */
+    border-radius: 20px; /* Bord arrondi pour les boutons */
+    display: block; /* Faire en sorte que les boutons occupent la largeur complète */
+    width: 100%; /* Faire en sorte que les boutons occupent la largeur complète */
+}

@@ -6,8 +6,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { PopupCatComponent } from '../popup-cat/popup-cat.component';
 import { PopupDateComponent } from '../popup-date/popup-date.component';
 import { PopupStyleComponent } from '../popup-style/popup-style.component';
-import { PopupDescComponent } from '../popup-desc/popup-desc.component';
-import { PopupAddEventComponent } from '../popup-add-event/popup-add-event.component';
 import { HttpClient } from '@angular/common/http';
 import { timeFormat } from 'd3-time-format'; // Assurez-vous que le chemin est correct
 import * as d3 from 'd3'; // Assurez-vous que le chemin est correct
@@ -572,45 +570,4 @@ export class PageFriseComponent implements OnInit {
     });
   }
 
-  addEvent() {
-    const dialogRef = this.dialog.open(PopupAddEventComponent, {
-      width: '50%',
-      height: 'auto',
-      data: {}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        console.log(result)
-        this.timelineItemsTmp.push({event : result})
-        this.generateTimeline();
-      }
-    });
-  }
-
-  eventClicked = (event: any) => {
-    event.preventDefault();
-      const dialogRef = this.dialog.open(PopupDescComponent, {
-        width: '50%',
-        height: 'auto',
-        data: { event : event.target.__data__.data.event }
-    })
-
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        if(result.action == "delete"){
-          this.deletedItemTmp.push(result.data)
-          this.generateTimeline();
-        }
-        if(result.action == "modify"){
-          const index = this.updatedItemTmp.findIndex(element => element.event.id === result.data.id);
-          if (index !== -1) {
-            this.updatedItemTmp.splice(index, 1);
-          }
-          this.updatedItemTmp.push({event : result.data})
-          this.generateTimeline();
-        }
-      }
-    });
-  }
 }

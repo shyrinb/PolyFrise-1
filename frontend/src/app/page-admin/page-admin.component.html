@@ -1,23 +1,20 @@
 <div class="container">
     <div class="header">
         <button mat-raised-button color="primary" (click)="logout()" class="btn btn-primary">Déconnexion</button>
-        <nav class="navbar">
             <ul class="nav-list">
                 <li class="nav-item">
-                    <button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Accueil</button>
-                </li><br>
+                    <button mat-raised-button color="primary" routerLink="/accueil" class="home-button" style="color:red;">Accueil</button>
+                </li>
                 <li class="nav-item">
-                    <button mat-raised-button color="primary" routerLink="/ajouter" class="home-button">Ajouter données</button>
-                </li><br>
+                    <button mat-raised-button color="primary" routerLink="/add-event" class="home-button">Ajouter données</button>
+                </li>
                 <li class="nav-item">
-                    <button mat-raised-button color="primary" routerLink="/modifier" class="home-button">Modifier données</button>
-                </li><br>
+                    <button mat-raised-button color="primary" routerLink="/modify-event" class="home-button">Modifier données</button>
+                </li>
                 <li class="nav-item">
-                    <button mat-raised-button color="primary" routerLink="/supprimer" class="home-button">Supprimer données</button>
+                    <button mat-raised-button color="primary" routerLink="/delete-event" class="home-button">Supprimer données</button>
                 </li><br>
-            </ul>
-        </nav>        
-    
+            </ul>     
     </div>
     <mat-accordion>
         <mat-expansion-panel *ngFor="let suggestion of suggestions" hideToggle [ngClass]="getBackgroundColor(suggestion.type)">

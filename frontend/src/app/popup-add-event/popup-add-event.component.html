@@ -1,32 +1,41 @@
-<h1 mat-dialog-title>Ajouter un évènement</h1>
-<div mat-dialog-content>
-    <form #form="ngForm">
-        <mat-label>Catégories</mat-label>
-        <div class="checkbox-wrapper">
-            <div *ngFor="let category of categories" class="category">
-                <mat-checkbox [(ngModel)]="category.selected" [ngModelOptions]="{standalone: true}">{{ category.name }}</mat-checkbox>
+<div class="container">
+    <div class="header">
+        <button mat-raised-button color="primary" (click)="logout()" class="btn btn-primary">Déconnexion</button>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Accueil</button>
+                </li>
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/add-event" class="home-button" style="color:red;">Ajouter données</button>
+                </li>
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/modify-event" class="home-button">Modifier données</button>
+                </li>
+                <li class="nav-item">
+                    <button mat-raised-button color="primary" routerLink="/delete-event" class="home-button">Supprimer données</button>
+                </li><br>
+            </ul>     
+    </div>
+    <h1 mat-dialog-title>Ajouter un évènement</h1>
+    <div mat-dialog-content>
+        <form [formGroup]="formData" (ngSubmit)="submitData()">
+            <!-- Affichez les catégories -->
+            <div *ngFor="let category of categories">
+                <input type="radio" name="category" [value]="category.id" (change)="onCategoryChange(category.id)" [checked]="category.selected">
+                {{ category.name }}
             </div>
-        </div>
-        <mat-form-field>
-            <mat-label>title</mat-label>
-            <input name="title" matInput [(ngModel)]="title">
-        </mat-form-field>
-        <mat-form-field>
-            <mat-label>Choose a date</mat-label>
-            <input name="date" matInput [matDatepicker]="picker" [(ngModel)]="date">
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field id="textarea">
-            <mat-label>Textarea</mat-label>
-            <textarea name="description" matInput [(ngModel)]="description"></textarea>
-        </mat-form-field>
-    </form>
-</div>
-<div mat-dialog-actions>
-    <button mat-button mat-dialog-close color="primary" (click)="emitData()">Enregistrer en local</button>
-    <button mat-button mat-dialog-close color="primary" (click)="submitData()">Soumettre modification</button>
-    <button mat-button mat-dialog-close>Annuler</button>
+        
+            <!-- Affichez les colonnes de la catégorie sélectionnée --> 
+            <div *ngFor="let column of selectedCategoriesColumns">
+                <label>{{ column }}</label>
+                <input type="text" [value]="formData.get(column)?.value" (input)="onInput($event, column)">
+            </div>
+            <button type="button" mat-button mat-dialog-close color="primary" (click)="submitData()">Soumettre Ajout</button>
+    
+        </form>
+    </div>
+    <div mat-dialog-actions>
+        <!-- Réutilisez le bouton si nécessaire -->
+        
+    </div>
 </div>

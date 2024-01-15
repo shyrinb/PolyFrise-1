@@ -1,4 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { MessageService } from '../message.service';
 
 @Component({
   selector: 'app-popup-modify-event',
@@ -6,5 +9,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./popup-modify-event.component.css']
 })
 export class PopupModifyEventComponent {
+  token!: string;
 
+  constructor(private http: HttpClient, private router: Router, private messageService: MessageService) {}
+  logout() {
+    this.messageService.sendDataAuto("deconnexion","", this.token).subscribe();
+      localStorage.removeItem("jwtToken");
+      this.router.navigateByUrl('/');
+  }
 }

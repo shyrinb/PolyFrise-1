@@ -21,7 +21,9 @@ const {
   getEntreprises,
   getPersonnalites,
   getProgrammes,
-  getDataByCategories
+  getDataByCategories,
+  insertDataByCategories,
+  getChampByCategorie
 } = require('../controllers/apiControllers');
 
 // Routes pour récupérer les données
@@ -38,6 +40,9 @@ router.get('/programmes', getProgrammes);
 router.post('/databycategory', getDataByCategories );
 router.get('/timeline', getTimeline);
 
+//EVENT
+router.post('/add-event',insertDataByCategories);
+
 // SUBMISSION
 router.get('/submissions', getSubmissions);
 router.post('/', createSubmission);
@@ -48,5 +53,7 @@ router.delete('/:submission_id', deleteSubmission);
 router.post('/inscription', signup);
 router.post('/connexion', login);
 router.post('/deconnexion', deconnexion);
+
+router.post('/getchamp', getChampByCategorie);
 
 module.exports = router;

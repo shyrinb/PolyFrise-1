@@ -1,4 +1,4 @@
-const EvenementInformatique = require('../models/Evenements_informatique');
+const EvenementInformatique = require('../models/Evenements_informatiques');
 
 exports.getAll = (req, res, next) => {
     console.request(req, `GetAll EvenementInformatique`);

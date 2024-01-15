@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpParams,HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -49,6 +48,23 @@ export class MessageService {
       return this.http.get<any>(url,options);
     }
 
+    sendDataAdd(selectedCategory: string, formData: any): Observable<any> {
+      const url = `${this.prefixe}/add-event`;
+      formData.category = selectedCategory;  // Utilisez la même propriété ici
+      console.log("formulaire service", formData);
+      console.log("service categories", formData.category);  // Utilisez la même propriété ici
+      return this.http.post<any>(url, formData);
+    }
+
+    getChampByCategorie(selectedCategories: string): Observable<any[]> {
+      console.log("données envoyées au backend", selectedCategories);
+    
+      const data = { categories: selectedCategories };
+      console.log("données à envoyer", data);
+    
+      return this.http.post<any[]>(`${this.prefixe}/getchamp`, data);
+    }
+    
     sendDataAuto(fin: string, data: any,token: any ): Observable<any>{
       const url = this.prefixe + "/" + fin;
       const headers = new HttpHeaders().set('Authorization',`Bearer ${token}`);

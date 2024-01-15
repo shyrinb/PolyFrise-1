@@ -4,7 +4,7 @@ const Distinctions = require('./Distinctions');
 const Domaines = require('./Domaines');
 const Entreprises = require('./Entreprises');
 const Evenements_historiques = require('./Evenements_historiques');
-const Evenements_informatique = require('./Evenements_informatique');
+const Evenements_informatiques = require('./Evenements_informatiques');
 const Generation_informatique = require('./Generation_informatique');
 const Personnalite = require('./Personnalite');
 const Programmes = require('./Programmes');
@@ -18,7 +18,7 @@ module.exports = {
     Domaines,
     Entreprises,
     Evenements_historiques,
-    Evenements_informatique,
+    Evenements_informatiques,
     Generation_informatique,
     Personnalite,
     Programmes,
