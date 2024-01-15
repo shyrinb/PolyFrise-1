@@ -195,7 +195,7 @@ export class PopupModifyEventComponent {
   submitData(): void {
     const formDataValues = this.formData.value;
   
-    this.messageService.sendDataMod(this.selectedEventId, formDataValues).subscribe(
+    this.messageService.sendDataMod(this.selectedCategoryName,this.selectedEventId, formDataValues).subscribe(
       response => {
         // Traitez la réponse du service si nécessaire
         console.log('Réponse du service :', response);

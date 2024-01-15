@@ -4,7 +4,6 @@ html, body {
     background-size: cover;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     margin: 0;
-    overflow:hidden;
     height: 100vh; /* Utilisez la hauteur de la fenêtre visible pour couvrir l'écran entier */
     align-items: center; /* Centre le contenu verticalement */
     justify-content: center; /* Centre le contenu horizontalement */

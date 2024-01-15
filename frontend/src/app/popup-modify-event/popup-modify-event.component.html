@@ -21,7 +21,8 @@
     <h1 mat-dialog-title>Modifier un évènement</h1>
     <!-- Ajoutez ces classes aux éléments HTML correspondants -->
 
-<div mat-dialog-content class="mat-dialog-content">
+  <form [formGroup]="formData" (ngSubmit)="submitData()">
+    <div mat-dialog-content class="mat-dialog-content">
     <!-- Sélection de la catégorie -->
     <div class="categories">
       <label>Sélectionnez la catégorie à modifier :</label>
@@ -47,13 +48,15 @@
       <label>Sélectionnez les champs à modifier :</label>
       <div *ngFor="let column of selectedCategoriesColumns">
         <ng-container *ngIf="column !== 'id'">
-          <label>{{ column }}</label>
+          <label>{{ column }} :</label>
           <input type="text" [value]="formData.get(column)?.value" (input)="onInput($event, column)">
         </ng-container>
       </div>
     </div>
   </div>
   
+    </form>
+ 
   <button type="button" mat-button mat-dialog-close color="primary" (click)="submitData()">Soumettre Modification</button>
   
 

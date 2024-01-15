@@ -94,6 +94,8 @@ export class PopupAddEventComponent implements OnInit {
     // Envoyez les données au backend
     this.messageService.sendDataAdd(this.selectedCategoryName, formDataValues).subscribe(
       response => {
+
+        alert('Données ajoutées avec succès');
         console.log('Données ajoutées avec succès', response);
         // Fermez manuellement la boîte de dialogue après le traitement
       },

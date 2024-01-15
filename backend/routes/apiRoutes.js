@@ -14,6 +14,7 @@ const {
   getEvenementsHistoriques,
   getDomaines,
   getAvancees,
+  modifDataByCategories,
   getDistinctions,
   updateSubmission,
   createSubmission,
@@ -42,6 +43,7 @@ router.get('/timeline', getTimeline);
 
 //EVENT
 router.post('/add-event',insertDataByCategories);
+router.post('/modify-event',modifDataByCategories);
 
 // SUBMISSION
 router.get('/submissions', getSubmissions);

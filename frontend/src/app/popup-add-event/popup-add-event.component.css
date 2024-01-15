@@ -6,10 +6,21 @@ mat-card-actions {
     align-items: center;
 }
 
+/* Ajoutez ces styles si nécessaire pour le bouton */
 button {
-    margin: 20px;
-    margin-left: 0px;
-}
+    background-color: lightblue; /* Couleur de fond du bouton */
+    color: #ffffff; /* Couleur du texte du bouton */
+    padding: 10px 20px; /* Espace intérieur du bouton */
+    border: none; /* Supprimer le contour du bouton */
+    border-radius: 5px; /* Bord arrondi */
+    cursor: pointer; /* Curseur pointeur au survol */
+  }
+  
+  button:hover {
+    background-color: blue; 
+    color:white;/* Couleur de fond du bouton au survol */
+  }
+  
 .mat-dialog-content {
     display: flex;
     justify-content: space-between;
@@ -24,7 +35,7 @@ button {
   }
 
 .categories {
-    width: 50%;
+    width: 60%;
   }
 
   .columns {

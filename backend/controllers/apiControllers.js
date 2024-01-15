@@ -55,7 +55,7 @@ exports.getDataByCategories = async (req, res) => {
       case 'entreprises':
         selectedTable = require('../models/Entreprises'); // Remplacez par le chemin correct de votre modèle
         break;
-      case 'evenements_historique':
+      case 'evenements_historiques':
         selectedTable = require('../models/Evenements_historiques'); // Remplacez par le chemin correct de votre modèle
         break;
       case 'evenements_informatiques':
@@ -86,6 +86,7 @@ exports.getChampByCategorie = async (req, res) => {
   const selectedCategories = req.body.categories;
   console.log("selectedCategories backend:", selectedCategories);
 
+  
   let selectedTable;
 
   switch (selectedCategories) {
@@ -101,7 +102,7 @@ exports.getChampByCategorie = async (req, res) => {
       case 'entreprises':
         selectedTable = require('../models/Entreprises'); // Remplacez par le chemin correct de votre modèle
         break;
-      case 'evenements_historique':
+      case 'evenements_historiques':
         selectedTable = require('../models/Evenements_historiques'); // Remplacez par le chemin correct de votre modèle
         break;
       case 'evenements_informatiques':
@@ -157,7 +158,7 @@ exports.insertDataByCategories = async (req, res) => {
         case 'entreprises':
           selectedTable = require('../models/Entreprises'); // Remplacez par le chemin correct de votre modèle
           break;
-        case 'evenements_historique':
+        case 'evenements_historiques':
           selectedTable = require('../models/Evenements_historiques'); // Remplacez par le chemin correct de votre modèle
           break;
         case 'evenements_informatiques':
@@ -189,6 +190,117 @@ exports.insertDataByCategories = async (req, res) => {
   }
 };
 
+function getDateFieldName(selectedCategories) {
+  let date_name;
+  switch (selectedCategories) {
+    case 'avancees':
+      date_name = 'date_avancee';
+      break;
+    case 'personnalites':
+      date_name = 'date_naissance';
+      break;
+    case 'programmes':
+      date_name = 'date_creation';
+      break;
+    case 'entreprises':
+      date_name = 'fondation';
+      break;
+    case 'evenements_historiques':
+      date_name = 'date_evenement';
+      break;
+    case 'evenements_informatiques':
+      date_name = 'annee';
+      break;
+    case 'domaines':
+      date_name = 'date_creation';
+      break;
+    case 'distinctions':
+      date_name = 'creation';
+      break;
+    case 'generations_informatiques':
+      date_name = 'annee_debut';
+      break;
+    default:
+      console.error('Catégorie non valide');
+      return null; // Retourne null si la catégorie n'est pas valide
+  }
+  console.log("date field",date_name);
+  return date_name;
+}
+
+
+exports.modifDataByCategories = async (req, res) => {
+  const selectedCategories = req.body.category;
+  console.log("table:", selectedCategories);
+  const selectedEvent = req.body.event;
+  console.log("event id:", selectedEvent);
+  let newData = req.body; // Créez une copie de req.body pour éviter les modifications directes
+
+  try {
+    let selectedTable;
+
+    // Déterminez quelle table utiliser en fonction de la catégorie sélectionnée
+    switch (selectedCategories) {
+      case 'avancees':
+          selectedTable = require('../models/Avancees'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'personnalites':
+          selectedTable = require('../models/Personnalite'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'programmes':
+          selectedTable = require('../models/Programmes'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'entreprises':
+          selectedTable = require('../models/Entreprises'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'evenements_historiques':
+          selectedTable = require('../models/Evenements_historiques'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'evenements_informatiques':
+          selectedTable = require('../models/Evenements_informatiques'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'domaines':
+          selectedTable = require('../models/Domaines'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'distinctions':
+          selectedTable = require('../models/Distinctions'); // Remplacez par le chemin correct de votre modèle
+          break;
+        case 'generations_informatiques':
+          selectedTable = require('../models/Generation_informatique');
+          break;
+      default:
+        return res.status(400).json({ error: 'Catégorie non valide' });
+    }
+
+    // Récupérez les données existantes à partir de la base de données
+    const existingData = await selectedTable.findOne({ where: { id: parseInt(selectedEvent, 10) } });
+
+    if (!existingData) {
+      return res.status(404).json({ error: 'Donnée non trouvée' });
+    }
+
+    delete newData.category; // Supprimez la propriété 'category'
+    delete newData.event;
+
+    const dateFieldName = getDateFieldName(selectedCategories); // Fonction pour obtenir le nom du champ date
+    console.log("date field",dateFieldName);
+    if (dateFieldName in newData && newData[dateFieldName] === "") {
+      delete newData[dateFieldName];
+    }
+
+    console.log("modif data:", newData);
+    // Modifiez les données existantes avec les nouvelles données
+    existingData.set(newData);
+
+    // Sauvegardez les données mises à jour dans la base de données
+    await existingData.save();
+
+    res.json({ success: true, message: 'Données mises à jour avec succès' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur de serveur' });
+  }
+};
 
 exports.getDomaines = async (req, res) => {
   try {
