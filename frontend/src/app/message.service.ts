@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpParams,HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable,of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +9,17 @@ import { Observable } from 'rxjs';
 
 export class MessageService {
   prefixe: string;
-
+  private userStatusSubject = new BehaviorSubject<string>(''); // BehaviorSubject pour stocker le statut de l'utilisateur
+  userStatus$ = this.userStatusSubject.asObservable();
     constructor(private http: HttpClient) {this.prefixe='http://localhost:3000/api'}
 
     sendData(fin: string, data: any): Observable<any> {
       const url = this.prefixe + "/" + fin;
       return this.http.post<any>(url, data);
+    }
+
+    sendDataUser(data: any) {
+      this.userStatusSubject.next(data.status);
     }
 
     getData(fin: string, data: any ): Observable<any>{
@@ -77,6 +83,30 @@ export class MessageService {
       console.log("données à envoyer", data);
     
       return this.http.post<any[]>(`${this.prefixe}/getchamp`, data);
+    }
+    
+    getUserInfo(): Observable<any> {
+
+      console.log("service pour recuperer le status ");
+      const token = localStorage.getItem('jwtToken');
+    
+      if (!token) {
+        // Retourner un observable vide si le token n'est pas présent
+        return of(null);
+      }
+    
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      });
+    
+      // Notez que le chemin est celui de la route de connexion (/login) plutôt que /userinfo
+      return this.http.get<any>(`${this.prefixe}/userinfo`, { headers }).pipe(
+        catchError(error => {
+          // Gérer les erreurs ici, par exemple, rediriger l'utilisateur vers la page de connexion
+          console.error('Erreur lors de la récupération des informations utilisateur', error);
+          return of(null);
+        })
+      );
     }
     
     sendDataAuto(fin: string, data: any,token: any ): Observable<any>{

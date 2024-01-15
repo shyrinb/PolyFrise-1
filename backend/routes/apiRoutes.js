@@ -25,7 +25,8 @@ const {
   getProgrammes,
   getDataByCategories,
   insertDataByCategories,
-  getChampByCategorie
+  getChampByCategorie,
+  getUserInfo
 } = require('../controllers/apiControllers');
 
 // Routes pour récupérer les données
@@ -56,6 +57,7 @@ router.delete('/:submission_id', deleteSubmission);
 // Routes pour l'authentification
 router.post('/inscription', signup);
 router.post('/connexion', login);
+router.get('/userinfo', getUserInfo);
 router.post('/deconnexion', deconnexion);
 
 router.post('/getchamp', getChampByCategorie);

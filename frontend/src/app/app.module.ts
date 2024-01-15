@@ -46,6 +46,7 @@ import { PageAdminComponent } from './page-admin/page-admin.component';
 import { SubmissionadminComponent } from './submissionadmin/submissionadmin.component';
 import { PopupDeleteEventComponent } from './popup-delete-event/popup-delete-event.component';
 import { PopupModifyEventComponent } from './popup-modify-event/popup-modify-event.component';
+import { MessageService } from './message.service';
 
 @NgModule({
   declarations: [
@@ -100,7 +101,7 @@ import { PopupModifyEventComponent } from './popup-modify-event/popup-modify-eve
     MatExpansionModule,
     MatTableModule
   ],
-  providers: [],
+  providers: [MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

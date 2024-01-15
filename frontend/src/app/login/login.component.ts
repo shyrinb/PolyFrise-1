@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageService } from '../message.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -14,6 +15,7 @@ export class LoginComponent  {
   email: string = "";
   password: string = "";
   errorMessage: string="";
+  userStatus: any;
 
   constructor(private router: Router, private messageService: MessageService) { }
   
@@ -31,26 +33,50 @@ export class LoginComponent  {
 
         this.messageService.login(data).subscribe(
           (response: any) => {
-            // Use 'any' type to bypass TypeScript checks
             const token = response.token;
             console.log(token);
             localStorage.setItem('jwtToken', token);
+            this.messageService.getUserInfo().subscribe(
+              (userInfo: any) => {
+                this.userStatus = userInfo.status;
+              },
+              error => {
+                console.log(error);
+                // Gérer les erreurs liées à la récupération des informations utilisateur
+              }
+            );
+            this.messageService.sendDataUser(response);
             this.router.navigateByUrl('/accueil');
           },
-            error => {
-              console.log(error);
-              if (error.error && error.error.message) {
-                this.errorMessage = error.error.message;
-              } else {
-                // Gérez le cas où la propriété message n'est pas présente dans l'objet error.error
-                this.errorMessage = "Une erreur inattendue s'est produite lors de l'inscription.";
-              }
-              this.alert=true
+          error => {
+            console.log(error);
+            if (error.error && error.error.message) {
+              this.errorMessage = error.error.message;
+            } else {
+              this.errorMessage = "Une erreur inattendue s'est produite lors de l'inscription.";
             }
-          );
+            this.alert = true;
+          }
+        );
+        
       }
     }
 
+    handleLoginError(error: any) {
+      console.log(error);
+      if (error.error && error.error.message) {
+        this.errorMessage = error.error.message;
+      } else {
+        this.errorMessage = "Une erreur inattendue s'est produite lors de l'inscription.";
+      }
+      this.alert = true;
+    }
+    
+    handleUserInfoError(error: any) {
+      console.log(error);
+      // Gérer les erreurs liées à la récupération des informations utilisateur
+    }
+    
   goToInscription() {
       this.router.navigate(['/inscription']);
   }
