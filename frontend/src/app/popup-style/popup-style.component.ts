@@ -15,36 +15,22 @@ export class PopupStyleComponent {
     public dialogRef: MatDialogRef<PopupCatComponent>,
     private messageService: MessageService) { }
 
-  selectionPersonnalisee: boolean = false;
-  color : string = "";
-  colorPerso : string = "";
+  color: string = "";
 
   ngOnInit(): void {
-
-      if(["#0000FF","#FF0000","#008000","#000000"].includes(this.data.color)) this.color = this.data.color;
-      else  {
-        this.color = "personnalise"
-        this.colorPerso = this.data.color
-        this.toggleSelection()
-      }
+    if (["#0000FF", "#FF0000", "#008000", "#FFFF00"].includes(this.data.color)) {
+      this.color = this.data.color;
+    }
   }
 
   formatLabel(value: number): string {
     return `${value}`;
   }
 
-  toggleSelection() {
-    this.selectionPersonnalisee = true;
-  }
-
-  toggleSelectionOff() {
-    this.selectionPersonnalisee = false;
-  }
-
   emitData() {
+    console.log("choisi la couleur", this.color);
+    this.dialogRef.close({ color: this.color, selectionPersonnalisee: true });
 
-    if(this.color == "personnalise") this.color = this.colorPerso
-    this.dialogRef.close({color: this.color});
   }
 
 }

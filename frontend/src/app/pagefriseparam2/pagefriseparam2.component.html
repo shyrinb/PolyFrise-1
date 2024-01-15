@@ -7,16 +7,12 @@
         <h2>Sélectionner une couleur :</h2>
 
         <mat-radio-group [(ngModel)]="couleur">
-            <mat-radio-button name="blue" type="radio" value="#0000FF" (change)="toggleSelectionOff()"> Bleu</mat-radio-button>
-            <mat-radio-button name="red " type="radio" value="#FF0000" (change)="toggleSelectionOff()"> Rouge</mat-radio-button>
-            <mat-radio-button name="green" type="radio" value="#008000" (change)="toggleSelectionOff()"> Vert</mat-radio-button>
-            <mat-radio-button name="yellow " type="radio" value="#FFFF00" (change)="toggleSelectionOff()"> Jaune</mat-radio-button>
-            <mat-radio-button name="perso" type="radio" value="personnalise" (change)="toggleSelection()"> Personnalisé</mat-radio-button>
+            <mat-radio-button name="blue" type="radio" value="#0000FF" > Bleu</mat-radio-button>
+            <mat-radio-button name="red " type="radio" value="#FF0000"> Rouge</mat-radio-button>
+            <mat-radio-button name="green" type="radio" value="#008000"> Vert</mat-radio-button>
+            <mat-radio-button name="yellow " type="radio" value="#FFFF00"> Jaune</mat-radio-button>
         </mat-radio-group>
 
-        <div id="couleur-personnalise" *ngIf="selectionPersonnalisee" class="couleur-personnalise-container">
-            <input type="color" name="couleur-personnalise" [(ngModel)]="couleurPersonnalise">
-        </div>
         <h2>Sélectionner la forme :</h2>
         <mat-radio-group [(ngModel)]="forme">
             <mat-radio-button name="Horizontale" type="radio" value="horizontale"> Horizontale</mat-radio-button>

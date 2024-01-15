@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import {  Component, ElementRef, Input, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from '../message.service';
 
@@ -19,7 +19,8 @@ interface TimelineItem {
 
   event : any;
   h?: number; // Ajoutez la propriété h de type number (optionnelle)
-  w?: number; // Ajoutez la propriété w de type number (optionnelle)
+  w?: number; 
+  // Ajoutez la propriété w de type number (optionnelle)
 }
 @Component({
   selector: 'app-page-frise',
@@ -27,10 +28,10 @@ interface TimelineItem {
   styleUrls: ['./page-frise.component.css']
 })
 
-export class PageFriseComponent implements OnInit {
+export class PageFriseComponent implements OnInit{
   downloadFormats = {
     svg: false,
-    jpeg: false,
+    png: false,
     pdf: false
   };
 
@@ -49,7 +50,7 @@ export class PageFriseComponent implements OnInit {
   timelineData: any; // Assurez-vous que le type correspond à la structure de vos données
   color : any ;
   private shape: string = ''; 
-  constructor(private http: HttpClient, private router: Router, private route: ActivatedRoute, private messageService : MessageService,public dialog: MatDialog) {}
+  constructor(private http: HttpClient,private router: Router, private route: ActivatedRoute, private messageService : MessageService,public dialog: MatDialog) {}
 
   ngOnInit(): void {
     const token = localStorage.getItem('jwtToken');
@@ -62,7 +63,7 @@ export class PageFriseComponent implements OnInit {
       this.drawFrise();
     });
   }
-
+  
   logout() {
     this.messageService.sendDataAuto("deconnexion","", this.token).subscribe();
       localStorage.removeItem("jwtToken");
@@ -99,11 +100,16 @@ export class PageFriseComponent implements OnInit {
     return processedData;
   }
 
-
   drawFrise(): void {
     console.log("drawfrise");
     const container = document.querySelector('.frise-container.my-custom-frise');
-
+    // Vérifiez si le conteneur existe
+    if (container) {
+      container.innerHTML = ''; // Effacez le contenu existant
+      // Le reste de votre code pour dessiner la frise...
+    } else {
+      console.error("Le conteneur de la frise n'a pas été trouvé dans le DOM.");
+    }
   // Configurez les dimensions de votre frise
   const friseWidth = 1200; // La largeur initiale de la frise
   const friseHeight = 1200;
@@ -542,32 +548,21 @@ export class PageFriseComponent implements OnInit {
     const dialogRef = this.dialog.open(PopupStyleComponent, {
       width: '50%',
       height: 'auto',
-      data: { color : this.color }
+      data: { color: this.color }
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.color = result.color
-
-        const dataTimeline = {
-          categories : this.categories,
-          startDate : this.startDate,
-          endDate : this.endDate
-        }
-
-        this.messageService.sendData("timeline", dataTimeline).subscribe(
-          response => {
-            this.timelineItems = response.map((e: any) => {
-              e.date = new Date(e.date); // Conversion de la chaîne de date en objet Date
-              return {
-                event: e
-              };
-            });
-            this.generateTimeline();
-
-        })
+      if (result) {
+        this.color = result.color;
+  
+        // Mise à jour de la couleur dans le style de la frise
+        this.timelineData.color = this.color;
+        console.log("color:", this.timelineData.color );
+        // Mettez à jour la couleur des cercles dans la frise existante
+        this.drawFrise();
       }
     });
   }
+  
 
 }

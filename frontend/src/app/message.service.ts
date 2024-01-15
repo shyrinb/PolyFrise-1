@@ -115,6 +115,7 @@ export class MessageService {
       const options = {headers:headers};
       return this.http.post<any>(url,data,options);
     }
+    
     getAllSubmissions(): Observable<any[]> {
       return this.http.get<any[]>(`${this.prefixe}/submissions`);
     }
