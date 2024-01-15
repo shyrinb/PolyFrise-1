@@ -1,33 +1,35 @@
 .popup-form {
-    width: 400px;
+    width: 600px;
     padding: 20px;
     margin: 20px;
+    box-sizing: border-box; /* Inclure le rembourrage et la bordure dans la largeur totale */
+    display: flex; /* Utiliser flexbox pour organiser les éléments en ligne */
+    flex-wrap: wrap; /* Permettre le retour à la ligne si nécessaire */
 }
 
 .popup-form h2 {
     font-size: 20px;
     margin-bottom: 10px;
-}
-
-.popup-form .category {
-    margin-bottom: 10px;
-}
-
-.popup-form .actions {
-    margin-top: 20px;
-    display: flex;
-    justify-content: flex-end;
+    width: 100%; /* Assurer que le titre prend la largeur complète */
 }
 
 .popup-form .actions button {
-    margin-left: 10px;
+    margin-left: auto; /* Déplacer le bouton à droite en utilisant auto pour margin-left */
 }
 
-.checkbox-wrapper {
-    display: flex;
-    flex-wrap: wrap;
+.categories, .events {
+    background-color: #ecf0f1;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    flex: 1; /* Faire en sorte que chaque élément prenne une part égale de l'espace disponible */
+    margin: 5px; /* Ajouter une marge autour de chaque élément */
 }
 
-.category mat-checkbox {
-    margin: 20px;
+.categories {
+    margin-right: 5px;
+}
+
+.events {
+    margin-left: 5px;
 }
