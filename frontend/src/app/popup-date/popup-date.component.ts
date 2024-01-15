@@ -17,8 +17,8 @@ export class PopupDateComponent {
 
 
   formData: any = {}; // Modèle pour les données du formulaire
-  startDate : number = 0;
-  endDate : number = 2030;
+  startDate : number = 1850;
+  endDate : number = 2024;
 
   ngOnInit(): void {
       this.startDate = new Date(this.data.startDate).getFullYear();
