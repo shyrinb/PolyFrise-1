@@ -19,3 +19,42 @@
 
 
     <h1 mat-dialog-title>Modifier un évènement</h1>
+    <!-- Ajoutez ces classes aux éléments HTML correspondants -->
+
+<div mat-dialog-content class="mat-dialog-content">
+    <!-- Sélection de la catégorie -->
+    <div class="categories">
+      <label>Sélectionnez la catégorie à modifier :</label>
+      <div *ngFor="let category of categories">
+        <input type="radio" name="category" [value]="category.id" (change)="onCategoryChange(category.id)" [checked]="category.selected">
+        {{ category.name }}
+      </div>
+    </div>
+    
+    <!-- Sélection de l'événement à modifier -->
+    <div class="events">
+      <label>Sélectionnez l'événement à modifier :</label>
+      <div *ngIf="selectedCategories.length > 0">
+        <div *ngFor="let event of dates">
+          <input type="radio" name="selectedEvent" [value]="event.id" (change)="onEventChange(event.id)" [checked]="event.selected">
+          {{ event.nom }} - {{ event.date }}
+        </div>
+      </div>
+    </div>
+    
+    <!-- Affichage des colonnes de la catégorie sélectionnée (excluez la colonne 'id') -->
+    <div class="columns">
+      <label>Sélectionnez les champs à modifier :</label>
+      <div *ngFor="let column of selectedCategoriesColumns">
+        <ng-container *ngIf="column !== 'id'">
+          <label>{{ column }}</label>
+          <input type="text" [value]="formData.get(column)?.value" (input)="onInput($event, column)">
+        </ng-container>
+      </div>
+    </div>
+  </div>
+  
+  <button type="button" mat-button mat-dialog-close color="primary" (click)="submitData()">Soumettre Modification</button>
+  
+
+</div>

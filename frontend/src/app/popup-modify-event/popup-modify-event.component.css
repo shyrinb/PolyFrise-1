@@ -1,19 +1,57 @@
-h2 {
-    margin-top: 50px
-}
-
-mat-card-actions {
-    align-items: center;
-}
-
-button {
-    margin: 20px;
-    margin-left: 0px;
-}
+/* Ajoutez ces styles dans le fichier CSS de votre composant */
 
 .home-button {
     margin: 0; /* Supprimer les marges par défaut des boutons */
     border-radius: 20px; /* Bord arrondi pour les boutons */
     display: block; /* Faire en sorte que les boutons occupent la largeur complète */
-    width: 100%; /* Faire en sorte que les boutons occupent la largeur complète */
+    width: 100%; 
 }
+
+h1 {
+    text-align: center;
+    background-color: brown; /* Couleur de fond */
+    color: #ffffff; /* Couleur du texte */
+    padding: 10px; /* Espace intérieur */
+    border-radius: 5px; /* Bord arrondi */
+  }
+  
+  .mat-dialog-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px; /* Espace intérieur */
+  }
+  
+  .categories, .events, .columns {
+    background-color: #ecf0f1; /* Couleur de fond */
+    padding: 15px; /* Espace intérieur */
+    border: 1px solid #bdc3c7; /* Contour avec couleur */
+    border-radius: 5px; /* Bord arrondi */
+  }
+  
+  .categories {
+    width: 25%;
+  }
+  
+  .events {
+    width: 40%;
+  }
+  
+  .columns {
+    width: 25%;
+  }
+  
+  /* Ajoutez ces styles si nécessaire pour le bouton */
+  button {
+    background-color: lightblue; /* Couleur de fond du bouton */
+    color: #ffffff; /* Couleur du texte du bouton */
+    padding: 10px 20px; /* Espace intérieur du bouton */
+    border: none; /* Supprimer le contour du bouton */
+    border-radius: 5px; /* Bord arrondi */
+    cursor: pointer; /* Curseur pointeur au survol */
+  }
+  
+  button:hover {
+    background-color: blue; 
+    color:white;/* Couleur de fond du bouton au survol */
+  }
+  

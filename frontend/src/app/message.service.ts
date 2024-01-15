@@ -55,6 +55,13 @@ export class MessageService {
       console.log("service categories", formData.category);  // Utilisez la même propriété ici
       return this.http.post<any>(url, formData);
     }
+    
+    sendDataMod(event_id:string, formData: any): Observable<any> {
+      // Ajoutez la logique nécessaire pour envoyer les données au backend
+      // Vous pouvez utiliser this.http.post pour envoyer les données au backend
+      // Assurez-vous d'ajuster l'URL et la logique en fonction de votre API backend
+      return this.http.post<any>(`${this.prefixe}/modif-event`, formData);
+    }
 
     getChampByCategorie(selectedCategories: string): Observable<any[]> {
       console.log("données envoyées au backend", selectedCategories);

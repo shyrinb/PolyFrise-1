@@ -16,19 +16,25 @@
                 </li><br>
             </ul>     
     </div>
-    <h1 mat-dialog-title>Ajouter un évènement</h1>
-    <div mat-dialog-content>
+    <h1 mat-dialog-title >Ajouter un évènement</h1>
+    <div mat-dialog-content class="mat-dialog-content">
         <form [formGroup]="formData" (ngSubmit)="submitData()">
             <!-- Affichez les catégories -->
-            <div *ngFor="let category of categories">
-                <input type="radio" name="category" [value]="category.id" (change)="onCategoryChange(category.id)" [checked]="category.selected">
-                {{ category.name }}
+            <div class="categories">
+             <label>Sélectionnez la catégorie à modifier :</label>
+                <div *ngFor="let category of categories">
+                    <input type="radio" name="category" [value]="category.id" (change)="onCategoryChange(category.id)" [checked]="category.selected">
+                    {{ category.name }}
+                </div>
             </div>
         
+            <div class="columns">
+            <label>Sélectionnez les champs à modifier :</label>
             <!-- Affichez les colonnes de la catégorie sélectionnée --> 
-            <div *ngFor="let column of selectedCategoriesColumns">
-                <label>{{ column }}</label>
-                <input type="text" [value]="formData.get(column)?.value" (input)="onInput($event, column)">
+                <div *ngFor="let column of selectedCategoriesColumns">
+                    <label>{{ column }}</label>
+                    <input type="text" [value]="formData.get(column)?.value" (input)="onInput($event, column)">
+                </div>
             </div>
             <button type="button" mat-button mat-dialog-close color="primary" (click)="submitData()">Soumettre Ajout</button>
     

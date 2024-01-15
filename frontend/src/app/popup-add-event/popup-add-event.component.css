@@ -10,10 +10,37 @@ button {
     margin: 20px;
     margin-left: 0px;
 }
+.mat-dialog-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px; /* Espace intérieur */
+  }
 
+.categories, .columns {
+    background-color: #ecf0f1; /* Couleur de fond */
+    padding: 15px; /* Espace intérieur */
+    border: 1px solid #bdc3c7; /* Contour avec couleur */
+    border-radius: 5px; /* Bord arrondi */
+  }
+
+.categories {
+    width: 50%;
+  }
+
+  .columns {
+    width: 40%;
+  }
 .home-button {
     margin: 0; /* Supprimer les marges par défaut des boutons */
     border-radius: 20px; /* Bord arrondi pour les boutons */
     display: block; /* Faire en sorte que les boutons occupent la largeur complète */
     width: 100%; 
 }
+
+h1 {
+    text-align: center;
+    background-color: brown; /* Couleur de fond */
+    color: #ffffff; /* Couleur du texte */
+    padding: 10px; /* Espace intérieur */
+    border-radius: 5px; /* Bord arrondi */
+  }
