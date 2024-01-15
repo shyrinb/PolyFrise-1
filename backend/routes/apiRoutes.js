@@ -47,7 +47,7 @@ router.post('/add-event',insertDataByCategories);
 router.put('/modify-event/:category/:event', modifDataByCategories);
 router.delete('/del-event/:category/:event', delDataByCategories);
 
-// SUBMISSION
+// SUBMISSION A VERIFIER 
 router.get('/submissions', getSubmissions);
 router.post('/', createSubmission);
 router.put('/:submission_id', updateSubmission);
