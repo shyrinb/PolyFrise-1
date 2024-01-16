@@ -113,7 +113,7 @@ export class PageFriseComponent implements OnInit{
   // Configurez les dimensions de votre frise
   const friseWidth = 1200; // La largeur initiale de la frise
   const friseHeight = 1200;
-  const friseHeightY = 570;
+  const friseHeightY = 500;
   const friseStart = 100;
 
   const friseStartY = 80;
