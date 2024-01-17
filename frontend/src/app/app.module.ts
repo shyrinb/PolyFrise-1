@@ -47,6 +47,7 @@ import { SubmissionadminComponent } from './submissionadmin/submissionadmin.comp
 import { PopupDeleteEventComponent } from './popup-delete-event/popup-delete-event.component';
 import { PopupModifyEventComponent } from './popup-modify-event/popup-modify-event.component';
 import { MessageService } from './message.service';
+import { PageSuggComponent } from './page-sugg/page-sugg.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { MessageService } from './message.service';
     DomainesComponent,
     Pagefriseparam2Component,
     SubmissionadminComponent,
+    PageSuggComponent,
   ],
   imports: [
     BrowserModule,

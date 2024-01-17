@@ -20,6 +20,7 @@ import { PageAdminComponent } from './page-admin/page-admin.component';
 import { PopupModifyEventComponent } from './popup-modify-event/popup-modify-event.component';
 import { PopupAddEventComponent } from './popup-add-event/popup-add-event.component';
 import { PopupDeleteEventComponent } from './popup-delete-event/popup-delete-event.component';
+import { PageSuggComponent } from './page-sugg/page-sugg.component';
 
 const routes: Routes = [
   // AUTHENTIFICATION
@@ -51,6 +52,8 @@ const routes: Routes = [
 {path: "modify-event",component: PopupModifyEventComponent},
 {path: "delete-event",component: PopupDeleteEventComponent},
 
+
+{path: 'suggestion', component: PageSuggComponent},
 ];
 
 @NgModule({

@@ -1,0 +1,62 @@
+h2 {
+    margin-top: 50px
+}
+
+mat-card-actions {
+    align-items: center;
+}
+
+/* Ajoutez ces styles si nécessaire pour le bouton */
+button {
+    background-color: lightblue; /* Couleur de fond du bouton */
+    color: #ffffff; /* Couleur du texte du bouton */
+    padding: 10px 20px; /* Espace intérieur du bouton */
+    border: none; /* Supprimer le contour du bouton */
+    border-radius: 5px; /* Bord arrondi */
+    cursor: pointer; /* Curseur pointeur au survol */
+  }
+  
+  button:hover {
+    background-color: blue; 
+    color:white;/* Couleur de fond du bouton au survol */
+  }
+  
+.mat-dialog-content {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px; /* Espace intérieur */
+  }
+
+.categories, .columns , .dropdown, .event{
+    background-color: #ecf0f1; /* Couleur de fond */
+    padding: 15px; /* Espace intérieur */
+    border: 1px solid #bdc3c7; /* Contour avec couleur */
+    border-radius: 5px; /* Bord arrondi */
+  }
+
+.categories {
+    width: 30%;
+  }
+
+  .columns {
+    width: 40%;
+  }
+
+  .dropdown {
+    width: 30%;
+  }
+
+  .event {
+    width: 30%;
+  }
+  
+  .home-button {
+    margin-top: 20px;
+}
+h1 {
+    text-align: center;
+    background-color: brown; /* Couleur de fond */
+    color: #ffffff; /* Couleur du texte */
+    padding: 10px; /* Espace intérieur */
+    border-radius: 5px; /* Bord arrondi */
+  }

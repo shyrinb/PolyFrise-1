@@ -1,0 +1,42 @@
+<div id="top">
+    <button mat-raised-button color="primary" (click)="logout()" class="home-button">Déconnexion</button>
+    <button mat-raised-button color="primary" routerLink="/accueil" class="home-button">Accueil</button>
+</div>
+<h1 mat-dialog-title >Suggestion</h1>
+<form [formGroup]="formData" (ngSubmit)="submitData()">
+
+<div mat-dialog-content class="mat-dialog-content">
+    <div class="dropdown">
+        <label>Sélectionnez le type de suggestion :</label>
+        <select formControlName="selectedValue">
+          <option value="creer">Créer </option>
+          <option value="modifier">Modifier </option>
+          <option value="supprimer">Supprimer </option>
+        </select>
+      </div>
+    <!-- Affichez les catégories -->
+    <div class="categories">
+     <label>Sélectionnez la catégorie :</label>
+        <div *ngFor="let category of categories">
+            <input type="radio" name="category" [value]="category.id" (change)="onCategoryChange(category.id)" [checked]="category.selected">
+            {{ category.name }}
+        </div>
+    </div>
+
+    <div class="columns" *ngIf="formData.get('selectedValue')?.value !== 'supprimer'">
+        <label>Insérer les données :</label>
+    <!-- Affichez les colonnes de la catégorie sélectionnée --> 
+        <div *ngFor="let column of selectedCategoriesColumns">
+            <label>{{ column }} : </label>
+            <input type="text" [value]="formData.get(column)?.value" (input)="onInput($event, column)">
+        </div>
+    </div>
+    
+    
+</div>
+</form>
+<button type="button" mat-button mat-dialog-close color="primary" (click)="submitData()">Soumettre Ajout</button>
+<div mat-dialog-actions>
+<!-- Réutilisez le bouton si nécessaire -->
+
+</div>

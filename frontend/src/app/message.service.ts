@@ -108,6 +108,14 @@ export class MessageService {
         })
       );
     }
+
+    sendDataAddSugg(selectedCategory: string, formData: any): Observable<any> {
+      const url = `${this.prefixe}/add-event`;
+      formData.category = selectedCategory;  // Utilisez la même propriété ici
+      console.log("formulaire service", formData);
+      console.log("service categories", formData.category);  // Utilisez la même propriété ici
+      return this.http.post<any>(url, formData);
+    }
     
     sendDataAuto(fin: string, data: any,token: any ): Observable<any>{
       const url = this.prefixe + "/" + fin;
