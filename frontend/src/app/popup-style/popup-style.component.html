@@ -1,12 +1,27 @@
 <h1 mat-dialog-title>Change Style</h1>
 <div mat-dialog-content>
-    <mat-radio-group [(ngModel)]="color">
-        <mat-radio-button name="blue" type="radio" name="couleur" value="#0000FF"> Bleu</mat-radio-button>
-        <mat-radio-button name=" red " type="radio " name="couleur " value="#FF0000 "> Rouge</mat-radio-button>
-        <mat-radio-button name="green" type="radio" name="couleur" value="#008000"> Vert</mat-radio-button>
-        <mat-radio-button name=" yellow " type="radio " name="couleur " value="#FFFF00 "> Jaune</mat-radio-button>
-    </mat-radio-group>
+  <div>
+    <mat-form-field>
+    <mat-label>Sélectionnez la couleur :</mat-label>
+    <mat-select [(ngModel)]="color" name="shape">
+        <mat-option  value="#0000FF"> Bleu</mat-option>
+        <mat-option  value="#FF0000 "> Rouge</mat-option>
+        <mat-option  value="#008000"> Vert</mat-option>
+        <mat-option value="#FFFF00 "> Jaune</mat-option>
+      </mat-select>
+    </mat-form-field>
 
+  </div>
+  <div>
+    <mat-form-field>
+    <mat-label>Sélectionnez la forme :</mat-label>
+    <mat-select [(ngModel)]="shape" name="shape">
+      <mat-option value="verticale">Verticale</mat-option>
+      <mat-option value="horizontale">Horizontale</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  </div>
 </div>
 <div mat-dialog-actions>
     <button mat-button mat-dialog-close color="primary" (click)="emitData()">Enregistrer</button>

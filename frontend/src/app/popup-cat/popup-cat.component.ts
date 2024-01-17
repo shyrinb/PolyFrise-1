@@ -34,16 +34,18 @@ export class PopupCatComponent {
     private messageService: MessageService, 
     private http: HttpClient,
     private router: Router,
-    private fb: FormBuilder ) { }
+    private fb: FormBuilder ) { {
+      this.formData = this.fb.group({});
+    }}
 
     token!: string;
     formData: FormGroup; // Ajoutez la déclaration de formData
     categories: any;
     selectedCategories: Category[] = [];
-    selectedCategoriesColumns: string[] = [];
+    selectedDates: string[] = []; 
     selectedCategoryName: string = '';
     selectedCategoryId: string | null = null;
-    selectedEventId: string = '';
+    selectedEventIds: string[] = [];
     dates: Dates[] = [];
 
   ngOnInit(): void {
@@ -53,8 +55,13 @@ export class PopupCatComponent {
   }
 
   onEventChange(selectedEventId: string): void {
-    // Mettez à jour le modèle avec l'id de l'événement sélectionné
-    this.selectedEventId = selectedEventId;
+    // Mettez à jour la liste des événements sélectionnés en fonction de l'état de la case à cocher ou du bouton radio
+    const index = this.selectedEventIds.indexOf(selectedEventId);
+    if (index === -1) {
+      this.selectedEventIds.push(selectedEventId);
+    } else {
+      this.selectedEventIds.splice(index, 1);
+    }
   }
 
   getSelectedCategories(): Category[] {
@@ -112,9 +119,10 @@ export class PopupCatComponent {
             id: item.id,
             nom: item.nom,
             date: item[date_name],
-            selected: false
+            selected: this.selectedEventIds.includes(item.id.toString()) // Vérifiez si l'événement est dans la liste des sélectionnés
           }));
           console.log("evenement de la catégorie",this.dates);
+         
           // Mettez la logique pour traiter les dates ici
           this.processSelectedDates();
         },
@@ -131,8 +139,8 @@ export class PopupCatComponent {
       category.selected = category.id.toString() === selectedCategoryId;
     });
   
-    // Réinitialisez l'identifiant de l'événement sélectionné
-    this.selectedEventId = '';
+    // Réinitialisez la liste des identifiants d'événements sélectionnés
+    this.selectedEventIds = [];
   
     // Mettez à jour le modèle avec l'id de la catégorie sélectionnée
     this.selectedCategoryId = selectedCategoryId;
@@ -153,14 +161,9 @@ export class PopupCatComponent {
 
   private processSelectedDates() {
     // Mettez la logique pour traiter les dates ici
-    for (const date of this.dates) {
-      if (date.selected) {
-        // Modifiez la propriété à laquelle vous souhaitez affecter la valeur
-        // Par exemple, si vous avez une propriété `selectedDate`, utilisez-la
-        this.selectedEventId = date.id.toString();
-      }
-    }
-  } 
+    this.selectedEventIds = this.dates.filter(date => date.selected).map(date => date.id.toString());
+  }
+  
 
   onInput(event: any, column: string): void {
     // Ajoutez la logique nécessaire pour gérer les événements d'entrée ici
@@ -171,18 +174,9 @@ export class PopupCatComponent {
     this.formData.get(column)?.setValue(value);
   }
 
-  submitData(): void {
-    const formDataValues = this.formData.value;
-  
-    this.messageService.sendDataMod(this.selectedCategoryName,this.selectedEventId, formDataValues).subscribe(
-      response => {
-        alert("modification effectuée");
-        console.log('Réponse du service :', response);
-      },
-      error => {
-        // Gérez l'erreur ici (par exemple, affichez un message d'erreur)
-        console.error('Erreur lors de la soumission des données :', error);
-      }
-    );
+  emitData() {
+    console.log("this.selectedEventIds",this.selectedEventIds)
+    this.dialogRef.close({ categories: this.selectedCategoryName, event:this.selectedEventIds});
   }
+
 }

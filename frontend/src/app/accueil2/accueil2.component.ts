@@ -32,17 +32,10 @@ export class Accueil2Component implements OnInit{
   dates: Dates[] = [];
   selectedCategories: string = ""; // Utilisation de string pour les identifiants UUID
   selectedDates: string[] = []; // Utilisation de string pour les identifiants UUID
-  sliderOptions: Options = {
-    floor: 0,
-    ceil: 2023,
-    step: 1,
-    minRange: 1
-  };
   selectedStartYear: number = 0;
   selectedEndYear: number = 2023;
   startYear!: Date;
   endYear!: Date;
-  categoriesSelected: string[] = []; // Utilisation de string pour les identifiants UUID
   data: any;
   alert = false;
   errorMessage: string = "";

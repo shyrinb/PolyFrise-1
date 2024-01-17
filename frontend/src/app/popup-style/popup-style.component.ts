@@ -16,10 +16,14 @@ export class PopupStyleComponent {
     private messageService: MessageService) { }
 
   color: string = "";
+  shape: string = "";
 
   ngOnInit(): void {
     if (["#0000FF", "#FF0000", "#008000", "#FFFF00"].includes(this.data.color)) {
       this.color = this.data.color;
+    }
+    if (["horizontale", "verticale"].includes(this.data.shape)) {
+      this.shape = this.data.shape;
     }
   }
 
@@ -28,9 +32,7 @@ export class PopupStyleComponent {
   }
 
   emitData() {
-    console.log("choisi la couleur", this.color);
-    this.dialogRef.close({ color: this.color, selectionPersonnalisee: true });
-
+    this.dialogRef.close({ color: this.color, shape:this.shape});
   }
 
 }

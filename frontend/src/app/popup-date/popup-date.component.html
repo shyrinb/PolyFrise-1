@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Change Date</h1>
 <div mat-dialog-content>
     <form #form="ngForm">
-        <mat-slider min="0" max="2030" discrete [displayWith]="formatLabel">
+        <mat-slider min="1850" max="2030" discrete [displayWith]="formatLabel">
             <input name="startDate" matSliderStartThumb [(ngModel)]="startDate">
             <input name="endDate" matSliderEndThumb [(ngModel)]="endDate">
         </mat-slider>

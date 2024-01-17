@@ -41,14 +41,14 @@ export class PageFriseComponent implements OnInit{
   categories : any;
   startDate : any;
   endDate : any;
-  labels: any;
+  dates: any;
+  nom: any;
   timelineItems: TimelineItem[] = []
-  deletedItemTmp : any[] = []
-  updatedItemTmp : TimelineItem[] = []
-  timelineItemsTmp: TimelineItem[] = []
 
   timelineData: any; // Assurez-vous que le type correspond à la structure de vos données
+  selectedEventIds:any;
   color : any ;
+  selectedCategoryName:any;
   private shape: string = ''; 
   constructor(private http: HttpClient,private router: Router, private route: ActivatedRoute, private messageService : MessageService,public dialog: MatDialog) {}
 
@@ -482,31 +482,19 @@ export class PageFriseComponent implements OnInit{
     const dialogRef = this.dialog.open(PopupCatComponent, {
       width: '50%',
       height: 'auto',
-      data: { cats : this.categories }
+      data: { cats: this.selectedCategoryName, events: this.selectedEventIds }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
+        this.categories = result.cats;
+        this.dates= result.events;
 
-        const dataTimeline = {
-          categories : result,
-          startDate : this.startDate,
-          endDate : this.endDate
-        }
-
-        this.categories = result
-
-        this.messageService.sendData("timeline", dataTimeline).subscribe(
-          response => {
-            this.timelineItems = response.map((e: any) => {
-              e.date = new Date(e.date); // Conversion de la chaîne de date en objet Date
-              return {
-                event: e
-              };
-            });
-            this.generateTimeline();
-
-        })
+        this.timelineData.categories = this.categories;
+        this.timelineData.dates = this.dates;
+       // this.timelinesData.nom: this.nom;
+        this.generateTimeline();
+       
       }
     });
   }
@@ -522,24 +510,9 @@ export class PageFriseComponent implements OnInit{
       if(result){
         this.startDate = new Date(result.startDate)
         this.endDate = new Date(result.endDate)
-
-        const dataTimeline = {
-          categories : this.categories,
-          startDate : this.startDate,
-          endDate : this.endDate
-        }
-
-        this.messageService.sendData("timeline", dataTimeline).subscribe(
-          response => {
-            this.timelineItems = response.map((e: any) => {
-              e.date = new Date(e.date); // Conversion de la chaîne de date en objet Date
-              return {
-                event: e
-              };
-            });
-            this.generateTimeline();
-
-        })
+        this.timelineData.startDate = this.startDate;
+        this.timelineData.endDate = this.endDate;
+        this.generateTimeline();
       }
     });
   }
@@ -548,18 +521,20 @@ export class PageFriseComponent implements OnInit{
     const dialogRef = this.dialog.open(PopupStyleComponent, {
       width: '50%',
       height: 'auto',
-      data: { color: this.color }
+      data: { color: this.color, shape:this.shape }
     });
   
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.color = result.color;
+        this.shape = result.shape;
   
         // Mise à jour de la couleur dans le style de la frise
         this.timelineData.color = this.color;
+        this.timelineData.shape = this.shape;
         console.log("color:", this.timelineData.color );
         // Mettez à jour la couleur des cercles dans la frise existante
-        this.drawFrise();
+        this.generateTimeline();
       }
     });
   }
