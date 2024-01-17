@@ -22,7 +22,7 @@
           </mat-form-field>
         </div>
         <h2 class="subtitle">Sélectionner la période :</h2>
-        <mat-slider min="1850" max="2030" discrete [displayWith]="formatLabel">
+        <mat-slider min="1900" max="2030" discrete [displayWith]="formatLabel">
           <input name="startDate" matSliderStartThumb [(ngModel)]="selectedStartYear">
           <input name="endDate" matSliderEndThumb [(ngModel)]="selectedEndYear">
         </mat-slider>

@@ -43,7 +43,7 @@ export class PopupCatComponent {
     selectedCategories: string = ""; // Utilisation de string pour les identifiants UUID
     selectedCategoryName: string = '';
     selectedCategoryId: string | null = null;
-    selectedEventIds: string[] = [];
+    selectedDatesEvent: string[] = [];
 
   ngOnInit(): void {
     this.messageService.getData("category", "").subscribe((response: Category[]) => {
@@ -136,17 +136,19 @@ export class PopupCatComponent {
       const selectedDate = this.dates.find(date => date.id === selectedDateId);
       return selectedDate ? selectedDate.nom : ''; // Retourne le nom si trouvé, sinon une chaîne vide
     });
+    console.log("selectedNomEvents:",selectedNomEvents)
 
-    const selectedDates = this.selectedDates.map(selectedDateId => {
+    const selectedDatesEvent = this.selectedDates.map(selectedDateId => {
       const selectedDate = this.dates.find(date => date.id === selectedDateId);
       return selectedDate ? selectedDate.date : ''; // Retourne la date si trouvée, sinon une chaîne vide
     });
+    console.log("selectedDates:",selectedDatesEvent)
 
-    console.log("this.selectedEventIds",this.selectedEventIds)
+
     this.dialogRef.close({ 
       categories: this.selectedCategories, 
       nom_event:selectedNomEvents.join(', '),
-      date:selectedDates.join(', '),
+      date:selectedDatesEvent.join(', '),
       date_id:this.selectedDates });
   }
 

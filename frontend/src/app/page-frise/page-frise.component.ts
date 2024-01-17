@@ -46,10 +46,15 @@ export class PageFriseComponent implements OnInit{
   timelineItems: TimelineItem[] = []
 
   timelineData: any; // Assurez-vous que le type correspond à la structure de vos données
-  selectedEventIds:any;
   color : any ;
   selectedCategoryName:any;
   private shape: string = ''; 
+  selectedCategories: any;
+
+  selectedNomEvents: any;
+
+  selectedDates: any;
+
   constructor(private http: HttpClient,private router: Router, private route: ActivatedRoute, private messageService : MessageService,public dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -101,23 +106,30 @@ export class PageFriseComponent implements OnInit{
   }
 
   drawFrise(): void {
-    console.log("drawfrise");
     const container = document.querySelector('.frise-container.my-custom-frise');
     // Vérifiez si le conteneur existe
     if (container) {
-      container.innerHTML = ''; // Effacez le contenu existant
+      container.innerHTML = ''; 
+      d3.select(container).selectAll("*").remove();
       // Le reste de votre code pour dessiner la frise...
     } else {
       console.error("Le conteneur de la frise n'a pas été trouvé dans le DOM.");
     }
+    // Avant le dessin de la frise
+    if (typeof this.timelineData.dates === 'string') {
+      const formattedDates = this.timelineData.dates.split(', ').map((dateString: string | number | Date) => new Date(dateString));
+      this.timelineData.dates = formattedDates;
+    } else {
+      console.error("Les dates ne sont pas une chaîne.");
+    }
   // Configurez les dimensions de votre frise
   const friseWidth = 1200; // La largeur initiale de la frise
   const friseHeight = 1200;
-  const friseHeightY = 500;
+  const friseHeightY = 600;
   const friseStart = 100;
 
   const friseStartY = 80;
-  const minStartDate = new Date('1850-01-01');
+  const minStartDate = new Date('1900-01-01');
   const maxStartDate = new Date('2024-01-01');
 
   // Formatez les dates pour l'affichage
@@ -149,10 +161,13 @@ export class PageFriseComponent implements OnInit{
       .attr('height', 30) // Ajustez la hauteur de la frise selon vos besoins
       .style('fill', 'brown');
 
+      console.log("StartDate:", this.timelineData.startDate);
+      console.log("EndDate:", this.timelineData.endDate);
     // PLAGE SELECTIONNÉE 
     const xStart: number = friseStart + xScale(this.timelineData.startDate);
     const xEnd: number = friseStart + xScale(this.timelineData.endDate);
-
+    console.log("xStart:", xStart);
+    console.log("xEnd:", xEnd);
     // Ajoutez le rectangle de la plage sélectionnée
     svg.append('rect')
       .attr('x', xStart)
@@ -482,19 +497,26 @@ export class PageFriseComponent implements OnInit{
     const dialogRef = this.dialog.open(PopupCatComponent, {
       width: '50%',
       height: 'auto',
-      data: { cats: this.selectedCategoryName, events: this.selectedEventIds }
+      data: { 
+        categories: this.selectedCategories,
+        nom_event: this.timelineData.nom_event,  // Ajout de nom_event dans data
+        date: this.timelineData.date,         // Ajout de date_id dans data
+      }
     });
-
+  
     dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        this.categories = result.cats;
-        this.dates= result.events;
-
-        this.timelineData.categories = this.categories;
-        this.timelineData.dates = this.dates;
-       // this.timelinesData.nom: this.nom;
+      if (result) {
+        console.log("Result from PopupCatComponent:", result);
+  
+        // Mettez à jour les données de la frise// Mettez à jour les données de la frise
+        this.timelineData.categories = result.categories;
+        this.timelineData.nom = result.nom_event;
+        this.timelineData.dates = result.date;
+        // Assurez-vous que les autres propriétés sont correctement mises à jour
+        console.log("TimelineData after update:", this.timelineData);
+  
+        // Générez la frise
         this.generateTimeline();
-       
       }
     });
   }
