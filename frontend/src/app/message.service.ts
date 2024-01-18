@@ -154,14 +154,6 @@ export class MessageService {
     getSubmissions(): Observable<any[]> {
       return this.http.get<any[]>(`${this.prefixe}/submissions`);
     }
-  
-    approveSubmission(submissionId: number): Observable<any> {
-      return this.http.post<any>(`${this.prefixe}/approveSubmission/${submissionId}`, {});
-    }
-  
-    rejectSubmission(submissionId: number): Observable<any> {
-      return this.http.post<any>(`${this.prefixe}/rejectSubmission/${submissionId}`, {});
-    }
 
     sendDataUser(data: any) {
       this.userStatusSubject.next(data.status);

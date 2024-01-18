@@ -51,8 +51,8 @@ router.delete('/del-event/:category/:event', delDataByCategories);
 
 router.get('/submissions', getSubmissions);
 router.post('/add-sugg', createSubmission);
-router.put('/validate-sugg', validateSubmission);
-router.put('/ignorate-sugg', ignoreSubmission);
+router.post('/validate-sugg', validateSubmission);
+router.post('/ignorate-sugg', ignoreSubmission);
 router.post('/del-sugg', deleteSubmission);
 
 // SUBMISSION A VERIFIER 
