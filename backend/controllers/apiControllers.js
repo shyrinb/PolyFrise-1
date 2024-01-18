@@ -526,19 +526,11 @@ exports.createSubmission = async (req, res, next) => {
   
   const selectedCategories = req.body.category;
   try {
-    // Validate request body
-    
-    const submission_info = { data: req.body.submission_data, category: req.body.category} ;
-    const submission_type = req.body.submission_type;
-    if (!submission_type || !submission_data) {
-        return res.status(400).json({ error: 'ValidationError', message: 'Missing required fields' });
-    }
-
     // Create submission
     newData={
       submission_type: req.body.submission_type,
       submitted_by: req.body.submitted_by,
-      submission_data: submission_info,
+      submission_data: req.body.submission_data,
       status: 'pending',
       timestamp: req.body.timestamp
     }

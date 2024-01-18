@@ -132,12 +132,16 @@ export class PageSuggComponent {
         submission_type: formDataValues.selectedValue,
         timestamp: new Date(),
         submitted_by: this.userName,
-        category: this.selectedCategoryId  // Ajoutez la catégorie sélectionnée ici
+        category: this.selectedCategoryId// Ajoutez la catégorie sélectionnée ici
       };
+      if ( submissionData.submitted_by===""){
+          alert("il manque ton identifiant deconnecte toi et reconnecte toi");
+          return
+      }
   
       this.messageService.sendDataSugg(submissionData).subscribe(
         response => {
-          console.log('Evènement ajoutés');
+          alert('Suggestion ajoutés');
           console.log('Données ajoutées avec succès', response);
           // Fermez manuellement la boîte de dialogue après le traitement
         },

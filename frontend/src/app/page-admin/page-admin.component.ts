@@ -64,7 +64,7 @@ export class PageAdminComponent implements OnInit {
     }
     if (this.suggestionsSelected.length > 0) {
       const data = { ids: this.suggestionsSelected };
-      this.messageService.sendDataAuto("submission/accept", data, this.token).subscribe(() => {
+      this.messageService.sendDataAuto("/validate-sugg", data, this.token).subscribe(() => {
         // Rafraîchir la page après l'envoi du message
         window.location.reload();
       })
@@ -105,7 +105,7 @@ export class PageAdminComponent implements OnInit {
     }
     if (this.suggestionsSelected.length > 0) {
       const data = { ids: this.suggestionsSelected };
-      this.messageService.sendDataAuto("/ignore-sugg", data, this.token).subscribe(() => {
+      this.messageService.sendDataAuto("/del-sugg", data, this.token).subscribe(() => {
         // Rafraîchir la page après l'envoi du message
         window.location.reload();
       })
@@ -116,7 +116,7 @@ export class PageAdminComponent implements OnInit {
       this.alert=true;
     }
   }
-
+  
 
 
   getBackgroundColor(type: string): string {

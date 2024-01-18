@@ -53,7 +53,7 @@ router.get('/submissions', getSubmissions);
 router.post('/add-sugg', createSubmission);
 router.put('/validate-sugg', validateSubmission);
 router.put('/ignore-sugg', ignoreSubmission);
-router.del('/del-sugg', deleteSubmission);
+router.delete('/del-sugg', deleteSubmission);
 
 // SUBMISSION A VERIFIER 
 

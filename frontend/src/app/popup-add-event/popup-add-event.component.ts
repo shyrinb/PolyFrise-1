@@ -89,7 +89,13 @@ export class PopupAddEventComponent implements OnInit {
   submitData(): void {
     // Obtenez les valeurs du formulaire
     const formDataValues = this.formData.value;
-  
+
+    // Vérifiez si au moins un champ est vide
+    const isAnyFieldEmpty = Object.values(formDataValues).some(value => value === "");
+
+    if (isAnyFieldEmpty) {
+      alert("Information manquante importante");
+    }
     console.log("valeur du formulaire", formDataValues);
     // Envoyez les données au backend
     this.messageService.sendDataAdd(this.selectedCategoryName, formDataValues).subscribe(

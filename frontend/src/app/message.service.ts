@@ -52,7 +52,7 @@ export class MessageService {
       return this.http.get<any>(url,options);
     }
 
-    sendDataAdd(formData: any,selectedCategory: string,): Observable<any> {
+    sendDataAdd(selectedCategory: string,formData: any,): Observable<any> {
       const url = `${this.prefixe}/add-event`;
       formData.category = selectedCategory;  // Utilisez la même propriété ici
       console.log("formulaire service", formData);

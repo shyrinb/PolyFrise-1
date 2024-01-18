@@ -14,7 +14,6 @@ export class LoginComponent  {
   alert = false;
   email: string = "";
   password: string = "";
-  errorMessage: string="";
   userStatus: any;
   userName: any;
   constructor(private router: Router, private messageService: MessageService) { }
@@ -22,8 +21,8 @@ export class LoginComponent  {
   onSubmit() {
 
     if (this.email == "" || this.password == ""){ // On affiche un message d'erreur
-        if (this.email == "") this.errorMessage = "Veuillez saisir votre nom d'utilisateur";
-        else this.errorMessage = "Veuillez saisir votre mot de passe";
+        if (this.email == "") alert( "Veuillez saisir votre nom d'utilisateur");
+        else alert("Veuillez saisir votre mot de passe");
         this.alert = true;
     }
 
@@ -52,9 +51,9 @@ export class LoginComponent  {
           error => {
             console.log(error);
             if (error.error && error.error.message) {
-              this.errorMessage = error.error.message;
+              alert(error.error.message);
             } else {
-              this.errorMessage = "Une erreur inattendue s'est produite lors de l'inscription.";
+              alert("Une erreur inattendue s'est produite lors de l'inscription.");
             }
             this.alert = true;
           }
@@ -65,9 +64,9 @@ export class LoginComponent  {
     handleLoginError(error: any) {
       console.log(error);
       if (error.error && error.error.message) {
-        this.errorMessage = error.error.message;
+        alert(error.error.message);
       } else {
-        this.errorMessage = "Une erreur inattendue s'est produite lors de l'inscription.";
+        alert("Une erreur inattendue s'est produite lors de l'inscription.");
       }
       this.alert = true;
     }
