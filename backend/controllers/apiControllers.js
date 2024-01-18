@@ -555,7 +555,7 @@ exports.createSubmission = async (req, res, next) => {
   }
 };
 
-exports.updateSubmission = (req, res, next) => {
+exports.validateSubmission = (req, res, next) => {
   console.request(req, `Update submission`);
 
   const { submission_id, submission_data } = req.body;
@@ -568,7 +568,36 @@ exports.updateSubmission = (req, res, next) => {
   // Update submission
   Submission.update({
       submission_data: submission_data,
-      status: 'pending'
+      status: 'approved'
+  }, {
+      where: { id: submission_id }
+  }).then((rowsUpdated) => {
+      if (rowsUpdated > 0) {
+          console.log(`Submission [${submission_id}] updated`);
+          res.status(200).end();
+      } else {
+          res.status(404).json({ error: 'SubmissionNotFoundError', message: 'Submission not found' });
+      }
+  }).catch((error) => {
+      console.error(`Update submission failed`, error);
+      res.status(500).json({ error: 'ServerError', message: 'Erreur BDD' });
+  });
+};
+
+exports.ignoreSubmission = (req, res, next) => {
+  console.request(req, `Update submission`);
+
+  const { submission_id, submission_data } = req.body;
+
+  // Validate request body
+  if (!submission_id || !submission_data) {
+      return res.status(400).json({ error: 'ValidationError', message: 'Missing required fields' });
+  }
+
+  // Update submission
+  Submission.update({
+      submission_data: submission_data,
+      status: 'rejected'
   }, {
       where: { id: submission_id }
   }).then((rowsUpdated) => {

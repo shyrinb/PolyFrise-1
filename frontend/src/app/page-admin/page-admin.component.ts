@@ -85,7 +85,7 @@ export class PageAdminComponent implements OnInit {
     }
     if (this.suggestionsSelected.length > 0) {
       const data = { ids: this.suggestionsSelected };
-      this.messageService.sendDataAuto("submission/reject", data, this.token).subscribe(() => {
+      this.messageService.sendDataAuto("/ignore-sugg", data, this.token).subscribe(() => {
         // Rafraîchir la page après l'envoi du message
         window.location.reload();
       })
@@ -96,6 +96,27 @@ export class PageAdminComponent implements OnInit {
       this.alert=true;
     }
   }
+
+  supprimer() {
+    for (const item of this.suggestions) {
+      if(item.selected==true){
+        this.suggestionsSelected.push(item.id);
+      }
+    }
+    if (this.suggestionsSelected.length > 0) {
+      const data = { ids: this.suggestionsSelected };
+      this.messageService.sendDataAuto("/ignore-sugg", data, this.token).subscribe(() => {
+        // Rafraîchir la page après l'envoi du message
+        window.location.reload();
+      })
+    }
+
+    else{
+      this.errorMessage="Merci de saisir des modifications avant de cliquer sur Ignorer";
+      this.alert=true;
+    }
+  }
+
 
 
   getBackgroundColor(type: string): string {

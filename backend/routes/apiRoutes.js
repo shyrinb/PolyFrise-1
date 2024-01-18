@@ -9,6 +9,8 @@ const {
   deconnexion,
   getCategory,
   getTimeline,
+  validateSubmission,
+  ignoreSubmission,
   getGenerationsInformatique,
   delDataByCategories,
   getEvenementsInformatiques,
@@ -17,7 +19,6 @@ const {
   getAvancees,
   modifDataByCategories,
   getDistinctions,
-  updateSubmission,
   createSubmission,
   deleteSubmission,
   getEntreprises,
@@ -50,11 +51,11 @@ router.delete('/del-event/:category/:event', delDataByCategories);
 
 router.get('/submissions', getSubmissions);
 router.post('/add-sugg', createSubmission);
+router.put('/validate-sugg', validateSubmission);
+router.put('/ignore-sugg', ignoreSubmission);
+router.del('/del-sugg', deleteSubmission);
 
 // SUBMISSION A VERIFIER 
-//router.post('/', createSubmission);
-//router.put('/:submission_id', updateSubmission);
-//router.delete('/:submission_id', deleteSubmission);
 
 // Routes pour l'authentification
 router.post('/inscription', signup);

@@ -32,6 +32,7 @@
     </mat-accordion>
     <button mat-raised-button color="primary" (click)="validate()" id="valider">Valider</button>
     <button mat-raised-button color="warn" (click)="ignore()" id="ignorer">Ignorer</button>
+    <button mat-raised-button color="warn" (click)="supprimer()" id="supprimer">Supprimer</button>
    <!--<button mat-raised-button (click)="manageHistoricalEvents()" class="buttonEvent">Gérer les événements historiques</button> --> 
     <footer class="col-md-6 text-center">
         <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
