@@ -9,17 +9,15 @@ import { catchError } from 'rxjs/operators';
 
 export class MessageService {
   prefixe: string;
-  private userStatusSubject = new BehaviorSubject<string>(''); // BehaviorSubject pour stocker le statut de l'utilisateur
+  private userStatusSubject = new BehaviorSubject<string>(''); 
+  private userNameSubject = new BehaviorSubject<string>('');// BehaviorSubject pour stocker le statut de l'utilisateur
   userStatus$ = this.userStatusSubject.asObservable();
+  userName$ = this.userNameSubject.asObservable();
     constructor(private http: HttpClient) {this.prefixe='http://localhost:3000/api'}
 
     sendData(fin: string, data: any): Observable<any> {
       const url = this.prefixe + "/" + fin;
       return this.http.post<any>(url, data);
-    }
-
-    sendDataUser(data: any) {
-      this.userStatusSubject.next(data.status);
     }
 
     getData(fin: string, data: any ): Observable<any>{
@@ -54,7 +52,7 @@ export class MessageService {
       return this.http.get<any>(url,options);
     }
 
-    sendDataAdd(selectedCategory: string, formData: any): Observable<any> {
+    sendDataAdd(formData: any,selectedCategory: string,): Observable<any> {
       const url = `${this.prefixe}/add-event`;
       formData.category = selectedCategory;  // Utilisez la même propriété ici
       console.log("formulaire service", formData);
@@ -109,14 +107,13 @@ export class MessageService {
       );
     }
 
-    sendDataAddSugg(selectedCategory: string, formData: any): Observable<any> {
-      const url = `${this.prefixe}/add-event`;
-      formData.category = selectedCategory;  // Utilisez la même propriété ici
-      console.log("formulaire service", formData);
-      console.log("service categories", formData.category);  // Utilisez la même propriété ici
-      return this.http.post<any>(url, formData);
+    sendDataSugg(submissionData: any): Observable<any> {
+      const url = `${this.prefixe}/add-sugg`;
+      console.log("Service JSON", submissionData);
+      
+      return this.http.post<any>(url, submissionData);
     }
-    
+
     sendDataAuto(fin: string, data: any,token: any ): Observable<any>{
       const url = this.prefixe + "/" + fin;
       const headers = new HttpHeaders().set('Authorization',`Bearer ${token}`);
@@ -124,7 +121,7 @@ export class MessageService {
       return this.http.post<any>(url,data,options);
     }
     
-    getAllSubmissions(): Observable<any[]> {
+    getSubmissions(): Observable<any[]> {
       return this.http.get<any[]>(`${this.prefixe}/submissions`);
     }
   
@@ -135,5 +132,20 @@ export class MessageService {
     rejectSubmission(submissionId: number): Observable<any> {
       return this.http.post<any>(`${this.prefixe}/rejectSubmission/${submissionId}`, {});
     }
-  }
 
+    sendDataUser(data: any) {
+      this.userStatusSubject.next(data.status);
+    }
+
+    sendDataUserName(data: any) {
+      this.userNameSubject.next(data.login);
+    }
+
+    getUserStatus(): Observable<string> {
+      return this.userStatus$;
+    }
+
+    getUserName(): Observable<string> {
+      return this.userName$;
+    }
+}

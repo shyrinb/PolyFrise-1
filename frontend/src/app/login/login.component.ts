@@ -16,7 +16,7 @@ export class LoginComponent  {
   password: string = "";
   errorMessage: string="";
   userStatus: any;
-
+  userName: any;
   constructor(private router: Router, private messageService: MessageService) { }
   
   onSubmit() {
@@ -39,13 +39,14 @@ export class LoginComponent  {
             this.messageService.getUserInfo().subscribe(
               (userInfo: any) => {
                 this.userStatus = userInfo.status;
+                this.userName= userInfo.login;
               },
               error => {
                 console.log(error);
-                // Gérer les erreurs liées à la récupération des informations utilisateur
               }
             );
             this.messageService.sendDataUser(response);
+            this.messageService.sendDataUserName(response);
             this.router.navigateByUrl('/accueil');
           },
           error => {
@@ -58,7 +59,6 @@ export class LoginComponent  {
             this.alert = true;
           }
         );
-        
       }
     }
 

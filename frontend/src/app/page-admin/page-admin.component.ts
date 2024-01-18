@@ -21,7 +21,7 @@ interface Submission {
   styleUrls: ['./page-admin.component.css']
 })
 export class PageAdminComponent implements OnInit {
-  suggestions: Submission[] = [];
+  suggestions: any[] = [];
   suggestionsSelected: any= [];
   token!: string;
   errorMessage: string="";
@@ -35,20 +35,18 @@ export class PageAdminComponent implements OnInit {
       this.token = token;
     }
 
-    this.messageService.getDataAuto("submission", this.token).subscribe(response => {
-      for (const item of response) {
-        const suggestion: Submission = {
+    this.messageService.getSubmissions().subscribe(response => {
+      this.suggestions = response.map(item => {
+        return {
           id: item.id,
-          type: item.type,
-          dateSub: new Date(item.created_at).toLocaleDateString(),
-          title: item.new_title ?? item.event.title,
-          description: item.new_description ?? item.event.description ,
-          date: item.new_date ? new Date(item.new_date).toLocaleDateString() : new Date(item.event.date).toLocaleDateString(),
+          type: item.submission_type,
+          dateSub: new Date(item.timestamp).toLocaleDateString(),
+          autheur: item.submitted_by,
+          description: item.submission_data, // Ajoutez le champ correct ici
           selected: false
-        }
-        this.suggestions.push(suggestion);
-      }
-    } )
+        };
+      });
+    });
   }
 
   logout() {

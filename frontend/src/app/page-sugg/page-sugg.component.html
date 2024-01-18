@@ -8,7 +8,7 @@
 <div mat-dialog-content class="mat-dialog-content">
     <div class="dropdown">
         <label>Sélectionnez le type de suggestion :</label>
-        <select formControlName="selectedValue">
+        <select formControlName="selectedValue" (change)="onValueChange($event)">
           <option value="creer">Créer </option>
           <option value="modifier">Modifier </option>
           <option value="supprimer">Supprimer </option>
@@ -35,8 +35,8 @@
     
 </div>
 </form>
-<button type="button" mat-button mat-dialog-close color="primary" (click)="submitData()">Soumettre Ajout</button>
-<div mat-dialog-actions>
+<button type="button" mat-button mat-dialog-close color="primary" (click)="submitData()"> {{ buttonText }} </button>
+  <div mat-dialog-actions>
 <!-- Réutilisez le bouton si nécessaire -->
 
 </div>

@@ -6,7 +6,7 @@
     <button mat-raised-button color="primary" routerLink="/friseparam1" class="home-button">Générer frise chronologique</button>
 
     <button *ngIf="userStatus === 'admin'" mat-raised-button color="primary" routerLink="/submission" class="home-button">Administration</button>
-    <button mat-raised-button color="primary" routerLink="/suggestion" class="home-button"> Suggestion</button>
+    <button mat-raised-button color="primary" (click)="goToSuggestion()" class="home-button"> Suggestion</button>
 </div>
 <div class="onglet">
     <div>

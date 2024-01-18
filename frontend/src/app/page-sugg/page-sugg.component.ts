@@ -19,18 +19,51 @@ export class PageSuggComponent {
 
   token!: string;
   categories: any;
+  userStatus:any;
+  userName:any;
   selectedCategories: Category[] = [];
   selectedCategoryId: string | null = null;
   selectedCategoriesColumns: string[] = [];
   formData: FormGroup;
   selectedCategoryName: string = '';
+  selectedValue: string = '';
+  buttonText: string = 'Soumettre';
   constructor(private router: Router, private messageService: MessageService, private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.messageService.getData("category", "").subscribe(response => {
       this.categories = response;
     });
+    this.messageService.userName$.subscribe(userName => {
+      this.userName= userName;
+
+    console.log('username sugg:', this.userName);
+    });
+
+    console.log('username:',this.userName);
     this.initializeForm();
+  }
+
+  updateButtonText(): void {
+    if (this.selectedValue === 'creer') {
+      this.buttonText = 'Soumettre Création';
+    } else if (this.selectedValue === 'modifier') {
+      this.buttonText = 'Soumettre Modification';
+    } else if (this.selectedValue === 'supprimer') {
+      this.buttonText = 'Soumettre Suppression';
+    } else {
+      this.buttonText = 'Soumettre';
+    }
+  }
+
+  onValueChange(event: Event): void {
+    const selectedValue = (event.target as HTMLSelectElement | null)?.value;
+    
+    if (typeof selectedValue === 'string') {
+      this.selectedValue = selectedValue;
+      console.log("selected value", this.selectedValue)
+      this.updateButtonText();
+    }
   }
 
   logout() {
@@ -91,22 +124,27 @@ export class PageSuggComponent {
   }
 
   submitData(): void {
-    // Obtenez les valeurs du formulaire
-    const formDataValues = this.formData.value;
-  
-    console.log("valeur du formulaire", formDataValues);
-    // Envoyez les données au backend
-    this.messageService.sendDataAddSugg(this.selectedCategoryName, formDataValues).subscribe(
-      response => {
-        alert('Evènement ajoutés');
-        console.log('Données ajoutées avec succès', response);
-        // Fermez manuellement la boîte de dialogue après le traitement
-      },
-      error => {
-        console.error('Erreur lors de l\'ajout de données', error);
-        // Gérez les erreurs éventuelles
-      }
-    );
-  }
 
+    const formDataValues = this.formData.value;
+    console.log("valeur du formulaire", formDataValues);
+      const submissionData = {
+        submission_data: formDataValues,
+        submission_type: formDataValues.selectedValue,
+        timestamp: new Date(),
+        submitted_by: this.userName,
+        category: this.selectedCategoryId  // Ajoutez la catégorie sélectionnée ici
+      };
+  
+      this.messageService.sendDataSugg(submissionData).subscribe(
+        response => {
+          console.log('Evènement ajoutés');
+          console.log('Données ajoutées avec succès', response);
+          // Fermez manuellement la boîte de dialogue après le traitement
+        },
+        error => {
+          console.error('Erreur lors de l\'ajout de données', error);
+          // Gérez les erreurs éventuelles
+        }
+      );
+  }
 }

@@ -48,11 +48,13 @@ router.post('/add-event',insertDataByCategories);
 router.put('/modify-event/:category/:event', modifDataByCategories);
 router.delete('/del-event/:category/:event', delDataByCategories);
 
-// SUBMISSION A VERIFIER 
 router.get('/submissions', getSubmissions);
-router.post('/', createSubmission);
-router.put('/:submission_id', updateSubmission);
-router.delete('/:submission_id', deleteSubmission);
+router.post('/add-sugg', createSubmission);
+
+// SUBMISSION A VERIFIER 
+//router.post('/', createSubmission);
+//router.put('/:submission_id', updateSubmission);
+//router.delete('/:submission_id', deleteSubmission);
 
 // Routes pour l'authentification
 router.post('/inscription', signup);

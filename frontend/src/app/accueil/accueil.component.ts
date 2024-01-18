@@ -12,6 +12,7 @@ import { HttpClient } from '@angular/common/http';
 export class AccueilComponent implements OnInit {
   token!: string;
   userStatus:any;
+  userName:any;
   constructor(private http: HttpClient, private router: Router, private messageService: MessageService) {}
 
   ngOnInit() {
@@ -19,8 +20,11 @@ export class AccueilComponent implements OnInit {
     if (token !== null) {
       this.token = token;
     }
-    this.messageService.userStatus$.subscribe(userStatus => {
+    this.messageService.getUserStatus().subscribe(userStatus => {
       this.userStatus = userStatus;
+    });
+    this.messageService.getUserName().subscribe(userName => {
+      this.userName = userName;
     });
   }
 
@@ -28,5 +32,9 @@ export class AccueilComponent implements OnInit {
     this.messageService.sendDataAuto("deconnexion","", this.token).subscribe();
       localStorage.removeItem("jwtToken");
       this.router.navigateByUrl('/');
+  }
+
+  goToSuggestion(){
+    this.router.navigateByUrl('/suggestion');
   }
 }

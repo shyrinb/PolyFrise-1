@@ -43,7 +43,6 @@ import { DomainesComponent } from './domaines/domaines.component';
 import { InscriptionComponent } from './inscription/inscription.component';
 import { Pagefriseparam2Component } from './pagefriseparam2/pagefriseparam2.component';
 import { PageAdminComponent } from './page-admin/page-admin.component';
-import { SubmissionadminComponent } from './submissionadmin/submissionadmin.component';
 import { PopupDeleteEventComponent } from './popup-delete-event/popup-delete-event.component';
 import { PopupModifyEventComponent } from './popup-modify-event/popup-modify-event.component';
 import { MessageService } from './message.service';
@@ -75,7 +74,6 @@ import { PageSuggComponent } from './page-sugg/page-sugg.component';
     GenerationinformatiqueComponent,
     DomainesComponent,
     Pagefriseparam2Component,
-    SubmissionadminComponent,
     PageSuggComponent,
   ],
   imports: [

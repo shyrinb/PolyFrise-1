@@ -21,10 +21,10 @@
             <mat-expansion-panel-header>
                 <mat-checkbox [(ngModel)]="suggestion.selected"></mat-checkbox>
                 <mat-panel-title>
-                    {{suggestion.dateSub}} - {{suggestion.type}}
+                    {{suggestion.dateSub}} - {{suggestion.type}} -  {{suggestion.autheur}}
                 </mat-panel-title>
                 <mat-panel-description>
-                    {{suggestion.date}} - {{suggestion.title}}
+                    {{suggestion.date}} 
                 </mat-panel-description>
             </mat-expansion-panel-header>
             <p>{{suggestion.description}}</p>

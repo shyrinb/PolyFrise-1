@@ -1,11 +1,12 @@
 // controllers/apiController.js
 const db = require('../models'); // Assurez-vous que cela pointe vers vos modèles MySQL
-const { Avancees, Entreprises, Programmes, Personnalite,Evenements_historiques,Evenements_informatiques,Distinctions,Generation_informatique,Domaines,Category } = require('../models');
+const { Avancees, Entreprises, Programmes, Personnalite,Evenements_historiques,Evenements_informatiques,Distinctions,Generation_informatique,Domaines,Category,Submission } = require('../models');
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 var validator = require("email-validator");
 const { Op } = require('sequelize');  // Assurez-vous que vous importez Op depuis sequelize, si vous l'utilisez
+const { v4: uuidv4 } = require('uuid');
 
 exports.getTimeline= (req, res) => {
   try {
@@ -521,33 +522,37 @@ exports.deconnexion = (req, res, next) => {
 
 //------------------------SUBMISSION
 
+exports.createSubmission = async (req, res, next) => {
+  
+  const selectedCategories = req.body.category;
+  try {
+    // Validate request body
+    
+    const submission_info = { data: req.body.submission_data, category: req.body.category} ;
+    const submission_type = req.body.submission_type;
+    if (!submission_type || !submission_data) {
+        return res.status(400).json({ error: 'ValidationError', message: 'Missing required fields' });
+    }
 
-exports.createSubmission = (req, res, next) => {
-  console.request(req, `Create submission`);
+    // Create submission
+    newData={
+      submission_type: req.body.submission_type,
+      submitted_by: req.body.submitted_by,
+      submission_data: submission_info,
+      status: 'pending',
+      timestamp: req.body.timestamp
+    }
+      
+    const newDataInstance = Submission.build(newData);
 
-  const { submission_type, submitted_by, submission_data } = req.body;
+    // Insérez les données dans la base de données
+    await newDataInstance.save();
 
-  // Validate request body
-  if (!submission_type || !submitted_by || !submission_data) {
-      return res.status(400).json({ error: 'ValidationError', message: 'Missing required fields' });
+    res.json({ success: true, message: 'Données insérées avec succès' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Erreur de serveur' });
   }
-
-  const id = uuidv4();
-
-  // Create submission
-  Submission.create({
-      id: id,
-      submission_type: submission_type,
-      submitted_by: submitted_by,
-      submission_data: submission_data,
-      status: 'pending'
-  }).then((submission) => {
-      console.log(`Submission [${id}] created`);
-      res.status(200).json(submission);
-  }).catch((error) => {
-      console.error('Create submission failed', error);
-      res.status(500).json({ error: 'ServerError', message: 'Erreur BDD' });
-  });
 };
 
 exports.updateSubmission = (req, res, next) => {
@@ -604,16 +609,6 @@ exports.deleteSubmission = (req, res, next) => {
       res.status(500).json({ error: 'ServerError', message: 'Erreur BDD' });
   });
 };
-
-
-
-
-
-
-
-
-
-
 
 
 // Fonction utilitaire pour gérer le résultat de la requête
