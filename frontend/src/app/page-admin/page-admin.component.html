@@ -17,11 +17,11 @@
             </ul>     
     </div>
     <mat-accordion>
-        <mat-expansion-panel *ngFor="let suggestion of suggestions" hideToggle [ngClass]="getBackgroundColor(suggestion.type)">
+        <mat-expansion-panel *ngFor="let suggestion of suggestions" hideToggle [ngClass]="{'valid-suggestion': suggestion.isValid, 'invalid-suggestion': !suggestion.isValid}">
             <mat-expansion-panel-header>
                 <mat-checkbox [(ngModel)]="suggestion.selected"></mat-checkbox>
                 <mat-panel-title>
-                    {{suggestion.dateSub}} - {{suggestion.type}} -  {{suggestion.autheur}}
+                    {{suggestion.dateSub}} - {{suggestion.type}} -  {{suggestion.autheur}} - {{suggestion.isValid}} 
                 </mat-panel-title>
                 <mat-panel-description>
                     {{suggestion.date}} 
@@ -34,9 +34,4 @@
     <button mat-raised-button color="warn" (click)="ignore()" id="ignorer">Ignorer</button>
     <button mat-raised-button color="warn" (click)="supprimer()" id="supprimer">Supprimer</button>
    <!--<button mat-raised-button (click)="manageHistoricalEvents()" class="buttonEvent">Gérer les événements historiques</button> --> 
-    <footer class="col-md-6 text-center">
-        <div *ngIf="alert" id="divErreur" class="alert alert-danger" role="alert">
-            <p id="erreur" name="errorMessage"> {{ errorMessage }}</p>
-        </div>
-    </footer>
 </div>

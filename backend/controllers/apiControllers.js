@@ -547,25 +547,18 @@ exports.createSubmission = async (req, res, next) => {
   }
 };
 
-exports.validateSubmission = (req, res, next) => {
-  console.request(req, `Update submission`);
-
-  const { submission_id, submission_data } = req.body;
-
-  // Validate request body
-  if (!submission_id || !submission_data) {
-      return res.status(400).json({ error: 'ValidationError', message: 'Missing required fields' });
-  }
+exports.validateSubmission = (req, res, next) => {  
+  
+  const { ids } = req.body;
 
   // Update submission
   Submission.update({
-      submission_data: submission_data,
       status: 'approved'
   }, {
-      where: { id: submission_id }
+      where: { id: ids }
   }).then((rowsUpdated) => {
       if (rowsUpdated > 0) {
-          console.log(`Submission [${submission_id}] updated`);
+          console.log(`Submission [${ids}] updated`);
           res.status(200).end();
       } else {
           res.status(404).json({ error: 'SubmissionNotFoundError', message: 'Submission not found' });
@@ -577,24 +570,17 @@ exports.validateSubmission = (req, res, next) => {
 };
 
 exports.ignoreSubmission = (req, res, next) => {
-  console.request(req, `Update submission`);
 
-  const { submission_id, submission_data } = req.body;
-
-  // Validate request body
-  if (!submission_id || !submission_data) {
-      return res.status(400).json({ error: 'ValidationError', message: 'Missing required fields' });
-  }
+  const { ids } = req.body;
 
   // Update submission
   Submission.update({
-      submission_data: submission_data,
       status: 'rejected'
   }, {
-      where: { id: submission_id }
+      where: { id: ids }
   }).then((rowsUpdated) => {
       if (rowsUpdated > 0) {
-          console.log(`Submission [${submission_id}] updated`);
+          console.log(`Submission [${ids}] updated`);
           res.status(200).end();
       } else {
           res.status(404).json({ error: 'SubmissionNotFoundError', message: 'Submission not found' });
@@ -606,21 +592,15 @@ exports.ignoreSubmission = (req, res, next) => {
 };
 
 exports.deleteSubmission = (req, res, next) => {
-  console.request(req, `Delete submission`);
+  const { ids } = req.body;
 
-  const { submission_id } = req.body;
-
-  // Validate request body
-  if (!submission_id) {
-      return res.status(400).json({ error: 'ValidationError', message: 'Missing required field: submission_id' });
-  }
-
+  console.log("cote backend",ids);
   // Delete submission
   Submission.destroy({
-      where: { id: submission_id }
+      where: { id: ids }
   }).then((rowsDeleted) => {
       if (rowsDeleted > 0) {
-          console.log(`Submission [${submission_id}] deleted`);
+          console.log(`Submission [${ids}] deleted`);
           res.status(200).end();
       } else {
         res.status(404).json({ error: 'SubmissionNotFoundError', message: 'Submission not found' });

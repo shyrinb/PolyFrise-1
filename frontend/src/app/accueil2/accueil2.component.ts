@@ -39,6 +39,7 @@ export class Accueil2Component implements OnInit{
   data: any;
   alert = false;
   errorMessage: string = "";
+  userStatus:any;
 
   ngOnInit() {
     this.messageService.getData("category", "").subscribe((response: Category[]) => {
@@ -48,6 +49,15 @@ export class Accueil2Component implements OnInit{
         selected: false
       }));
     });
+    this.messageService.getUserStatus().subscribe(
+      (userInfo: any) => {
+        this.userStatus = userInfo.status;
+        console.log('user',this.userStatus);
+      },
+      error => {
+        console.log(error);
+      }
+    );
   }
 
   // Fonction appelée lorsqu'une catégorie est sélectionnée

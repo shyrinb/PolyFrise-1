@@ -10,9 +10,9 @@ interface Submission {
   dateSub: string;
   title: string;
   description: string;
-  date: string;
+  autheur: string;
   selected: boolean;
-
+  isValid: string;
 }
 
 @Component({
@@ -24,8 +24,6 @@ export class PageAdminComponent implements OnInit {
   suggestions: any[] = [];
   suggestionsSelected: any= [];
   token!: string;
-  errorMessage: string="";
-  alert = false;
 
   constructor(private http: HttpClient, private router: Router, private messageService: MessageService) {}
 
@@ -42,7 +40,8 @@ export class PageAdminComponent implements OnInit {
           type: item.submission_type,
           dateSub: new Date(item.timestamp).toLocaleDateString(),
           autheur: item.submitted_by,
-          description: item.submission_data, // Ajoutez le champ correct ici
+          description: item.submission_data,
+          isValid:item.status, 
           selected: false
         };
       });
@@ -56,44 +55,40 @@ export class PageAdminComponent implements OnInit {
   }
 
   validate() {
-
     for (const item of this.suggestions) {
-      if(item.selected==true){
+      if (item.selected) {
         this.suggestionsSelected.push(item.id);
       }
     }
+  
     if (this.suggestionsSelected.length > 0) {
-      const data = { ids: this.suggestionsSelected };
-      this.messageService.sendDataAuto("/validate-sugg", data, this.token).subscribe(() => {
+      this.messageService.sendDataValSugg(this.suggestionsSelected).subscribe(() => {
         // Rafraîchir la page après l'envoi du message
         window.location.reload();
-      })
-    }
-
-    else{
-      this.errorMessage="Merci de saisir des modifications avant de valider";
-      this.alert=true;
+        alert("Status mis à jour effectuée");
+      });
+    } else {
+      alert("Merci de saisir des modifications avant de valider");
     }
   }
 
 
   ignore() {
     for (const item of this.suggestions) {
-      if(item.selected==true){
+      if (item.selected) {
         this.suggestionsSelected.push(item.id);
       }
     }
     if (this.suggestionsSelected.length > 0) {
-      const data = { ids: this.suggestionsSelected };
-      this.messageService.sendDataAuto("/ignore-sugg", data, this.token).subscribe(() => {
+      this.messageService.sendDataIgnSugg(this.suggestionsSelected).subscribe(() => {
         // Rafraîchir la page après l'envoi du message
         window.location.reload();
+        alert("Status mis à jour effectuée");
       })
     }
 
     else{
-      this.errorMessage="Merci de saisir des modifications avant de cliquer sur Ignorer";
-      this.alert=true;
+      alert("Merci de saisir des modifications avant de cliquer sur Ignorer");
     }
   }
 
@@ -103,32 +98,17 @@ export class PageAdminComponent implements OnInit {
         this.suggestionsSelected.push(item.id);
       }
     }
+    console.log(this.suggestionsSelected);
     if (this.suggestionsSelected.length > 0) {
-      const data = { ids: this.suggestionsSelected };
-      this.messageService.sendDataAuto("/del-sugg", data, this.token).subscribe(() => {
+      this.messageService.sendDataDelSugg(this.suggestionsSelected).subscribe(() => {
         // Rafraîchir la page après l'envoi du message
         window.location.reload();
+        alert("Suppression effectuée");
       })
     }
-
     else{
-      this.errorMessage="Merci de saisir des modifications avant de cliquer sur Ignorer";
-      this.alert=true;
+      alert("Merci de saisir des modifications avant de cliquer sur Ignorer");
     }
   }
   
-
-
-  getBackgroundColor(type: string): string {
-    switch (type) {
-      case 'UPDATE':
-        return 'suggestion-update';
-      case 'CREATE':
-        return 'suggestion-create';
-      case 'DELETE':
-        return 'suggestion-delete';
-      default:
-        return '';
-    }
-  }
 }

@@ -9,11 +9,25 @@ import { catchError } from 'rxjs/operators';
 
 export class MessageService {
   prefixe: string;
-  private userStatusSubject = new BehaviorSubject<string>(''); 
-  private userNameSubject = new BehaviorSubject<string>('');// BehaviorSubject pour stocker le statut de l'utilisateur
-  userStatus$ = this.userStatusSubject.asObservable();
-  userName$ = this.userNameSubject.asObservable();
-    constructor(private http: HttpClient) {this.prefixe='http://localhost:3000/api'}
+  private userStatusSubject: BehaviorSubject<string>;
+  private userNameSubject: BehaviorSubject<string>;
+
+  userStatus$: Observable<string>;
+  userName$: Observable<string>;
+
+    constructor(private http: HttpClient) {
+      this.prefixe='http://localhost:3000/api'
+      // Récupérer les valeurs stockées dans localStorage ou initialiser avec des valeurs par défaut
+      const storedUserStatus = localStorage.getItem('userStatus') || '';
+      const storedUserName = localStorage.getItem('userName') || '';
+  
+      this.userStatusSubject = new BehaviorSubject<string>(storedUserStatus);
+      this.userNameSubject = new BehaviorSubject<string>(storedUserName);
+  
+      this.userStatus$ = this.userStatusSubject.asObservable();
+      this.userName$ = this.userNameSubject.asObservable();
+    
+    }
 
     sendData(fin: string, data: any): Observable<any> {
       const url = this.prefixe + "/" + fin;
@@ -70,8 +84,9 @@ export class MessageService {
     }
 
     sendDataDel(selectedCategory: string, event_id: string): Observable<any> {
-      const url = `${this.prefixe}/del-event/${selectedCategory}/${event_id}`;
-      return this.http.delete<any>(url);
+      const url = `${this.prefixe}/del-event/}`;
+      const supprUrl = `${url}/${selectedCategory}/${event_id}`;
+      return this.http.delete<any>(supprUrl);
     }
 
     getChampByCategorie(selectedCategories: string): Observable<any[]> {
@@ -114,6 +129,21 @@ export class MessageService {
       return this.http.post<any>(url, submissionData);
     }
 
+    sendDataDelSugg(ids: string[]): Observable<any> {
+      const url = `${this.prefixe}/del-sugg`;
+      return this.http.post<any>(url, { ids });
+    }
+
+    sendDataIgnSugg(ids: string[]): Observable<any> {
+      const url = `${this.prefixe}/ignorate-sugg`;
+      return this.http.post<any>(url, { ids });
+    }
+
+    sendDataValSugg(ids: string[]): Observable<any> {
+      const url = `${this.prefixe}/validate-sugg`;
+      return this.http.post<any>(url, { ids });
+    }
+
     sendDataAuto(fin: string, data: any,token: any ): Observable<any>{
       const url = this.prefixe + "/" + fin;
       const headers = new HttpHeaders().set('Authorization',`Bearer ${token}`);
@@ -135,17 +165,22 @@ export class MessageService {
 
     sendDataUser(data: any) {
       this.userStatusSubject.next(data.status);
+      localStorage.setItem('userStatus', data.status.toString()); // Utilisez data.status
     }
-
+    
     sendDataUserName(data: any) {
       this.userNameSubject.next(data.login);
+      localStorage.setItem('userName', data.login.toString()); // Utilisez data.login
     }
+    
 
     getUserStatus(): Observable<string> {
+      console.log("this.userStatus$",this.userStatus$);
       return this.userStatus$;
     }
 
     getUserName(): Observable<string> {
+      console.log("this.userName$",this.userName$)
       return this.userName$;
     }
 }
