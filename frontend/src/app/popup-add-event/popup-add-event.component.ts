@@ -95,6 +95,7 @@ export class PopupAddEventComponent implements OnInit {
 
     if (isAnyFieldEmpty) {
       alert("Information manquante importante");
+      return
     }
     console.log("valeur du formulaire", formDataValues);
     // Envoyez les données au backend

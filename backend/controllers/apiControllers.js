@@ -264,7 +264,6 @@ exports.delDataByCategories = async (req, res) => {
   console.log("table:", selectedCategories);
   const selectedEvent = req.params.event;
   console.log("event id:", selectedEvent);
-  let newData = req.body; // Créez une copie de req.body pour éviter les modifications directes
 
   try {
     let selectedTable;

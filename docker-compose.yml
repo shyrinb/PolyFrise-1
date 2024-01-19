@@ -1,0 +1,39 @@
+version: '3'
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: shyrin12
+      MYSQL_DATABASE: polyfrise_development
+      MYSQL_PASSWORD: shyrin12
+    ports:
+      - "3306:3306"
+    networks:
+      - polyfrise-1_default
+
+  backend:
+    build:
+      context: ./backend  # Correction de l'indentation ici
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: 172.20.0.3
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: polyfrise_development
+      MYSQL_USER: root
+      MYSQL_PASSWORD: shyrin12
+    ports:
+      - "3000:3000"
+    networks:
+      - polyfrise-1_default
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8081:80"
+    networks:
+      - polyfrise-1_default
+
+networks:
+  polyfrise-1_default:
+    driver: bridge

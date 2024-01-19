@@ -194,6 +194,13 @@ export class PopupModifyEventComponent {
 
   submitData(): void {
     const formDataValues = this.formData.value;
+    // Vérifiez si au moins un champ est vide
+    const isAnyFieldEmpty = Object.values(formDataValues).some(value => value === "");
+
+    if (isAnyFieldEmpty) {
+      alert("Information manquante importante");
+      return
+    }
   
     this.messageService.sendDataMod(this.selectedCategoryName,this.selectedEventId, formDataValues).subscribe(
       response => {

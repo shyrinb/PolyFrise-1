@@ -3,8 +3,9 @@
     "username": "root",
     "password": "shyrin12",
     "database": "polyfrise_development",
-    "host": "localhost",
-    "dialect": "mysql"
+    "host": "127.0.0.1",  // Assurez-vous que c'est le bon hôte
+    "dialect": "mysql",
+    "port": 3306 // Assurez-vous que c'est le bon port
   },
   "test": {
     "username": "root",

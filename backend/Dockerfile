@@ -1,20 +1,23 @@
-# Use an official Node.js runtime as a parent image
-FROM node:latest
-LABEL service=backend
-# Set the working directory in the container
+# Utilisez une image de Node.js officielle en tant que base
+FROM node:14
+
+# Créez le répertoire de travail de l'application
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json to the working directory
+# Copiez les fichiers package.json et package-lock.json pour installer les dépendances
 COPY package*.json ./
 
-# Install app dependencies
+# Installez les dépendances
 RUN npm install
 
-# Bundle app source
+# Installation du client MySQL
+RUN npm install mysql
+
+# Copiez le reste des fichiers de l'application
 COPY . .
 
-# Expose port 3000 to the outside world
+# Exposez le port sur lequel votre application écoute
 EXPOSE 3000
 
-# Define the command to run your app
+# Démarrez votre application
 CMD ["npm", "start"]

@@ -84,7 +84,7 @@ export class MessageService {
     }
 
     sendDataDel(selectedCategory: string, event_id: string): Observable<any> {
-      const url = `${this.prefixe}/del-event/}`;
+      const url = `${this.prefixe}/del-event`;
       const supprUrl = `${url}/${selectedCategory}/${event_id}`;
       return this.http.delete<any>(supprUrl);
     }

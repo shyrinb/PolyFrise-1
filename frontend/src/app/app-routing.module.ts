@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
-import { ErreurComponent } from './erreur/erreur.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { AvanceesComponent } from './avancees/avancees.component';
 import { ProgrammesComponent } from './programmes/programmes.component';
@@ -28,7 +27,6 @@ const routes: Routes = [
   {path: 'connexion', component: LoginComponent},
   {path: 'inscription', component: InscriptionComponent},
   // 
-  {path: 'error', component: ErreurComponent},
   {path: 'submission', component: PageAdminComponent},
   
   {path: 'accueil', component: AccueilComponent },

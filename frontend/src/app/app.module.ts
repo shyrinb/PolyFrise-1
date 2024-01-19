@@ -4,7 +4,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { ErreurComponent } from './erreur/erreur.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { AccueilComponent } from './accueil/accueil.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -52,7 +51,6 @@ import { PageSuggComponent } from './page-sugg/page-sugg.component';
   declarations: [
     AppComponent,
     LoginComponent,
-    ErreurComponent,
     AccueilComponent,
     Accueil2Component,
     PageFriseComponent,
