@@ -1,14 +1,11 @@
-const Domaine = require('../models/Domaines');
+const Domaines = require('../models/Domaines');
 
-exports.getAll = (req, res, next) => {
-    console.request(req, `GetAll Domaine`);
-
-    Domaine.findAll()
-        .then((domaines) => {
-            res.status(201).json(domaines);
-        })
-        .catch((error) => {
-            console.error(`Failed to find domaines`, error);
-            res.status(500).json({ error: "ErrDefault", message: `Internal Server Error` });
-        });
-};
+exports.getDomaines = async (req, res) => {
+    try {
+      const domaines = await Domaines.findAll();
+      res.json(domaines);
+    } catch (err) {
+      console.error('Erreur de requête SQL:', err);
+      res.status(500).json({ error: 'Erreur de serveur' });
+    }
+  };

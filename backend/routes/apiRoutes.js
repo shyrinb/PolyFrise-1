@@ -2,32 +2,35 @@
 const { Router } = require('express');
 const express = require('express');
 const router = express.Router();
-const {
-  getSubmissions,
-  signup, // Importez la fonction signup depuis le contrôleur
-  login,
-  deconnexion,
-  getCategory,
-  getTimeline,
+
+
+const { getDistinctions }= require('../controllers/distinctions');
+const { getEvenementsInformatiques }= require('../controllers/evenements_informatiques');
+const { getGenerationsInformatique }= require('../controllers/generation_informatique');
+const { getSubmissions,
   validateSubmission,
   ignoreSubmission,
-  getGenerationsInformatique,
-  delDataByCategories,
-  getEvenementsInformatiques,
-  getEvenementsHistoriques,
-  getDomaines,
-  getAvancees,
-  modifDataByCategories,
-  getDistinctions,
   createSubmission,
-  deleteSubmission,
-  getEntreprises,
-  getPersonnalites,
-  getProgrammes,
+  deleteSubmission }= require('../controllers/submission');
+const { getAvancees }= require('../controllers/avancee');
+const { getDomaines }= require('../controllers/domaines');
+const { getTimeline }= require('../controllers/timeline');
+const { getProgrammes }= require('../controllers/programmes');
+const { getPersonnalites }= require('../controllers/personnalite');
+const { getEntreprises }= require('../controllers/entreprises');
+const { getEvenementsHistoriques }= require('../controllers/evenements_historiques');
+const { getCategory }= require('../controllers/category');
+const { signup, 
+  login,
+  deconnexion,
+  getUserInfo }= require('../controllers/user');
+
+const {
+  delDataByCategories,
+  modifDataByCategories,
   getDataByCategories,
   insertDataByCategories,
   getChampByCategorie,
-  getUserInfo
 } = require('../controllers/apiControllers');
 
 // Routes pour récupérer les données
@@ -49,13 +52,12 @@ router.post('/add-event',insertDataByCategories);
 router.put('/modify-event/:category/:event', modifDataByCategories);
 router.delete('/del-event/:category/:event', delDataByCategories);
 
+//SUBMISSION
 router.get('/submissions', getSubmissions);
 router.post('/add-sugg', createSubmission);
 router.post('/validate-sugg', validateSubmission);
 router.post('/ignorate-sugg', ignoreSubmission);
 router.post('/del-sugg', deleteSubmission);
-
-// SUBMISSION A VERIFIER 
 
 // Routes pour l'authentification
 router.post('/inscription', signup);

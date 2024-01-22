@@ -1,14 +1,12 @@
-const EvenementInformatique = require('../models/Evenements_informatiques');
+const Evenements_informatiques = require('../models/Evenements_informatiques');
 
-exports.getAll = (req, res, next) => {
-    console.request(req, `GetAll EvenementInformatique`);
 
-    EvenementInformatique.findAll()
-        .then((evenements) => {
-            res.status(201).json(evenements);
-        })
-        .catch((error) => {
-            console.error(`Failed to find evenements informatiques`, error);
-            res.status(500).json({ error: "ErrDefault", message: `Internal Server Error` });
-        });
-};
+exports.getEvenementsInformatiques =async (req, res) => {
+    try {
+      const evenementsinfo = await Evenements_informatiques.findAll();
+      res.json(evenementsinfo);
+    } catch (err) {
+      console.error('Erreur de requête SQL:', err);
+      res.status(500).json({ error: 'Erreur de serveur' });
+    }
+  };

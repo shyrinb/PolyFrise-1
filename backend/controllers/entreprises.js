@@ -1,14 +1,12 @@
-const Entreprise = require('../models/Entreprises');
+const Entreprises = require('../models/Entreprises');
 
-exports.getAll = (req, res, next) => {
-    console.request(req, `GetAll Entreprise`);
 
-    Entreprise.findAll()
-        .then((entreprises) => {
-            res.status(201).json(entreprises);
-        })
-        .catch((error) => {
-            console.error(`Failed to find entreprises`, error);
-            res.status(500).json({ error: "ErrDefault", message: `Internal Server Error` });
-        });
-};
+exports.getEntreprises = async (req, res) => {
+    try {
+      const entreprises = await Entreprises.findAll();
+      res.json(entreprises);
+    } catch (err) {
+      console.error('Erreur de requête SQL:', err);
+      res.status(500).json({ error: 'Erreur de serveur' });
+    }
+  };

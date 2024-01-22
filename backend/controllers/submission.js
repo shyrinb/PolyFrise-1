@@ -1,53 +1,53 @@
 const { v4: uuidv4 } = require('uuid');
 const Submission = require('../models/Submission');
 
-exports.create = (req, res, next) => {
-    console.request(req, `Create submission`);
-
-    const { submission_type, submitted_by, submission_data } = req.body;
-
-    // Validate request body
-    if (!submission_type || !submitted_by || !submission_data) {
-        return res.status(400).json({ error: 'ValidationError', message: 'Missing required fields' });
+exports.getSubmissions = async (req, res) => {
+    try {
+      const submissions = await Submission.findAll();
+      res.json(submissions);
+    } catch (err) {
+      console.error('Erreur de requête SQL:', err);
+      res.status(500).json({ error: 'Erreur de serveur' });
     }
+  };
 
-    const id = uuidv4();
-
-    // Create submission
-    Submission.create({
-        id: id,
-        submission_type: submission_type,
-        submitted_by: submitted_by,
-        submission_data: submission_data,
-        status: 'pending'
-    }).then((submission) => {
-        console.log(`Submission [${id}] created`);
-        res.status(200).json(submission);
-    }).catch((error) => {
-        console.error('Create submission failed', error);
-        res.status(500).json({ error: 'ServerError', message: 'Erreur BDD' });
-    });
-};
-
-exports.update = (req, res, next) => {
-    console.request(req, `Update submission`);
-
-    const { submission_id, submission_data } = req.body;
-
-    // Validate request body
-    if (!submission_id || !submission_data) {
-        return res.status(400).json({ error: 'ValidationError', message: 'Missing required fields' });
+  exports.createSubmission = async (req, res, next) => {
+  
+    const selectedCategories = req.body.category;
+    try {
+      // Create submission
+      newData={
+        submission_type: req.body.submission_type,
+        submitted_by: req.body.submitted_by,
+        submission_data: req.body.submission_data,
+        status: 'pending',
+        timestamp: req.body.timestamp
+      }
+        
+      const newDataInstance = Submission.build(newData);
+  
+      // Insérez les données dans la base de données
+      await newDataInstance.save();
+  
+      res.json({ success: true, message: 'Données insérées avec succès' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: 'Erreur de serveur' });
     }
-
+  };
+  
+  exports.validateSubmission = (req, res, next) => {  
+    
+    const { ids } = req.body;
+  
     // Update submission
     Submission.update({
-        submission_data: submission_data,
-        status: 'pending'
+        status: 'approved'
     }, {
-        where: { id: submission_id }
+        where: { id: ids }
     }).then((rowsUpdated) => {
         if (rowsUpdated > 0) {
-            console.log(`Submission [${submission_id}] updated`);
+            console.log(`Submission [${ids}] updated`);
             res.status(200).end();
         } else {
             res.status(404).json({ error: 'SubmissionNotFoundError', message: 'Submission not found' });
@@ -56,24 +56,40 @@ exports.update = (req, res, next) => {
         console.error(`Update submission failed`, error);
         res.status(500).json({ error: 'ServerError', message: 'Erreur BDD' });
     });
-};
-
-exports.delete = (req, res, next) => {
-    console.request(req, `Delete submission`);
-
-    const { submission_id } = req.body;
-
-    // Validate request body
-    if (!submission_id) {
-        return res.status(400).json({ error: 'ValidationError', message: 'Missing required field: submission_id' });
-    }
-
+  };
+  
+  exports.ignoreSubmission = (req, res, next) => {
+  
+    const { ids } = req.body;
+  
+    // Update submission
+    Submission.update({
+        status: 'rejected'
+    }, {
+        where: { id: ids }
+    }).then((rowsUpdated) => {
+        if (rowsUpdated > 0) {
+            console.log(`Submission [${ids}] updated`);
+            res.status(200).end();
+        } else {
+            res.status(404).json({ error: 'SubmissionNotFoundError', message: 'Submission not found' });
+        }
+    }).catch((error) => {
+        console.error(`Update submission failed`, error);
+        res.status(500).json({ error: 'ServerError', message: 'Erreur BDD' });
+    });
+  };
+  
+  exports.deleteSubmission = (req, res, next) => {
+    const { ids } = req.body;
+  
+    console.log("cote backend",ids);
     // Delete submission
     Submission.destroy({
-        where: { id: submission_id }
+        where: { id: ids }
     }).then((rowsDeleted) => {
         if (rowsDeleted > 0) {
-            console.log(`Submission [${submission_id}] deleted`);
+            console.log(`Submission [${ids}] deleted`);
             res.status(200).end();
         } else {
           res.status(404).json({ error: 'SubmissionNotFoundError', message: 'Submission not found' });
@@ -82,4 +98,5 @@ exports.delete = (req, res, next) => {
         console.error(`Delete submission failed`, error);
         res.status(500).json({ error: 'ServerError', message: 'Erreur BDD' });
     });
-};
+  };
+  

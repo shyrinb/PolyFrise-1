@@ -1,14 +1,12 @@
-const EvenementHistorique = require('../models/Evenements_historiques');
+const Evenements_historiques = require('../models/Evenements_historiques');
 
-exports.getAll = (req, res, next) => {
-    console.request(req, `GetAll EvenementHistorique`);
 
-    EvenementHistorique.findAll()
-        .then((evenementsHistorique) => {
-            res.status(201).json(evenementsHistorique);
-        })
-        .catch((error) => {
-            console.error(`Failed to find evenements_historiques`, error);
-            res.status(500).json({ error: "ErrDefault", message: `Internal Server Error` });
-        });
-};
+exports.getEvenementsHistoriques = async (req, res) => {
+    try {
+      const evenementhisto = await Evenements_historiques.findAll();
+      res.json(evenementhisto);
+    } catch (err) {
+      console.error('Erreur de requête SQL:', err);
+      res.status(500).json({ error: 'Erreur de serveur' });
+    }
+  };

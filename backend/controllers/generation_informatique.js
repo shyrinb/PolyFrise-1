@@ -1,14 +1,13 @@
-const GenerationInformatique = require('../models/Generation_informatique');
+const Generation_informatique = require('../models/Generation_informatique');
 
-exports.getAll = (req, res, next) => {
-    console.request(req, `GetAll GenerationInformatique`);
 
-    GenerationInformatique.findAll()
-        .then((generations) => {
-            res.status(201).json(generations);
-        })
-        .catch((error) => {
-            console.error(`Failed to find generations`, error);
-            res.status(500).json({ error: "ErrDefault", message: `Internal Server Error` });
-        });
-};
+exports.getGenerationsInformatique =  async (req, res) => {
+    try {
+      const geninfo = await Generation_informatique.findAll();
+      res.json(geninfo);
+    } catch (err) {
+      console.error('Erreur de requête SQL:', err);
+      res.status(500).json({ error: 'Erreur de serveur' });
+    }
+  };
+  

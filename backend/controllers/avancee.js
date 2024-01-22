@@ -1,14 +1,11 @@
-const Avancee = require('../models/Avancees');
+const Avancees = require('../models/Avancees');
 
-exports.getAll = (req, res, next) => {
-    console.request(req, `GetAll Avancee`);
-
-    Avancee.findAll()
-        .then((avancees) => {
-            res.status(201).json(avancees);
-        })
-        .catch((error) => {
-            console.error(`Failed to find avancees`, error);
-            res.status(500).json({ error: "ErrDefault", message: `Internal Server Error` });
-        });
-};
+exports.getAvancees = async (req, res) => {
+    try {
+      const avancees = await Avancees.findAll();
+      res.json(avancees);
+    } catch (err) {
+      console.error('Erreur de requête SQL:', err);
+      res.status(500).json({ error: 'Erreur de serveur' });
+    }
+  };
