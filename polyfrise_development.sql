@@ -241,11 +241,10 @@ INSERT INTO `submissions` (`id`, `submission_type`, `submitted_by`, `submission_
 -- --------------------------------------------------------
 
 INSERT INTO `users` (`login`, `password`, `status`) VALUES
-('administateur1', '$2a$10$I0/yXbyc8vutJ203ahXkSeyAha5rSdYypM6z9RMUVQcbENXiBbfdC', 'admin'),
+('administrateur1', '$2a$10$lJtOLIMVYP3CIPvjgJsrse8hs0soNQiyXhirC8vROBTSRDGArLNQu', 'admin'),
 ('shyrin12', '$2a$10$eMi8bhkHA4Wmhs.cymPDHec1sw/9S84m/hR.z/QvCP.xW1xIb7Rx.', 'user'),
 ('shyrin_ad', '$2a$10$NOaQtsqz8dHSASV3Xsjx9u2zO2JCtlyqC7UB55of84wk65guBx8le', 'admin'),
 ('utilisateur1', '$2a$10$9tPWSN7qcpNe7Rjrdq3r/eFQgb99o0UTuxz89P8QMK/ZVebdGBy52', 'user');
-
 --
 -- Indexes for dumped tables
 --
