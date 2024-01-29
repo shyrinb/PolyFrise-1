@@ -10,11 +10,6 @@
 
 3. Créez les deux bases de données : polyfrise_development et polyfrise_production.
 4. Modifiez le fichier .env avec les paramètres de votre base de données.
-5. Utilisez la commande suivante pour insérer les données via le fichier polyfrise_dev.sql:
-
-```bash
-mysql -u VOTRE_UTILISATEUR -p VOTRE_MOT_DE_PASSE polyfrise_development < chemin/vers/polyfrise_dev.sql
-```
 
 ## Backend
 
