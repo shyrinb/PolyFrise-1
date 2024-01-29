@@ -31,13 +31,6 @@ Si cela ne fonctionne pas, vous pouvez essayer :
 npm install --force
 ```
 
-### Mode Production
-
-```bash
-npm run prod
-```
-Cela lance l'application en mode production.
-
 ### Mode Développement
 
 ```bash
