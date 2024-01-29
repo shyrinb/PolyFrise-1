@@ -1,46 +1,8 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Generation Time: Jan 12, 2024 at 10:49 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `polyfrise_development`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `avancees`
---
-
-CREATE TABLE `avancees` (
-  `id` int(11) NOT NULL,
-  `nom` varchar(255) DEFAULT NULL,
-  `date_avancee` date DEFAULT NULL,
-  `description` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `avancees`
---
 
 INSERT INTO `avancees` (`id`, `nom`, `date_avancee`, `description`) VALUES
-(1, 'Développement du langage de programmation C', '1972-01-01', 'Création du langage C par Dennis Ritchie et Ken Thompson chez Bell Labs.'),
-(2, 'Invention du microprocesseur', '1971-01-01', 'Intel lance le premier microprocesseur, le 4004.'),
+(1, 'WIKI', '2002-01-01', ''),
+(2, 'microprocesseur', '1971-01-01', ''),
 (3, 'Création de l\'Internet', '1969-01-01', 'Lancement du réseau ARPANET, l\'ancêtre de l\'Internet, par le département américain de la Défense.'),
 (4, 'Invention du World Wide Web', '1989-01-01', 'Tim Berners-Lee invente le World Wide Web au CERN, permettant la navigation sur Internet.'),
 (5, 'Première puce RISC (Reduced Instruction Set Computing)', '1980-01-01', 'Lancement de la puce RISC I chez IBM, révolutionnant la conception des processeurs.'),
@@ -62,25 +24,13 @@ INSERT INTO `avancees` (`id`, `nom`, `date_avancee`, `description`) VALUES
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `categories`
---
-
-CREATE TABLE `categories` (
-  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `name` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `categories`
---
 
 INSERT INTO `categories` (`id`, `name`) VALUES
 ('1', 'avancees'),
 ('2', 'personnalites'),
 ('3', 'programmes'),
 ('4', 'entreprises'),
-('5', 'evenements_historique'),
+('5', 'evenements_historiques'),
 ('6', 'evenements_informatiques'),
 ('7', 'domaines'),
 ('8', 'generations_informatiques'),
@@ -88,20 +38,6 @@ INSERT INTO `categories` (`id`, `name`) VALUES
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `distinctions`
---
-
-CREATE TABLE `distinctions` (
-  `id` int(11) NOT NULL,
-  `nom` varchar(255) DEFAULT NULL,
-  `creation` date DEFAULT NULL,
-  `recompense` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `distinctions`
---
 
 INSERT INTO `distinctions` (`id`, `nom`, `creation`, `recompense`) VALUES
 (1, 'Prix Turing', '1966-01-01', 'Reconnaît les contributions exceptionnelles à l\'informatique.'),
@@ -129,19 +65,7 @@ INSERT INTO `distinctions` (`id`, `nom`, `creation`, `recompense`) VALUES
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `domaines`
---
 
-CREATE TABLE `domaines` (
-  `id` int(11) NOT NULL,
-  `nom` varchar(255) DEFAULT NULL,
-  `date_creation` date DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `domaines`
---
 
 INSERT INTO `domaines` (`id`, `nom`, `date_creation`) VALUES
 (1, 'Intelligence artificielle', '1956-01-01'),
@@ -169,25 +93,12 @@ INSERT INTO `domaines` (`id`, `nom`, `date_creation`) VALUES
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `entreprises`
---
 
-CREATE TABLE `entreprises` (
-  `id` int(11) NOT NULL,
-  `nom` varchar(255) DEFAULT NULL,
-  `fondation` date DEFAULT NULL,
-  `developpements_majeurs` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `entreprises`
---
 
 INSERT INTO `entreprises` (`id`, `nom`, `fondation`, `developpements_majeurs`) VALUES
 (1, 'Microsoft', '1975-04-04', 'Windows, Microsoft Office, Xbox, Azure.'),
 (2, 'Apple Inc.', '1976-04-01', 'Macintosh, iPhone, iPad, iOS.'),
-(3, 'Google', '1998-09-04', 'Moteur de recherche, Android, Google Maps, Gmail.'),
+(3, 'google', '1998-09-04', ''),
 (4, 'IBM', '1911-06-16', 'Ordinateurs IBM, IBM Watson, Système d\'exploitation OS/360.'),
 (5, 'Intel Corporation', '1968-07-18', 'Microprocesseurs Intel, x86 architecture.'),
 (6, 'Oracle Corporation', '1977-06-16', 'Oracle Database, Java, Oracle Cloud.'),
@@ -200,24 +111,11 @@ INSERT INTO `entreprises` (`id`, `nom`, `fondation`, `developpements_majeurs`) V
 (13, 'HP (Hewlett-Packard)', '1939-01-01', 'Imprimantes, Ordinateurs personnels, Serveurs.'),
 (14, 'Sony Corporation', '1946-05-07', 'PlayStation, Walkman, Sony Xperia, Sony Bravia.'),
 (15, 'Lenovo', '1984-11-01', 'Ordinateurs ThinkPad, ThinkCentre, Motorola.'),
-(16, 'Tesla, Inc.', '2003-06-01', 'Véhicules électriques, Autopilot, Powerwall.');
+(16, 'Tesla, Inc.', '2003-06-01', 'Véhicules électriques, Autopilot, Powerwall.'),
+(17, 'apple toc', '0293-01-01', 'aucune idée');
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `evenements_historiques`
---
-
-CREATE TABLE `evenements_historiques` (
-  `id` int(11) NOT NULL,
-  `nom` text DEFAULT NULL,
-  `date_evenement` date DEFAULT NULL,
-  `description` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `evenements_historiques`
---
 
 INSERT INTO `evenements_historiques` (`id`, `nom`, `date_evenement`, `description`) VALUES
 (1, 'Passage à l\'an 2000', '2000-01-01', 'L\'effet Y2K. Préoccupations liées à la programmation informatique et à la stabilité des systèmes liées au passage à l\'an 2000.'),
@@ -244,20 +142,6 @@ INSERT INTO `evenements_historiques` (`id`, `nom`, `date_evenement`, `descriptio
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `evenements_informatiques`
---
-
-CREATE TABLE `evenements_informatiques` (
-  `id` int(11) NOT NULL,
-  `nom` text DEFAULT NULL,
-  `annee` date DEFAULT NULL,
-  `evenement` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `evenements_informatiques`
---
 
 INSERT INTO `evenements_informatiques` (`id`, `nom`, `annee`, `evenement`) VALUES
 (1, 'La règle à calculer', '1632-01-01', 'William Oughtred imagine dès 1620 et réalise en 1632 les premières règles à calculer.'),
@@ -287,22 +171,6 @@ INSERT INTO `evenements_informatiques` (`id`, `nom`, `annee`, `evenement`) VALUE
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `generations_informatique`
---
-
-CREATE TABLE `generations_informatique` (
-  `id` int(11) NOT NULL,
-  `annee_debut` date DEFAULT NULL,
-  `annee_fin` date DEFAULT NULL,
-  `nom` varchar(50) DEFAULT NULL,
-  `description` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `generations_informatique`
---
-
 INSERT INTO `generations_informatique` (`id`, `annee_debut`, `annee_fin`, `nom`, `description`) VALUES
 (1, '1940-01-01', '1950-01-01', 'Première génération', 'Des relais aux lampes'),
 (2, '1950-01-01', '1960-01-01', 'Deuxième génération', 'Les transistors'),
@@ -312,21 +180,6 @@ INSERT INTO `generations_informatique` (`id`, `annee_debut`, `annee_fin`, `nom`,
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `personnalites`
---
-
-CREATE TABLE `personnalites` (
-  `id` int(11) NOT NULL,
-  `nom` varchar(255) DEFAULT NULL,
-  `date_naissance` date DEFAULT NULL,
-  `date_fin` date DEFAULT NULL,
-  `biographie` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `personnalites`
---
 
 INSERT INTO `personnalites` (`id`, `nom`, `date_naissance`, `date_fin`, `biographie`) VALUES
 (1, 'Alan Turing', '1912-06-23', '1954-06-07', 'Mathématicien et cryptanalyste britannique, considéré comme le père de l\'informatique. Concepteur de la machine de Turing.'),
@@ -345,31 +198,16 @@ INSERT INTO `personnalites` (`id`, `nom`, `date_naissance`, `date_fin`, `biograp
 (14, 'Satya Nadella', '1967-08-19', '2024-01-01', 'PDG de Microsoft.'),
 (15, 'Sheryl Sandberg', '1969-08-28', '2024-01-01', 'COO de Facebook, auteure et militante.'),
 (16, 'Elon Musk', '1971-06-28', '2024-01-01', 'Entrepreneur et ingénieur, fondateur de SpaceX et Tesla.'),
-(17, 'Andrew Ng', '1976-04-18', '2024-01-01', 'Informaticien et chercheur en intelligence artificielle, co-fondateur de Coursera.');
+(17, 'Andrew Ng', '1976-04-18', '2024-01-01', 'Informaticien et chercheur en intelligence artificielle, co-fondateur de Coursera.'),
+(25, 'Joseph', '2002-01-01', '2019-01-01', '');
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `programmes`
---
-
-CREATE TABLE `programmes` (
-  `id` int(11) NOT NULL,
-  `nom` varchar(255) DEFAULT NULL,
-  `date_creation` date DEFAULT NULL,
-  `description` text DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `programmes`
---
-
 INSERT INTO `programmes` (`id`, `nom`, `date_creation`, `description`) VALUES
-(1, 'UNIX', '1969-11-03', 'Système d\'exploitation multitâche et multi-utilisateur développé par Ken Thompson, Dennis Ritchie et d\'autres chez Bell Labs.'),
+(1, 'linux', '1990-01-01', ''),
 (2, 'Microsoft Windows', '1985-11-20', 'Système d\'exploitation développé par Microsoft, devenu l\'un des systèmes d\'exploitation les plus utilisés au monde.'),
-(3, 'Linux Kernel', '1991-09-17', 'Noyau du système d\'exploitation Linux, créé par Linus Torvalds.'),
 (4, 'Apache HTTP Server', '1995-04-01', 'Serveur web open-source, l\'un des plus populaires et utilisés sur Internet.'),
-(5, 'MySQL', '1995-05-23', 'Système de gestion de base de données relationnelle open-source.'),
+(5, 'mysql', '1995-05-23', ''),
 (6, 'Java', '1995-05-23', 'Langage de programmation orienté objet développé par Sun Microsystems.'),
 (7, 'Mozilla Firefox', '2002-11-09', 'Navigateur web open-source, concurrent de Internet Explorer.'),
 (8, 'Google Chrome', '2008-09-02', 'Navigateur web développé par Google, devenu l\'un des navigateurs les plus populaires.'),
@@ -398,41 +236,15 @@ INSERT INTO `programmes` (`id`, `nom`, `date_creation`, `description`) VALUES
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `submissions`
---
 
-CREATE TABLE `submissions` (
-  `id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `type` enum('CREATE','UPDATE','DELETE') NOT NULL,
-  `new_date` date DEFAULT NULL,
-  `new_title` varchar(255) DEFAULT NULL,
-  `new_description` varchar(255) DEFAULT NULL,
-  `created_at` datetime DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `submissions` (`id`, `submission_type`, `submitted_by`, `submission_data`, `status`, `timestamp`) VALUES
+(9, 'modifier', 'shyrin_ad', '{\"selectedValue\":\"modifier\",\"nom\":\"python\",\"date_creation\":\"2002\",\"description\":\"\"}', 'rejected', '2024-01-18 17:56:59');
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `submission_category`
---
-
-CREATE TABLE `submission_category` (
-  `submission_id` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
-  `CategoryId` char(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `users`
---
-
-CREATE TABLE `users` (
-  `login` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `status` varchar(255) NOT NULL DEFAULT 'user'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+INSERT INTO `users` (`login`, `password`, `status`) VALUES
+('shyrin12', '$2a$10$eMi8bhkHA4Wmhs.cymPDHec1sw/9S84m/hR.z/QvCP.xW1xIb7Rx.', 'user'),
+('shyrin_ad', '$2a$10$NOaQtsqz8dHSASV3Xsjx9u2zO2JCtlyqC7UB55of84wk65guBx8le', 'admin');
 
 --
 -- Indexes for dumped tables
@@ -503,8 +315,7 @@ ALTER TABLE `programmes`
 -- Indexes for table `submissions`
 --
 ALTER TABLE `submissions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `id` (`id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `submission_category`
@@ -528,7 +339,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `avancees`
 --
 ALTER TABLE `avancees`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `distinctions`
@@ -546,7 +357,7 @@ ALTER TABLE `domaines`
 -- AUTO_INCREMENT for table `entreprises`
 --
 ALTER TABLE `entreprises`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `evenements_historiques`
@@ -570,13 +381,19 @@ ALTER TABLE `generations_informatique`
 -- AUTO_INCREMENT for table `personnalites`
 --
 ALTER TABLE `personnalites`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `programmes`
 --
 ALTER TABLE `programmes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+
+--
+-- AUTO_INCREMENT for table `submissions`
+--
+ALTER TABLE `submissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables
