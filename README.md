@@ -38,6 +38,18 @@ Ensuite, insérer les données du fichier Polyfrise/polyfrise_development.sql de
 
 Vérifier que les données ont été inséré correctement.
 
+Un compte utilisateur et un compte admin a été crée dans le fichier polyfrise_development.sql mais reste modifiable depuis la base de données.
+
+# UTILISATEUR:
+
+identifiant : utilisateur1
+mot de passe: motdepasse1
+
+# ADMINISTATEUR:
+
+identifiant : administateur1
+mot de passe: motdepasse1
+
 ## Fontend :
 
 Dans un autre terminal, allez dans le répertoire frontend et exécutez :
