@@ -1,5 +1,23 @@
 # Polyfrise
 
+## Base De Données:
+
+1. Installer XAMPP comme panneau de commande pour utiliser MySQL comme base de données.
+    Téléchargez XAMPP depuis le site officiel.
+    Suivez les instructions d'installation appropriées pour votre système d'exploitation.
+2. Une fois l'installation terminée, lancez XAMPP et démarrez Apache et MySQL depuis le panneau de commande.
+    Accédez à phpMyAdmin en ouvrant votre navigateur et en entrant l'URL correspondante (généralement   http://localhost/phpmyadmin/).
+
+3. Créez les deux bases de données : polyfrise_development et polyfrise_production.
+4. Modifiez le fichier .env avec les paramètres de votre base de données.
+5. Utilisez la commande suivante pour insérer les données via le fichier polyfrise_dev.sql:
+
+```bash
+mysql -u VOTRE_UTILISATEUR -p VOTRE_MOT_DE_PASSE polyfrise_development < chemin/vers/polyfrise_dev.sql
+```
+
+
+
 ## Backend
 
 ### Installation
@@ -16,7 +34,7 @@ npm install --force
 ```
 
 ### Variable d'environnement
-Assurez-vous de mettre à jour la variable d'environnement dans le répertoire env.
+Assurez-vous de mettre à jour la variable d'environnement dans le répertoire .env
 
 ### Mode Production
 
