@@ -16,8 +16,6 @@
 mysql -u VOTRE_UTILISATEUR -p VOTRE_MOT_DE_PASSE polyfrise_development < chemin/vers/polyfrise_dev.sql
 ```
 
-
-
 ## Backend
 
 ### Installation
@@ -33,9 +31,6 @@ Si cela ne fonctionne pas, vous pouvez essayer :
 npm install --force
 ```
 
-### Variable d'environnement
-Assurez-vous de mettre à jour la variable d'environnement dans le répertoire .env
-
 ### Mode Production
 
 ```bash
@@ -48,7 +43,12 @@ Cela lance l'application en mode production.
 ```bash
 npm run dev
 ```
-Cela lance l'application en mode développement.
+
+Cela lance l'application en mode développement et créer ainsi la base de données avec les bonnes tables.
+
+Ensuite, insérer les données du fichier Polyfrise/polyfrise_development.sql depuis l'interface sur phpMyAdmin dans la base de données polyfrise_development. 
+
+Vérifier que les données ont été inséré correctement.
 
 ## Fontend :
 
